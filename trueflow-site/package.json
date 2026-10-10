@@ -1,0 +1,10 @@
+{
+  "name": "trueflow-site",
+  "private": true,
+  "description": "True Flow Pump & Well Services website. Static, no build step.",
+  "scripts": {
+    "test": "node --test tests/sizing.test.js",
+    "test:e2e": "node tests/e2e.test.js",
+    "serve": "python3 -m http.server 8080"
+  }
+}

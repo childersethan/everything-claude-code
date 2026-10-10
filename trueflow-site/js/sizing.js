@@ -1,0 +1,87 @@
+/* Pure calculations for the site. No DOM access, so they run in the browser and under `node --test`. */
+(function (root) {
+  "use strict";
+
+  const LIMITS = Object.freeze({ bath: [0, 8], kit: [0, 10], hose: [0, 12] });
+  const FIXTURES_PER_BATH = 3; // toilet, sink, shower or tub
+  const GPM_PER_HOSE = 0.5; // outdoor hydrants rarely all run at once
+  const GPM_IRRIGATION = 5;
+  const GPM_LIVESTOCK = 3;
+  const MIN_GPM = 5;
+  const PRECHARGE_OFFSET = 2; // tank pre-charge sits 2 psi under cut-in
+  const PRECHARGE_TOLERANCE = 2;
+  const EMPTY_TANK_PSI = 5;
+
+  const clamp = (n, [lo, hi]) => Math.max(lo, Math.min(hi, n));
+
+  /** Returns a new counts object with `key` stepped by `delta`, kept inside its limits. */
+  function stepCount(counts, key, delta) {
+    if (!(key in LIMITS)) throw new Error(`Unknown fixture type: ${key}`);
+    return { ...counts, [key]: clamp((counts[key] || 0) + delta, LIMITS[key]) };
+  }
+
+  /** Rule-of-thumb peak demand: about 1 GPM per indoor fixture plus outdoor use. */
+  function pumpFlow({ bath = 0, kit = 0, hose = 0 }, { irrigation = false, livestock = false } = {}) {
+    const bathFixtures = bath * FIXTURES_PER_BATH;
+    const raw = bathFixtures + kit + hose * GPM_PER_HOSE
+      + (irrigation ? GPM_IRRIGATION : 0) + (livestock ? GPM_LIVESTOCK : 0);
+    const gpm = Math.max(MIN_GPM, Math.round(raw));
+
+    const notes = [`${bathFixtures} bathroom fixtures and ${kit} kitchen/laundry fixtures at about 1 GPM each`];
+    if (hose) notes.push(`${hose} outdoor hydrant${hose > 1 ? "s" : ""}, not all running at once`);
+    if (irrigation) notes.push("Irrigation adds about 5 GPM. A separate zone or timer keeps it from starving the house.");
+    if (livestock) notes.push("Livestock tanks add about 3 GPM. A float valve and a storage tank help.");
+    notes.push(gpm <= 10 ? "A standard 10 GPM pump covers this."
+      : gpm <= 20 ? "Look at a 20 GPM pump, or a constant-pressure system."
+      : "This needs a high-capacity pump and a well that can keep up. Call us to test yield.");
+
+    return { gpm, notes };
+  }
+
+  /** Compares a tank's measured air charge with the target for a pump's cut-in pressure. */
+  function tankPrecharge(cutIn, reading) {
+    if (!Number.isFinite(cutIn) || !Number.isFinite(reading)) throw new Error("Pressures must be numbers");
+    const target = cutIn - PRECHARGE_OFFSET;
+    const diff = reading - target;
+    let status, advice;
+    if (Math.abs(diff) <= PRECHARGE_TOLERANCE) {
+      status = "ok"; advice = "That's right where it should be.";
+    } else if (diff < 0 && reading < EMPTY_TANK_PSI) {
+      status = "empty"; advice = "That's close to empty. A bladder that won't hold air means the tank needs replacing.";
+    } else if (diff < 0) {
+      status = "low"; advice = `That's ${-diff} psi low. Add air to ${target} psi and watch whether it holds for a week.`;
+    } else {
+      status = "high"; advice = `That's ${diff} psi high. Let air out to ${target} psi or the pump won't push its full draw into the tank.`;
+    }
+    return { target, status, advice };
+  }
+
+  /** hours: {0..6: [openHour, closeHour] | null}. */
+  function isOpenNow(hours, date) {
+    const h = hours[date.getDay()];
+    const hr = date.getHours() + date.getMinutes() / 60;
+    return Boolean(h) && hr >= h[0] && hr < h[1];
+  }
+
+  function formatHour(h) {
+    return ((h + 11) % 12 + 1) + (h >= 12 ? "pm" : "am");
+  }
+
+  /** US phone numbers: 10 digits, or 11 starting with 1. */
+  function isValidPhone(value) {
+    const d = String(value).replace(/\D/g, "");
+    return d.length === 10 || (d.length === 11 && d[0] === "1");
+  }
+
+  /** Validates the request form's fields. Returns the first problem, or null. */
+  function validateRequest({ name, phone }) {
+    if (!String(name).trim()) return { field: "name", message: "Add your name so we know who to ask for." };
+    if (!String(phone).trim()) return { field: "phone", message: "Add a phone number so we can call you back." };
+    if (!isValidPhone(phone)) return { field: "phone", message: "Check the phone number. It needs all 10 digits, area code included." };
+    return null;
+  }
+
+  const api = { LIMITS, stepCount, pumpFlow, tankPrecharge, isOpenNow, formatHour, isValidPhone, validateRequest };
+  if (typeof module !== "undefined" && module.exports) module.exports = api;
+  else root.Sizing = api;
+})(typeof window !== "undefined" ? window : globalThis);
