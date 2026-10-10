@@ -27,6 +27,7 @@ window.SITE = Object.freeze({
     hours: { 0: [0, 24], 1: [0, 24], 2: [0, 24], 3: [0, 24], 4: [0, 24], 5: [0, 24], 6: [0, 24] },
     emergency: true,
     timeZone: "America/Chicago",       // Hoxie, KS is on Central time
+    website: "https://trueflowpumpandwell.com/",
     facebook: "https://www.facebook.com/profile.php?id=61574248502595",
     // Form delivery: "" sends to Netlify Forms when the site is hosted on Netlify.
     // Paste an https endpoint (e.g. a Formspree form URL) here to use another provider instead.
