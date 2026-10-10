@@ -13,6 +13,8 @@ window.ICONS = Object.freeze((() => {
     tank: lg('<rect x="11" y="6" width="18" height="28" rx="9"/><path d="M11 20h18"/>'),
     dial: lg('<path d="M6 26a14 14 0 0 1 28 0"/><path d="M20 26l7-8"/><circle cx="20" cy="26" r="2"/>'),
     box: lg('<rect x="9" y="7" width="22" height="26" rx="2"/><path d="M15 15h10M15 21h6"/>'),
+    windmill: lg('<path d="M20 20v16M15 36h10"/><path d="M20 20 12 8M20 20l12-4M20 20l-2 10M20 20 8 22M20 20l8-12"/><circle cx="20" cy="20" r="2"/>'),
+    drop2: lg('<path d="M20 5c-7 9-11 14-11 19a11 11 0 0 0 22 0c0-5-4-10-11-19Z"/><path d="M14 26a6 6 0 0 0 6 6"/>'),
     lens: lg('<circle cx="18" cy="18" r="9"/><path d="M25 25l8 8"/>'),
     down: lg('<path d="M20 4v26"/><path d="M12 22l8 8 8-8"/><path d="M8 36h24"/>'),
     camera: '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4Z"/><circle cx="12" cy="13" r="3.5"/></svg>'

@@ -81,9 +81,9 @@ test("mobile menu opens, navigates and closes", async () => {
 
 test("service area checker answers for listed and unlisted towns", async () => {
   const { page } = await open();
-  await page.fill("#zip", "town b");
+  await page.fill("#zip", "hoxie");
   await page.press("#zip", "Enter");
-  assert.match(await page.textContent("#zipOut"), /Yes, we're in Town B/);
+  assert.match(await page.textContent("#zipOut"), /Yes, we're in Hoxie/);
   await page.fill("#zip", "Elsewhere");
   await page.click("#zipBtn");
   assert.match(await page.textContent("#zipOut"), /isn't on our usual list/);

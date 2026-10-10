@@ -77,6 +77,13 @@
     return ((h + 11) % 12 + 1) + (h >= 12 ? "pm" : "am");
   }
 
+  /** One day's hours as text: "Open 24 hours", "7am–6pm" or "Closed". */
+  function formatHours(h, emergency = false) {
+    if (!h) return "Closed" + (emergency ? " (emergencies only)" : "");
+    if (h[0] === 0 && h[1] === 24) return "Open 24 hours";
+    return formatHour(h[0]) + "–" + formatHour(h[1] % 24);
+  }
+
   /** US phone numbers: 10 digits, or 11 starting with 1. */
   function isValidPhone(value) {
     const d = String(value).replace(/\D/g, "");
@@ -98,7 +105,7 @@
     return null;
   }
 
-  const api = { LIMITS, stepCount, pumpFlow, tankPrecharge, localTime, isOpenNow, formatHour, prefillMessage, isValidPhone, validateRequest };
+  const api = { LIMITS, stepCount, pumpFlow, tankPrecharge, localTime, isOpenNow, formatHour, formatHours, prefillMessage, isValidPhone, validateRequest };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.Sizing = api;
 })(typeof window !== "undefined" ? window : globalThis);

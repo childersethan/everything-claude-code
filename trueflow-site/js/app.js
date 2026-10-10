@@ -197,7 +197,7 @@
   }
 
   function initArea() {
-    $("#towns").innerHTML = BIZ.towns.map((t) => `<span class="ph">${esc(t)}</span>`).join("");
+    $("#towns").innerHTML = BIZ.towns.map((t) => `<span${BIZ.knownTowns.includes(t) ? "" : ' class="ph"'}>${esc(t)}</span>`).join("");
     const check = () => {
       const v = $("#zip").value.trim();
       const out = $("#zipOut");
@@ -256,8 +256,7 @@
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     $("#hours").innerHTML = [1, 2, 3, 4, 5, 6, 0].map((d) => {
       const h = BIZ.hours[d];
-      const txt = h ? S.formatHour(h[0]) + "–" + S.formatHour(h[1]) : "Closed" + (BIZ.emergency ? " (emergencies only)" : "");
-      return `<dt>${days[d]}</dt><dd class="ph">${esc(txt)}</dd>`;
+      return `<dt>${days[d]}</dt><dd>${esc(S.formatHours(h, BIZ.emergency))}</dd>`;
     }).join("");
     const open = S.isOpenNow(BIZ.hours, new Date(), BIZ.timeZone);
     $("#openPill").textContent = open ? "Open now" : BIZ.emergency ? "After hours · emergency line open" : "Closed now";

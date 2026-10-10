@@ -78,6 +78,17 @@ test("formatHour uses 12-hour times", () => {
   assert.equal(S.formatHour(18), "6pm");
 });
 
+test("formatHours handles 24-hour, normal and closed days", () => {
+  assert.equal(S.formatHours([0, 24]), "Open 24 hours");
+  assert.equal(S.formatHours([7, 18]), "7am–6pm");
+  assert.equal(S.formatHours(null, true), "Closed (emergencies only)");
+});
+
+test("isOpenNow is always true for 24-hour days", () => {
+  const all = { 0: [0, 24], 1: [0, 24], 2: [0, 24], 3: [0, 24], 4: [0, 24], 5: [0, 24], 6: [0, 24] };
+  assert.equal(S.isOpenNow(all, new Date("2026-10-12T08:30:00Z"), "America/Chicago"), true); // 3:30am Central
+});
+
 test("isValidPhone accepts 10 digits or 1 + 10 digits", () => {
   assert.equal(S.isValidPhone("(806) 555-0101"), true);
   assert.equal(S.isValidPhone("1-806-555-0101"), true);

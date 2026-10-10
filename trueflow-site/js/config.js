@@ -2,28 +2,29 @@
    Anything marked PLACEHOLDER shows in dashed orange on the page until replaced. */
 window.SITE = Object.freeze({
   biz: Object.freeze({
-    phone: "(000) 000-0000",           // PLACEHOLDER
-    phoneTel: "",                      // e.g. "+18065550123"; leave empty until the real number is in
+    phone: "(505) 793-5386",
+    phoneTel: "+15057935386",
     email: "info@yourdomain.com",      // PLACEHOLDER
-    city: "Your Town, TX",             // PLACEHOLDER
-    areaShort: "your county & nearby", // PLACEHOLDER
+    city: "Hoxie, Kansas",
+    areaShort: "Hoxie & surrounding farms",
     radius: 50,                        // PLACEHOLDER (miles)
     owner: "[owner name]",             // PLACEHOLDER
-    towns: ["Town A", "Town B", "Town C", "Town D", "Town E", "Town F"], // PLACEHOLDER
-    // PLACEHOLDER hours. 0=Sun … 6=Sat, [open, close] in 24h, null = closed
-    hours: { 0: null, 1: [7, 18], 2: [7, 18], 3: [7, 18], 4: [7, 18], 5: [7, 18], 6: [8, 14] },
+    towns: ["Hoxie", "Town B", "Town C", "Town D", "Town E", "Town F"],
+    knownTowns: ["Hoxie"],             // towns confirmed from Facebook; the rest are placeholders
+    // 0=Sun … 6=Sat, [open, close] in 24h, null = closed. True Flow advertises 24-hour service.
+    hours: { 0: [0, 24], 1: [0, 24], 2: [0, 24], 3: [0, 24], 4: [0, 24], 5: [0, 24], 6: [0, 24] },
     emergency: true,
-    timeZone: "America/Chicago",       // business hours are in this time zone
+    timeZone: "America/Chicago",       // Hoxie, KS is on Central time
     facebook: "https://www.facebook.com/profile.php?id=61574248502595",
     // Form delivery: paste an https form endpoint (e.g. a Formspree form URL) to receive requests by email.
     formEndpoint: "",
     // Job photos: put files in images/ and list them, e.g. { src: "images/pump-pull.jpg", cap: "Pump replacement, 320 ft" }
     photos: [],
-    placeholders: ["phone", "email", "city", "areaShort", "owner", "radius"]
+    placeholders: ["email", "owner", "radius"]
   }),
 
-  strip: ["Same-day no-water calls", "Submersible pumps", "Pressure tanks", "Constant pressure systems",
-    "Well inspections", "Pressure switches", "Upfront pricing", "Farms & ranches"],
+  strip: ["24-hour service", "Water well installation", "Pump repair", "Windmill & solar systems",
+    "Irrigation wells", "Trenching", "Leak repair & plumbing", "Farms & ranches"],
 
   // need: which "What do you need?" option the "Book this fix" button selects
   symptoms: [
@@ -60,12 +61,12 @@ window.SITE = Object.freeze({
   ],
 
   services: [
-    { icon: "pump", tag: "Repair", title: "Well pump repair & replacement", text: "Submersible and jet pumps diagnosed, pulled, and replaced, sized to your well's depth and yield." },
-    { icon: "tank", tag: "Pressure", title: "Pressure tanks", text: "Tank replacement, pre-charge checks, and bladder fixes that stop short cycling." },
-    { icon: "dial", tag: "Upgrade", title: "Constant pressure systems", text: "Variable-speed setups that hold steady pressure when the shower and the washer run together." },
-    { icon: "box", tag: "Controls", title: "Switches & control boxes", text: "Pressure switches, capacitors, relays, and wiring at the well head and in the well house." },
-    { icon: "lens", tag: "Inspect", title: "Well inspections", text: "Flow and pressure testing for home sales, new owners, or peace of mind before summer." },
-    { icon: "down", tag: "Install", title: "New pump installs", text: "Complete pump, pipe, wire, and tank installs for new wells, barns, and livestock water." }
+    { icon: "down", tag: "Install", title: "Water well installation", text: "New wells for homes, barns and pasture, finished with the pump, pipe, wire and tank to put them to work." },
+    { icon: "pump", tag: "Repair", title: "Pump repair", text: "Submersible and jet pumps diagnosed, pulled and fixed or replaced, sized to your well's depth and yield." },
+    { icon: "tank", tag: "Replace", title: "Full system replacements", text: "Pump, pressure tank, switch and controls replaced together when an old system is worn out." },
+    { icon: "windmill", tag: "Off-grid", title: "Windmill & solar systems", text: "Windmill repair and solar pumping for stock tanks and pastures with no power line." },
+    { icon: "drop2", tag: "Ag", title: "Irrigation wells", text: "Wells and pumps sized for irrigation, built to keep up through the growing season." },
+    { icon: "box", tag: "Lines", title: "Trenching, leak repair & plumbing", text: "Trenching for water lines, finding and fixing leaks, and the plumbing between the well and the house." }
   ],
 
   // SAMPLE reviews. Replace with real reviews from the Facebook page.
