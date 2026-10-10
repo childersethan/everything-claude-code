@@ -165,6 +165,8 @@ test("over http the form posts to Netlify Forms", async () => {
   const page = await browser.newPage();
   try {
     await page.goto(`http://127.0.0.1:${server.address().port}/`);
+    // Netlify removes data-netlify from the deployed HTML; sending must not depend on it
+    await page.evaluate(() => document.querySelector("#reqForm").removeAttribute("data-netlify"));
     await page.fill("#fName", "Jo Smith");
     await page.fill("#fPhone", "(806) 555-0101");
     await page.click("#reqForm [type=submit]");
