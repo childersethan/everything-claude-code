@@ -3,10 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="True Flow Pump and Well Services: well pump repair, pressure tanks, constant pressure systems and new installs. Same-day service when your water is out.">
+<meta name="description" content="True Flow Pump & Well Services: well pump repair, pressure tanks, constant pressure systems and new installs. Same-day service when your water is out.">
+<meta property="og:title" content="True Flow Pump & Well Services">
+<meta property="og:description" content="No water? We'll get it flowing again. Well pump repair, pressure tanks and new installs.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0B6E99">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect x='16' y='2' width='8' height='36' rx='2' fill='%230E1C24'/%3E%3Cpath d='M20 10c-5 7-8 11-8 15a8 8 0 0 0 16 0c0-4-3-8-8-15Z' fill='%230B6E99'/%3E%3C/svg%3E">
 <style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-</head>
-<body>
 <title>True Flow Pump &amp; Well</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -230,6 +233,60 @@ input:focus,select:focus,textarea:focus{border-color:var(--water);outline:none}
 .form-msg{font-weight:600;color:var(--water)}
 @media (max-width:860px){.contact .wrap{grid-template-columns:1fr}}
 
+/* skip link */
+.skip{position:absolute;left:16px;top:-60px;z-index:50;background:var(--signal);color:#1A1405;padding:10px 16px;border-radius:var(--r);font-weight:700;text-decoration:none}
+.skip:focus{top:12px}
+
+/* mobile menu */
+.menu-btn{display:none;width:44px;height:44px;border:1.5px solid var(--line);border-radius:var(--r);background:var(--surface);color:var(--ink);cursor:pointer;place-items:center}
+.drawer{display:none}
+@media (max-width:860px){
+  .menu-btn{display:grid}
+  header .btn{margin-left:auto}
+  .drawer:not([hidden]){display:grid;gap:2px;padding:8px var(--gutter) 16px;border-top:1px solid var(--line);background:var(--bg)}
+  .drawer a{padding:12px 4px;font-family:var(--f-display);font-weight:700;font-size:1.4rem;text-transform:uppercase;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line)}
+}
+
+/* sizing tools */
+.tools{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.tabs{grid-column:1/-1;display:flex;border-bottom:1px solid var(--line);overflow-x:auto}
+.tabs button{flex:1 0 auto;padding:16px 20px;background:none;border:0;border-bottom:3px solid transparent;font-family:var(--f-display);font-weight:700;font-size:1.15rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);cursor:pointer}
+.tabs button[aria-selected="true"]{color:var(--water);border-bottom-color:var(--water)}
+.tool-in{padding:clamp(20px,3vw,32px);display:grid;gap:18px;align-content:start;border-right:1px solid var(--line)}
+.tool-out{padding:clamp(20px,3vw,32px);display:grid;gap:14px;align-content:start;background:var(--bg)}
+.stepper{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.stepper .ctl{display:flex;align-items:center;gap:6px}
+.stepper button{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font-size:1.2rem;cursor:pointer}
+.stepper button:hover{border-color:var(--water);color:var(--water)}
+.stepper output{min-width:2.2ch;text-align:center;font-family:var(--f-mono);font-weight:700;font-size:1.1rem;font-variant-numeric:tabular-nums}
+.stepper span small{display:block;color:var(--muted);font-size:.85rem;font-weight:400}
+.readout{display:flex;align-items:baseline;gap:10px}
+.readout b{font-family:var(--f-display);font-weight:800;font-size:clamp(3rem,7vw,4.4rem);line-height:1;color:var(--water);font-variant-numeric:tabular-nums}
+.readout span{font-family:var(--f-mono);font-size:.85rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.meter{height:10px;border-radius:5px;background:var(--line);overflow:hidden}
+.meter i{display:block;height:100%;background:var(--water);border-radius:5px;transition:width .4s cubic-bezier(.3,1.3,.5,1)}
+.tool-out ul{margin:0;padding-left:18px;color:var(--muted);display:grid;gap:6px}
+.fineprint{font-size:.82rem;color:var(--muted)}
+input[type=range]{padding:0;accent-color:var(--water);border:0;background:none}
+.switch-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.switch-row label{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r);padding:10px 12px;cursor:pointer;display:flex;gap:8px;align-items:center;font-weight:600}
+.switch-row input{width:auto;accent-color:var(--water)}
+@media (max-width:760px){.tools{grid-template-columns:1fr}.tool-in{border-right:0;border-bottom:1px solid var(--line)}}
+
+/* gallery */
+.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.shot{position:relative;aspect-ratio:4/3;max-width:100%;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:var(--surface);margin:0}
+.shot img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.shot:hover img{transform:scale(1.04)}
+.shot figcaption{position:absolute;left:0;right:0;bottom:0;padding:28px 14px 12px;background:linear-gradient(transparent,rgba(5,15,20,.82));color:#fff;font-weight:600;font-size:.95rem}
+.shot.empty{display:grid;place-items:center;border:2px dashed var(--line);background:repeating-linear-gradient(135deg,var(--surface) 0 14px,var(--bg) 14px 28px)}
+.shot.empty div{text-align:center;display:grid;gap:6px;padding:16px;color:var(--muted)}
+.shot.empty b{font-family:var(--f-display);font-size:1.3rem;text-transform:uppercase;color:var(--ink)}
+.shot.empty svg{margin-inline:auto;color:var(--water)}
+@media (max-width:820px){.gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.gallery{grid-template-columns:1fr}}
+.btn[disabled]{opacity:.6;cursor:wait;transform:none}
+
 footer{border-top:1px solid var(--line);padding-block:32px;font-size:.9rem;color:var(--muted)}
 footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
 
@@ -249,26 +306,33 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;
   html{scroll-behavior:auto}
 }
 </style>
+</head>
+<body>
 
 <div class="draft" id="draft"><div class="wrap">
   <span><b>Draft preview.</b> Text in <span class="ph" style="color:var(--signal);border-color:var(--signal)">dashed orange</span> is a placeholder for details from the Facebook page.</span>
   <button type="button" id="draftClose">Hide</button>
 </div></div>
 
+<a class="skip" href="#main">Skip to content</a>
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="#top" aria-label="True Flow Pump and Well, home">
+    <a class="brand" href="#main" aria-label="True Flow Pump and Well, home">
       <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><rect x="16" y="2" width="8" height="36" rx="2" fill="var(--ink)"/><path d="M20 10c-5 7-8 11-8 15a8 8 0 0 0 16 0c0-4-3-8-8-15Z" fill="var(--water)"/><rect x="18.5" y="20" width="3" height="10" rx="1.5" fill="var(--signal)"/></svg>
       <span class="brand-name">True Flow<small>Pump &amp; Well</small></span>
     </a>
     <nav class="links" aria-label="Sections">
-      <a href="#diagnose">Diagnose</a><a href="#services">Services</a><a href="#about">About</a><a href="#reviews">Reviews</a><a href="#area">Service area</a><a href="#contact">Contact</a>
+      <a href="#diagnose">Diagnose</a><a href="#services">Services</a><a href="#sizing">Sizing</a><a href="#work">Our work</a><a href="#reviews">Reviews</a><a href="#area">Service area</a><a href="#contact">Contact</a>
     </nav>
     <a class="btn btn-primary" href="#contact" data-tel>Call now</a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="drawer" aria-label="Open menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   </div>
+  <nav class="drawer" id="drawer" aria-label="Menu" hidden>
+    <a href="#diagnose">Diagnose</a><a href="#services">Services</a><a href="#sizing">Size my system</a><a href="#work">Recent work</a><a href="#reviews">Reviews</a><a href="#area">Service area</a><a href="#contact">Contact</a>
+  </nav>
 </header>
 
-<main id="top">
+<main id="main">
 <section class="hero">
   <div class="wrap">
     <div class="hero-copy reveal">
@@ -420,6 +484,61 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;
   </div>
 </section>
 
+<section id="sizing" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Size my system</span>
+      <h2>How much water does your place need?</h2>
+      <p class="lede">Two quick tools we use on every call. They give you a starting number to talk through with us, not a final quote.</p>
+    </div>
+    <div class="tools reveal">
+      <div class="tabs" role="tablist" aria-label="Sizing tools">
+        <button type="button" role="tab" id="tabFlow" aria-selected="true" aria-controls="panelFlow">Pump flow (GPM)</button>
+        <button type="button" role="tab" id="tabTank" aria-selected="false" aria-controls="panelTank">Tank pre-charge</button>
+      </div>
+
+      <div class="tool-in" id="panelFlow" role="tabpanel" aria-labelledby="tabFlow">
+        <div class="stepper"><span>Bathrooms<small>Full or half</small></span><span class="ctl"><button type="button" data-step="bath" data-d="-1" aria-label="Fewer bathrooms">−</button><output id="o-bath">2</output><button type="button" data-step="bath" data-d="1" aria-label="More bathrooms">+</button></span></div>
+        <div class="stepper"><span>Kitchen &amp; laundry fixtures<small>Sinks, dishwasher, washer</small></span><span class="ctl"><button type="button" data-step="kit" data-d="-1" aria-label="Fewer fixtures">−</button><output id="o-kit">3</output><button type="button" data-step="kit" data-d="1" aria-label="More fixtures">+</button></span></div>
+        <div class="stepper"><span>Outdoor hydrants &amp; hose bibs</span><span class="ctl"><button type="button" data-step="hose" data-d="-1" aria-label="Fewer hydrants">−</button><output id="o-hose">2</output><button type="button" data-step="hose" data-d="1" aria-label="More hydrants">+</button></span></div>
+        <div class="switch-row">
+          <label for="xIrr"><input type="checkbox" id="xIrr"> Lawn irrigation</label>
+          <label for="xStock"><input type="checkbox" id="xStock"> Livestock water</label>
+        </div>
+      </div>
+      <div class="tool-out" id="outFlow" aria-live="polite">
+        <span class="eyebrow">Suggested pump size</span>
+        <div class="readout"><b id="gpmOut">9</b><span>gallons / minute</span></div>
+        <div class="meter" aria-hidden="true"><i id="gpmBar" style="width:30%"></i></div>
+        <ul id="gpmNotes"></ul>
+        <p class="fineprint">Rule of thumb: about 1 GPM per fixture in the house, plus outdoor use. Your well's own yield sets the ceiling, so we test it before sizing a pump.</p>
+      </div>
+
+      <div class="tool-in" id="panelTank" role="tabpanel" aria-labelledby="tabTank" hidden>
+        <label for="cutIn">Pressure switch setting
+          <select id="cutIn">
+            <option value="20">20/40 psi</option>
+            <option value="30">30/50 psi</option>
+            <option value="40" selected>40/60 psi</option>
+            <option value="50">50/70 psi</option>
+          </select>
+        </label>
+        <label for="tankAir">What your tank reads now (air valve, pump off, water drained)
+          <input type="range" id="tankAir" min="0" max="60" value="25">
+        </label>
+        <p class="fineprint">Not sure? Kill power to the pump, open a faucet until water stops, then check the tank's air valve with a tire gauge.</p>
+      </div>
+      <div class="tool-out" id="outTank" aria-live="polite" hidden>
+        <span class="eyebrow">Tank pre-charge</span>
+        <div class="readout"><b id="preOut">38</b><span>psi target</span></div>
+        <div class="meter" aria-hidden="true"><i id="preBar" style="width:60%"></i></div>
+        <p id="preMsg"></p>
+        <p class="fineprint">Pre-charge should sit 2 psi below the pump's cut-in pressure. Too low and the pump short-cycles. If it won't hold air, the bladder has likely failed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="about" class="about" style="background:var(--surface);border-block:1px solid var(--line)">
   <div class="wrap">
     <div class="about-copy reveal">
@@ -435,6 +554,17 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;
       <div class="stat"><b data-count="100" data-suffix="%">0</b><span>upfront pricing</span></div>
       <div class="stat"><b class="ph" style="font-size:2rem;border:0">Licensed?</b><span>add license / insurance details</span></div>
     </div>
+  </div>
+</section>
+
+<section id="work" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Recent work</span>
+      <h2>From the field</h2>
+      <p class="lede">Pumps pulled, tanks swapped, well houses rebuilt. A few recent jobs.</p>
+    </div>
+    <div class="gallery" id="gallery"></div>
   </div>
 </section>
 
@@ -548,6 +678,10 @@ const BIZ = {
   // PLACEHOLDER hours. 0=Sun … 6=Sat, [open,close] in 24h, null = closed
   hours: {0:null,1:[7,18],2:[7,18],3:[7,18],4:[7,18],5:[7,18],6:[8,14]},
   emergency: true,
+  // Form delivery: paste a form endpoint (e.g. a Formspree form URL) to receive requests by email.
+  formEndpoint: "",
+  // Job photos: put files in images/ and list them here, e.g. {src:"images/pump-pull.jpg", cap:"Pump replacement, 320 ft"}
+  photos: [],
   placeholders: ["phone","email","city","areaShort","owner","radius"]
 };
 
@@ -729,12 +863,77 @@ $("#hours").innerHTML = [1,2,3,4,5,6,0].map(d => `<dt>${days[d]}</dt><dd class="
 })();
 
 // form
-$("#reqForm").addEventListener("submit", e => {
+$("#reqForm").addEventListener("submit", async e => {
   e.preventDefault();
-  const f = e.target, name = f.name.value.trim(), ph = f.phone.value.trim();
-  if (!name || !ph) { $("#formMsg").textContent = "Add your name and phone so we can call you back."; (name ? f.phone : f.name).focus(); return; }
-  $("#formMsg").textContent = `Thanks, ${name.split(" ")[0]}. This preview doesn't send yet; the live site will route requests to True Flow's inbox.`;
+  const f = e.target, msg = $("#formMsg"), name = $("#fName").value.trim(), ph = $("#fPhone").value.trim();
+  if (!name || !ph) { msg.textContent = "Add your name and phone so we can call you back."; (name ? $("#fPhone") : $("#fName")).focus(); return; }
+  if (ph.replace(/\D/g, "").length < 10) { msg.textContent = "Check the phone number. It needs all 10 digits, area code included."; $("#fPhone").focus(); return; }
+  if (!BIZ.formEndpoint) { msg.textContent = `Thanks, ${name.split(" ")[0]}. This preview doesn't send yet. Once the form is connected, requests go straight to True Flow's inbox.`; return; }
+  const btn = f.querySelector("[type=submit]"); btn.disabled = true; msg.textContent = "Sending…";
+  try {
+    const r = await fetch(BIZ.formEndpoint, {method: "POST", headers: {Accept: "application/json"}, body: new FormData(f)});
+    if (!r.ok) throw new Error(r.status);
+    f.reset(); msg.textContent = `Got it, ${name.split(" ")[0]}. We'll call you back shortly.`;
+  } catch (err) {
+    msg.textContent = `That didn't go through. Please call ${BIZ.phone} instead.`;
+  } finally { btn.disabled = false; }
 });
+
+// mobile menu
+const menuBtn = $("#menuBtn"), drawer = $("#drawer");
+const setMenu = open => { drawer.hidden = !open; menuBtn.setAttribute("aria-expanded", open); menuBtn.setAttribute("aria-label", open ? "Close menu" : "Open menu"); };
+menuBtn.onclick = () => setMenu(drawer.hidden);
+drawer.addEventListener("click", e => { if (e.target.tagName === "A") setMenu(false); });
+addEventListener("keydown", e => { if (e.key === "Escape" && !drawer.hidden) { setMenu(false); menuBtn.focus(); } });
+
+// sizing tools: tabs
+const tabs = [["tabFlow", ["panelFlow","outFlow"]], ["tabTank", ["panelTank","outTank"]]];
+tabs.forEach(([id]) => $("#" + id).onclick = () => tabs.forEach(([tid, panes]) => {
+  const on = tid === id; $("#" + tid).setAttribute("aria-selected", on); panes.forEach(p => $("#" + p).hidden = !on);
+}));
+// pump flow
+const cnt = {bath: 2, kit: 3, hose: 2}, lim = {bath: [0, 8], kit: [0, 10], hose: [0, 12]};
+function calcFlow() {
+  const baths = cnt.bath * 3; // toilet, sink, shower/tub
+  let gpm = baths + cnt.kit + cnt.hose * .5, notes = [`${baths} bathroom fixtures and ${cnt.kit} kitchen/laundry fixtures at about 1 GPM each`];
+  if (cnt.hose) notes.push(`${cnt.hose} outdoor hydrant${cnt.hose > 1 ? "s" : ""}, not all running at once`);
+  if ($("#xIrr").checked) { gpm += 5; notes.push("Irrigation adds about 5 GPM. A separate zone or timer keeps it from starving the house."); }
+  if ($("#xStock").checked) { gpm += 3; notes.push("Livestock tanks add about 3 GPM. A float valve and a storage tank help."); }
+  gpm = Math.max(5, Math.round(gpm));
+  $("#gpmOut").textContent = gpm; $("#gpmBar").style.width = Math.min(100, gpm / 30 * 100) + "%";
+  $("#gpmNotes").innerHTML = notes.map(n => `<li>${n}</li>`).join("") + `<li>${gpm <= 10 ? "A standard 10 GPM pump covers this." : gpm <= 20 ? "Look at a 20 GPM pump, or a constant-pressure system." : "This needs a high-capacity pump and a well that can keep up. Call us to test yield."}</li>`;
+}
+$$("[data-step]").forEach(b => b.onclick = () => {
+  const k = b.dataset.step; cnt[k] = Math.max(lim[k][0], Math.min(lim[k][1], cnt[k] + +b.dataset.d));
+  $("#o-" + k).textContent = cnt[k]; calcFlow();
+});
+["xIrr","xStock"].forEach(id => $("#" + id).onchange = calcFlow);
+calcFlow();
+// tank pre-charge
+function calcTank() {
+  const target = +$("#cutIn").value - 2, now = +$("#tankAir").value, diff = now - target;
+  $("#preOut").textContent = target; $("#preBar").style.width = Math.min(100, now / 60 * 100) + "%";
+  $("#tankAir").setAttribute("aria-valuetext", now + " psi");
+  $("#preMsg").innerHTML = `Your tank reads <b>${now} psi</b>. ` + (Math.abs(diff) <= 2 ? "That's right where it should be." :
+    diff < 0 ? (now < 5 ? "That's close to empty. A bladder that won't hold air means the tank needs replacing." : `That's ${-diff} psi low. Add air to ${target} psi and watch whether it holds for a week.`) :
+    `That's ${diff} psi high. Let air out to ${target} psi or the pump won't push its full draw into the tank.`);
+}
+$("#cutIn").onchange = calcTank; $("#tankAir").oninput = calcTank; calcTank();
+
+// gallery
+const camIco = '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8h3l2-3h6l2 3h3v11H4Z"/><circle cx="12" cy="13" r="3.5"/></svg>';
+const slots = ["Pump pull and replacement", "Pressure tank swap", "Well house rebuild"];
+$("#gallery").innerHTML = (BIZ.photos.length ? BIZ.photos.map(p => `<figure class="shot reveal"><img src="${p.src}" alt="${p.cap}" loading="lazy"><figcaption>${p.cap}</figcaption></figure>`) :
+  slots.map(c => `<figure class="shot empty"><div>${camIco}<b>${c}</b><span class="ph">Add a job photo</span></div></figure>`)).join("");
+
+// structured data for search engines
+document.head.insertAdjacentHTML("beforeend", `<script type="application/ld+json">${JSON.stringify({
+  "@context": "https://schema.org", "@type": "Plumber", name: "True Flow Pump & Well Services",
+  telephone: BIZ.phone, email: BIZ.email, areaServed: BIZ.towns, address: {"@type": "PostalAddress", addressLocality: BIZ.city},
+  sameAs: ["https://www.facebook.com/profile.php?id=61574248502595"],
+  openingHoursSpecification: Object.entries(BIZ.hours).filter(([, h]) => h).map(([d, h]) => ({"@type": "OpeningHoursSpecification",
+    dayOfWeek: ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][d], opens: String(h[0]).padStart(2, "0") + ":00", closes: String(h[1]).padStart(2, "0") + ":00"}))
+})}<\/script>`);
 
 // count-up stats
 const io = "IntersectionObserver" in window ? new IntersectionObserver(es => es.forEach(en => {
@@ -748,6 +947,5 @@ $$("[data-count]").forEach(el => { el.textContent = el.dataset.count + (el.datas
 // reveal: only offset elements that are below the fold at load
 if (io && !reduce) $$(".reveal").forEach(el => { if (el.getBoundingClientRect().top > innerHeight) { el.classList.add("pre"); io.observe(el); } });
 </script>
-
 </body>
 </html>
