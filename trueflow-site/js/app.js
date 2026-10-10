@@ -337,7 +337,8 @@
     const data = {
       "@context": "https://schema.org", "@type": "Plumber", name: "True Flow Pump & Well Services",
       telephone: BIZ.phone, ...(BIZ.email ? { email: BIZ.email } : {}), areaServed: BIZ.towns.map((t) => t.name),
-      address: { "@type": "PostalAddress", addressLocality: BIZ.city }, sameAs: [BIZ.facebook],
+      url: BIZ.website, image: BIZ.website + "images/share.jpg",
+      address: { "@type": "PostalAddress", addressLocality: BIZ.base.name, addressRegion: "KS", addressCountry: "US" }, sameAs: [BIZ.facebook],
       openingHoursSpecification: Object.entries(BIZ.hours).filter(([, h]) => h)
         .map(([d, h]) => ({ "@type": "OpeningHoursSpecification", dayOfWeek: days[d], opens: pad(h[0]), closes: pad(h[1]) }))
     };

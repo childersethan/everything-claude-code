@@ -45,4 +45,4 @@ On Netlify, `netlify.toml` sends `X-Content-Type-Options`, `Referrer-Policy`, `X
 
 ## Before launch
 
-Once the site has a domain, add `<meta property="og:image" content="https://YOUR-DOMAIN/images/windmill-repair-crew.jpg">` to `index.html` so Facebook link previews show a photo (it must be a full https URL).
+The domain is trueflowpumpandwell.com. It appears in the canonical and `og:` tags in `index.html`, `website` in `js/config.js`, `robots.txt` and `sitemap.xml`; change all of them if the domain changes. `images/share.jpg` (1200×630) is the photo Facebook and texts show when the link is shared.
