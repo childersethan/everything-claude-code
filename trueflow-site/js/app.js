@@ -294,14 +294,19 @@
       const first = fields.name.value.trim().split(/\s+/)[0];
       // bots fill the hidden field; pretend success and send nothing
       if ($("#fGotcha").value) { msg.textContent = `Thanks, ${first}.`; f.reset(); return; }
-      if (!/^https:\/\//.test(BIZ.formEndpoint)) {
+      // Netlify Forms needs the page served over http(s); file:// and the artifact preview can't send
+      const external = /^https:\/\//.test(BIZ.formEndpoint);
+      const netlify = !external && "netlify" in f.dataset && /^https?:$/.test(location.protocol);
+      if (!external && !netlify) {
         msg.textContent = `Thanks, ${first}. This preview doesn't send yet. Once the form is connected, requests go straight to True Flow's inbox.`;
         return;
       }
       btn.disabled = true;
       msg.textContent = "Sending…";
       try {
-        const r = await fetch(BIZ.formEndpoint, { method: "POST", headers: { Accept: "application/json" }, body: new FormData(f) });
+        const r = external
+          ? await fetch(BIZ.formEndpoint, { method: "POST", headers: { Accept: "application/json" }, body: new FormData(f) })
+          : await fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: new URLSearchParams(new FormData(f)).toString() });
         if (!r.ok) throw new Error("Form service returned " + r.status);
         f.reset();
         msg.textContent = `Got it, ${first}. We'll call you back shortly.`;

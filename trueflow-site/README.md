@@ -1,6 +1,6 @@
 # True Flow Pump & Well website
 
-Static site with no build step. Open `index.html` in a browser, or upload the folder to any static host (GitHub Pages, Netlify, Cloudflare Pages).
+Static site with no build step. Open `index.html` in a browser, or deploy it on Netlify (below).
 
 | Path | What it is |
 |---|---|
@@ -17,9 +17,16 @@ Static site with no build step. Open `index.html` in a browser, or upload the fo
 
 Phone, email, hours, time zone, home base, service radius and the towns shown on the service-area map are in `biz` in `js/config.js`. Each town has a latitude and longitude so the map plots its real direction and distance from Hoxie. There are no reviews yet; add a section once real ones come in.
 
-## Turning on the request form
+## Hosting on Netlify and turning on the request form
 
-Create a form at formspree.io and paste its `https://formspree.io/f/...` URL into `formEndpoint`. Until then the form shows a preview message instead of sending. The form has a hidden honeypot field (`_gotcha`) that Formspree uses to drop bot submissions; also turn on spam filtering and restrict the form to the site's domain in Formspree's settings. If you use a different provider, add its origin to `connect-src` in the Content-Security-Policy meta tag in `index.html`.
+The site is set up for Netlify; `netlify.toml` at the repo root tells Netlify to publish only `trueflow-site/` and adds security headers.
+
+1. Sign in at netlify.com with GitHub, choose "Add new project" then "Import an existing project", and pick this repository. Leave the base directory, build command and publish directory fields blank; `netlify.toml` sets them.
+2. In the project's Forms page, enable form detection, then redeploy. The `service-request` form appears there.
+3. Under Forms, "Form notifications", add an email notification to trueflow2026@gmail.com.
+4. To use a domain, add it under "Domain management". Netlify provides HTTPS automatically.
+
+The form posts to Netlify only when the page is served over http(s) with the `data-netlify` attribute, so opening `index.html` from disk or viewing the artifact preview shows a "doesn't send yet" message instead. The hidden `_gotcha` field is a honeypot Netlify uses to drop bot submissions. To use another provider (e.g. Formspree), paste its https endpoint into `formEndpoint` in `js/config.js` and add its origin to `connect-src` in the Content-Security-Policy meta tag in `index.html`.
 
 ## Adding job photos
 
@@ -34,7 +41,7 @@ npm run test:e2e    # browser tests (needs the playwright package and Chromium)
 
 ## Hosting headers
 
-If the host allows custom headers, also send `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Strict-Transport-Security`, and `frame-ancestors 'none'` in the CSP header.
+On Netlify, `netlify.toml` sends `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options` and `Permissions-Policy` and `Strict-Transport-Security`, and returns 404 for repo files that are not part of the site. On another host, send the same headers.
 
 ## Before launch
 

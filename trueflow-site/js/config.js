@@ -28,7 +28,8 @@ window.SITE = Object.freeze({
     emergency: true,
     timeZone: "America/Chicago",       // Hoxie, KS is on Central time
     facebook: "https://www.facebook.com/profile.php?id=61574248502595",
-    // Form delivery: paste an https form endpoint (e.g. a Formspree form URL) to receive requests by email.
+    // Form delivery: "" sends to Netlify Forms when the site is hosted on Netlify.
+    // Paste an https endpoint (e.g. a Formspree form URL) here to use another provider instead.
     formEndpoint: "",
     // Job photos: put files in images/ and list them, e.g. { src: "images/pump-pull.jpg", cap: "Pump replacement, 320 ft" }
     photos: [

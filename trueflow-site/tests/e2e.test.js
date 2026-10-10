@@ -145,6 +145,40 @@ test("honeypot submissions are dropped without sending", async () => {
   await page.close();
 });
 
+test("over http the form posts to Netlify Forms", async () => {
+  const http = require("node:http"), fs = require("node:fs");
+  const root = path.resolve(__dirname, "..");
+  const types = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".png": "image/png", ".jpg": "image/jpeg" };
+  let body = "";
+  const server = http.createServer((req, res) => {
+    if (req.method === "POST") {
+      req.on("data", (c) => { body += c; });
+      req.on("end", () => { res.writeHead(200); res.end("ok"); });
+      return;
+    }
+    const file = path.join(root, req.url === "/" ? "index.html" : decodeURIComponent(req.url.split("?")[0]));
+    if (!file.startsWith(root) || !fs.existsSync(file)) { res.writeHead(404); res.end(); return; }
+    res.writeHead(200, { "Content-Type": types[path.extname(file)] || "application/octet-stream" });
+    fs.createReadStream(file).pipe(res);
+  });
+  await new Promise((r) => server.listen(0, "127.0.0.1", r));
+  const page = await browser.newPage();
+  try {
+    await page.goto(`http://127.0.0.1:${server.address().port}/`);
+    await page.fill("#fName", "Jo Smith");
+    await page.fill("#fPhone", "(806) 555-0101");
+    await page.click("#reqForm [type=submit]");
+    await page.waitForFunction(() => /Got it, Jo/.test(document.querySelector("#formMsg").textContent));
+    const sent = new URLSearchParams(body);
+    assert.equal(sent.get("form-name"), "service-request");
+    assert.equal(sent.get("name"), "Jo Smith");
+    assert.equal(sent.get("phone"), "(806) 555-0101");
+  } finally {
+    await page.close();
+    server.close();
+  }
+});
+
 test("job photos open in a lightbox and step through", async () => {
   const { page } = await open();
   await page.click("[data-photo='0']");
