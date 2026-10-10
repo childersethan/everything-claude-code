@@ -15,6 +15,9 @@ window.ICONS = Object.freeze((() => {
     box: lg('<rect x="9" y="7" width="22" height="26" rx="2"/><path d="M15 15h10M15 21h6"/>'),
     windmill: lg('<path d="M20 20v16M15 36h10"/><path d="M20 20 12 8M20 20l12-4M20 20l-2 10M20 20 8 22M20 20l8-12"/><circle cx="20" cy="20" r="2"/>'),
     drop2: lg('<path d="M20 5c-7 9-11 14-11 19a11 11 0 0 0 22 0c0-5-4-10-11-19Z"/><path d="M14 26a6 6 0 0 0 6 6"/>'),
+    sun: lg('<circle cx="20" cy="17" r="6"/><path d="M20 4v3M20 27v3M7 17h3M30 17h3M10.8 7.8l2.1 2.1M27.1 24.1l2.1 2.1M10.8 26.2l2.1-2.1M27.1 9.9l2.1-2.1"/><path d="M8 36h24"/>'),
+    house: lg('<path d="M6 20 20 8l14 12"/><path d="M10 17v17h20V17"/><path d="M17 34v-9h6v9"/>'),
+    trough: lg('<path d="M5 18h30l-3 12H8Z"/><path d="M9 23h22"/><path d="M12 30v5M28 30v5"/>'),
     lens: lg('<circle cx="18" cy="18" r="9"/><path d="M25 25l8 8"/>'),
     down: lg('<path d="M20 4v26"/><path d="M12 22l8 8 8-8"/><path d="M8 36h24"/>'),
     camera: '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4Z"/><circle cx="12" cy="13" r="3.5"/></svg>'

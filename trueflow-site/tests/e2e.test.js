@@ -131,3 +131,34 @@ test("honeypot submissions are dropped without sending", async () => {
   assert.equal(posted, false);
   await page.close();
 });
+
+test("job photos open in a lightbox and step through", async () => {
+  const { page } = await open();
+  await page.click("[data-photo='0']");
+  assert.equal(await page.isVisible("#lightbox"), true);
+  assert.match(await page.textContent("#lbCap"), /\(1 of \d+\)/);
+  await page.keyboard.press("ArrowRight");
+  assert.match(await page.textContent("#lbCap"), /\(2 of \d+\)/);
+  await page.keyboard.press("Escape");
+  assert.equal(await page.isVisible("#lightbox"), false);
+  assert.equal(await page.evaluate(() => document.activeElement.dataset.photo), "0");
+  await page.close();
+});
+
+test("windmill symptom books the windmill or solar option", async () => {
+  const { page } = await open();
+  await page.click(".symptom[data-i='6']");
+  assert.equal(await page.textContent("#ticket h3"), "Windmill pump isn't lifting");
+  await page.click("#bookFix");
+  assert.equal(await page.isChecked("#c6"), true);
+  await page.close();
+});
+
+test("all job photos load", async () => {
+  const { page } = await open();
+  await page.evaluate(() => document.querySelectorAll("#gallery img").forEach((i) => { i.loading = "eager"; }));
+  await page.waitForFunction(() => [...document.querySelectorAll("#gallery img")].every((i) => i.complete));
+  const broken = await page.evaluate(() => [...document.querySelectorAll("img")].filter((i) => i.src && i.complete && i.naturalWidth === 0).map((i) => i.src));
+  assert.deepEqual(broken, []);
+  await page.close();
+});

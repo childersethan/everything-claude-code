@@ -165,9 +165,40 @@
   }
 
   function initGallery() {
-    $("#gallery").innerHTML = BIZ.photos.length
-      ? BIZ.photos.map((p) => `<figure class="shot"><img src="${esc(p.src)}" alt="${esc(p.cap)}" loading="lazy"><figcaption>${esc(p.cap)}</figcaption></figure>`).join("")
-      : SITE.gallerySlots.map((c) => `<figure class="shot empty"><div>${ICONS.camera}<b>${esc(c)}</b><span class="ph">Add a job photo</span></div></figure>`).join("");
+    const photos = BIZ.photos;
+    if (!photos.length) {
+      $("#gallery").innerHTML = SITE.gallerySlots.map((c) => `<figure class="shot empty"><div>${ICONS.camera}<b>${esc(c)}</b><span class="ph">Add a job photo</span></div></figure>`).join("");
+      return;
+    }
+    $("#gallery").innerHTML = photos.map((p, i) =>
+      `<figure class="shot"><button type="button" data-photo="${i}" aria-label="View larger: ${esc(p.cap)}"><img src="${esc(p.src)}" alt="${esc(p.cap)}" loading="lazy"></button><figcaption>${esc(p.cap)}</figcaption></figure>`).join("");
+    initLightbox(photos);
+  }
+
+  function initLightbox(photos) {
+    const box = $("#lightbox");
+    if (typeof box.showModal !== "function") return; // very old browsers: thumbnails only
+    let idx = 0, opener = null;
+    const show = (n) => {
+      idx = (n + photos.length) % photos.length;
+      $("#lbImg").src = photos[idx].src;
+      $("#lbImg").alt = photos[idx].cap;
+      $("#lbCap").textContent = `${photos[idx].cap} (${idx + 1} of ${photos.length})`;
+    };
+    $$("[data-photo]").forEach((b) => b.addEventListener("click", () => {
+      opener = b;
+      show(Number(b.dataset.photo));
+      box.showModal();
+    }));
+    $("#lbPrev").addEventListener("click", () => show(idx - 1));
+    $("#lbNext").addEventListener("click", () => show(idx + 1));
+    $("#lbClose").addEventListener("click", () => box.close());
+    box.addEventListener("click", (e) => { if (e.target === box) box.close(); });
+    box.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") show(idx - 1);
+      if (e.key === "ArrowRight") show(idx + 1);
+    });
+    box.addEventListener("close", () => opener?.focus());
   }
 
   function initReviews() {
@@ -314,7 +345,7 @@
     const pad = (h) => String(h).padStart(2, "0") + ":00";
     const data = {
       "@context": "https://schema.org", "@type": "Plumber", name: "True Flow Pump & Well Services",
-      telephone: BIZ.phone, email: BIZ.email, areaServed: BIZ.towns,
+      telephone: BIZ.phone, ...(BIZ.email ? { email: BIZ.email } : {}), areaServed: BIZ.knownTowns,
       address: { "@type": "PostalAddress", addressLocality: BIZ.city }, sameAs: [BIZ.facebook],
       openingHoursSpecification: Object.entries(BIZ.hours).filter(([, h]) => h)
         .map(([d, h]) => ({ "@type": "OpeningHoursSpecification", dayOfWeek: days[d], opens: pad(h[0]), closes: pad(h[1]) }))

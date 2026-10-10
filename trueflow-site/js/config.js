@@ -4,7 +4,7 @@ window.SITE = Object.freeze({
   biz: Object.freeze({
     phone: "(505) 793-5386",
     phoneTel: "+15057935386",
-    email: "info@yourdomain.com",      // PLACEHOLDER
+    email: "",                         // add one to show it in search results
     city: "Hoxie, Kansas",
     areaShort: "Hoxie & surrounding farms",
     radius: 50,                        // PLACEHOLDER (miles)
@@ -19,12 +19,22 @@ window.SITE = Object.freeze({
     // Form delivery: paste an https form endpoint (e.g. a Formspree form URL) to receive requests by email.
     formEndpoint: "",
     // Job photos: put files in images/ and list them, e.g. { src: "images/pump-pull.jpg", cap: "Pump replacement, 320 ft" }
-    photos: [],
-    placeholders: ["email", "owner", "radius"]
+    photos: [
+      { src: "images/windmill-boom-lift.jpg", cap: "Raising a windmill head with the boom truck" },
+      { src: "images/cattle-tank-float.jpg", cap: "Stock tank with a new float switch, herd waiting" },
+      { src: "images/solar-well-array.jpg", cap: "Solar well array behind the pipe gate" },
+      { src: "images/windmill-tower.jpg", cap: "Pulling sucker rods on a windmill" },
+      { src: "images/water-line-leak-repair.jpg", cap: "Water line leak, dug out and repaired" },
+      { src: "images/solar-panel-hail-damage.jpg", cap: "Hail-damaged solar panel, ready for replacement" },
+      { src: "images/stock-tank-float-switch.jpg", cap: "Float switch mounted on a stock tank" },
+      { src: "images/frost-free-hydrant-dig.jpg", cap: "Digging out a frost-free hydrant" },
+      { src: "images/hydrant-line-trench.jpg", cap: "Trenching to a fire hydrant line" }
+    ],
+    placeholders: ["owner", "radius"]
   }),
 
-  strip: ["24-hour service", "Water well installation", "Pump repair", "Windmill & solar systems",
-    "Irrigation wells", "Trenching", "Leak repair & plumbing", "Farms & ranches"],
+  strip: ["24/hr service, day or night", "Water well installations", "Pump installation & repair", "Windmill service",
+    "Solar well systems", "Irrigation wells", "Cattle tank installs", "Free estimates", "Licensed & insured"],
 
   // need: which "What do you need?" option the "Book this fix" button selects
   symptoms: [
@@ -57,16 +67,30 @@ window.SITE = Object.freeze({
       head: "Electrical fault at the pump",
       causes: "Shorted motor, damaged wire splice, failing capacitor, or a seized pump.",
       check: "Insulation resistance on the well wire, control box parts, and amp draw.",
-      tip: "Don't keep resetting it. Call, and keep the breaker off until we test it." }
+      tip: "Don't keep resetting it. Call, and keep the breaker off until we test it." },
+    { icon: "windmill", title: "Windmill turns but won't pump", sub: "Wheel spins, little or no water", urg: "med", when: "Soon", need: "c6",
+      head: "Windmill pump isn't lifting",
+      causes: "Worn leathers in the pump cylinder, a broken or parted sucker rod, or a leaking drop pipe or check valve.",
+      check: "Rod string, cylinder leathers and valves, drop pipe, and the gearbox and its oil.",
+      tip: "Tie the wheel off in high wind until it's fixed. A free-spinning mill with a broken rod can tear itself up." },
+    { icon: "sun", title: "Solar tank isn't filling", sub: "Stock tank low on a sunny day", urg: "high", when: "Same-day", need: "c6",
+      head: "Solar pump isn't running",
+      causes: "Stuck or failed float switch, a tripped or failed controller, hail-damaged panels, or a worn pump.",
+      check: "Float switch, controller lights and fault codes, panel output, wiring, and pump draw.",
+      tip: "Check the float isn't hung up first. If cattle are short on water, call now and haul water in the meantime." }
   ],
 
+  // From True Flow's flyer
   services: [
-    { icon: "down", tag: "Install", title: "Water well installation", text: "New wells for homes, barns and pasture, finished with the pump, pipe, wire and tank to put them to work." },
-    { icon: "pump", tag: "Repair", title: "Pump repair", text: "Submersible and jet pumps diagnosed, pulled and fixed or replaced, sized to your well's depth and yield." },
-    { icon: "tank", tag: "Replace", title: "Full system replacements", text: "Pump, pressure tank, switch and controls replaced together when an old system is worn out." },
-    { icon: "windmill", tag: "Off-grid", title: "Windmill & solar systems", text: "Windmill repair and solar pumping for stock tanks and pastures with no power line." },
-    { icon: "drop2", tag: "Ag", title: "Irrigation wells", text: "Wells and pumps sized for irrigation, built to keep up through the growing season." },
-    { icon: "box", tag: "Lines", title: "Trenching, leak repair & plumbing", text: "Trenching for water lines, finding and fixing leaks, and the plumbing between the well and the house." }
+    { icon: "down", tag: "Install", title: "Full water well installations", text: "From drilling to completion, we install complete water wells built to last." },
+    { icon: "pump", tag: "Pumps", title: "Pump installation & repair", text: "Expert installation, repair and maintenance for all pump systems." },
+    { icon: "windmill", tag: "Windmills", title: "Windmill service & repair", text: "Keep your windmill running strong, from the sucker rods to the wheel." },
+    { icon: "sun", tag: "Solar", title: "Solar well systems", text: "Reliable, efficient water powered by the sun, for pastures with no power line." },
+    { icon: "drop2", tag: "Ag", title: "Irrigation wells", text: "Water when and where you need it, sized to keep up all season." },
+    { icon: "house", tag: "Home", title: "House wells", text: "Clean, dependable water for your home." },
+    { icon: "trough", tag: "Livestock", title: "Cattle tank installs", text: "Durable cattle tank installs and float controls for water you can count on." },
+    { icon: "tank", tag: "Pressure", title: "Pressure tank service", text: "Install, repair and maintain tanks for consistent pressure." },
+    { icon: "box", tag: "Lines", title: "Trenching, water lines & leak repair", text: "Trenching and water line installs, plus fast leak detection and repair to stop damage." }
   ],
 
   // SAMPLE reviews. Replace with real reviews from the Facebook page.
