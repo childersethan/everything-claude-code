@@ -294,9 +294,10 @@
       const first = fields.name.value.trim().split(/\s+/)[0];
       // bots fill the hidden field; pretend success and send nothing
       if ($("#fGotcha").value) { msg.textContent = `Thanks, ${first}.`; f.reset(); return; }
-      // Netlify Forms needs the page served over http(s); file:// and the artifact preview can't send
+      // Netlify Forms needs the page served over http(s); file:// and the artifact preview can't send.
+      // Netlify strips data-netlify from the deployed page, so the form carries its own data-delivery marker.
       const external = /^https:\/\//.test(BIZ.formEndpoint);
-      const netlify = !external && "netlify" in f.dataset && /^https?:$/.test(location.protocol);
+      const netlify = !external && f.dataset.delivery === "netlify" && /^https?:$/.test(location.protocol);
       if (!external && !netlify) {
         msg.textContent = `Thanks, ${first}. This preview doesn't send yet. Once the form is connected, requests go straight to True Flow's inbox.`;
         return;

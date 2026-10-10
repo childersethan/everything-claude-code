@@ -26,7 +26,7 @@ The site is set up for Netlify; `netlify.toml` at the repo root tells Netlify to
 3. Under Forms, "Form notifications", add an email notification to trueflow2026@gmail.com.
 4. To use a domain, add it under "Domain management". Netlify provides HTTPS automatically.
 
-The form posts to Netlify only when the page is served over http(s) with the `data-netlify` attribute, so opening `index.html` from disk or viewing the artifact preview shows a "doesn't send yet" message instead. The hidden `_gotcha` field is a honeypot Netlify uses to drop bot submissions. To use another provider (e.g. Formspree), paste its https endpoint into `formEndpoint` in `js/config.js` and add its origin to `connect-src` in the Content-Security-Policy meta tag in `index.html`.
+The form posts to Netlify only when the page is served over http(s) and the form has `data-delivery="netlify"` (Netlify strips `data-netlify` when it deploys, so the code can't rely on it), so opening `index.html` from disk or viewing the artifact preview shows a "doesn't send yet" message instead. The hidden `_gotcha` field is a honeypot Netlify uses to drop bot submissions. To use another provider (e.g. Formspree), paste its https endpoint into `formEndpoint` in `js/config.js` and add its origin to `connect-src` in the Content-Security-Policy meta tag in `index.html`.
 
 ## Adding job photos
 

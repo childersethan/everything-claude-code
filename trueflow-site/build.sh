@@ -6,5 +6,5 @@ cd "$(dirname "$0")"
 mkdir -p preview
 sed -e '/^<!doctype html>$/d' -e '/^<html /d' -e '/^<\/html>$/d' -e '/^<head>$/d' -e '/^<\/head>$/d' \
     -e '/^<body>$/d' -e '/^<\/body>$/d' -e '/^<meta charset/d' -e '/^<meta name="viewport"/d' \
-    -e '/^<link rel="icon"/d' -e '/Content-Security-Policy/d' -e '/If you change form providers/d' -e 's/ data-netlify="true"//' index.html > preview/preview.html
+    -e '/^<link rel="icon"/d' -e '/Content-Security-Policy/d' -e '/If you change form providers/d' -e 's/ data-netlify="true"//' -e 's/ data-delivery="netlify"//' index.html > preview/preview.html
 echo "Built preview/preview.html"
