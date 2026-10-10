@@ -35,3 +35,7 @@ npm run test:e2e    # browser tests (needs the playwright package and Chromium)
 ## Hosting headers
 
 If the host allows custom headers, also send `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Strict-Transport-Security`, and `frame-ancestors 'none'` in the CSP header.
+
+## Before launch
+
+Once the site has a domain, add `<meta property="og:image" content="https://YOUR-DOMAIN/images/windmill-repair-crew.jpg">` to `index.html` so Facebook link previews show a photo (it must be a full https URL).

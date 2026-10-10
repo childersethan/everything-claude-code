@@ -181,8 +181,12 @@
     let idx = 0, opener = null;
     const show = (n) => {
       idx = (n + photos.length) % photos.length;
-      $("#lbImg").src = photos[idx].src;
-      $("#lbImg").alt = photos[idx].cap;
+      const img = $("#lbImg");
+      img.classList.add("loading"); // hide the previous photo until the next one has loaded
+      img.onload = () => img.classList.remove("loading");
+      img.src = photos[idx].src;
+      img.alt = photos[idx].cap;
+      if (img.complete && img.naturalWidth) img.classList.remove("loading");
       $("#lbCap").textContent = `${photos[idx].cap} (${idx + 1} of ${photos.length})`;
     };
     $$("[data-photo]").forEach((b) => b.addEventListener("click", () => {
