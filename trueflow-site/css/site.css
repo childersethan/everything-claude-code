@@ -207,13 +207,16 @@ form.req{background:var(--surface);border:1px solid var(--line);border-radius:10
 @media (max-width:560px){.row2{grid-template-columns:1fr}}
 label{display:grid;gap:6px;font-weight:600;font-size:.92rem}
 input,select,textarea{font:inherit;padding:12px 14px;border-radius:var(--r);border:1.5px solid var(--line);background:var(--bg);color:var(--ink);width:100%;min-width:0}
-input:focus,select:focus,textarea:focus{border-color:var(--water);outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--water)}
+input:focus:not(:focus-visible),select:focus:not(:focus-visible),textarea:focus:not(:focus-visible){outline:none}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chips label{display:inline-flex;font-weight:600;font-size:.88rem;gap:0}
 .chips input{position:absolute;opacity:0;width:1px;height:1px}
 .chips span{border:1.5px solid var(--line);border-radius:99px;padding:7px 14px;cursor:pointer;transition:all .15s}
 .chips input:checked+span{background:var(--water);border-color:var(--water);color:var(--on-water)}
 .chips input:focus-visible+span{outline:3px solid var(--signal);outline-offset:2px}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.privacy{font-size:.82rem;color:var(--muted)}
 .form-msg{font-weight:600;color:var(--water)}
 @media (max-width:860px){.contact .wrap{grid-template-columns:1fr}}
 

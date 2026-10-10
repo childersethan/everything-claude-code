@@ -13,6 +13,7 @@ window.SITE = Object.freeze({
     // PLACEHOLDER hours. 0=Sun … 6=Sat, [open, close] in 24h, null = closed
     hours: { 0: null, 1: [7, 18], 2: [7, 18], 3: [7, 18], 4: [7, 18], 5: [7, 18], 6: [8, 14] },
     emergency: true,
+    timeZone: "America/Chicago",       // business hours are in this time zone
     facebook: "https://www.facebook.com/profile.php?id=61574248502595",
     // Form delivery: paste an https form endpoint (e.g. a Formspree form URL) to receive requests by email.
     formEndpoint: "",

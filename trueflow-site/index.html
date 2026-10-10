@@ -9,6 +9,9 @@
 <meta property="og:description" content="No water? We'll get it flowing again. Well pump repair, pressure tanks and new installs.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#0B6E99">
+<!-- If you change form providers, add its origin to connect-src. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io; form-action 'none'; base-uri 'none'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect x='16' y='2' width='8' height='36' rx='2' fill='%230E1C24'/%3E%3Cpath d='M20 10c-5 7-8 11-8 15a8 8 0 0 0 16 0c0-4-3-8-8-15Z' fill='%230B6E99'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -201,7 +204,7 @@
     <div class="tools reveal">
       <div class="tabs" role="tablist" aria-label="Sizing tools">
         <button type="button" role="tab" id="tabFlow" aria-selected="true" aria-controls="panelFlow">Pump flow (GPM)</button>
-        <button type="button" role="tab" id="tabTank" aria-selected="false" aria-controls="panelTank">Tank pre-charge</button>
+        <button type="button" role="tab" id="tabTank" aria-selected="false" aria-controls="panelTank" tabindex="-1">Tank pre-charge</button>
       </div>
 
       <div class="tool-in" id="panelFlow" role="tabpanel" aria-labelledby="tabFlow">
@@ -213,7 +216,7 @@
           <label for="xStock"><input type="checkbox" id="xStock"> Livestock water</label>
         </div>
       </div>
-      <div class="tool-out" id="outFlow" aria-live="polite">
+      <div class="tool-out" id="outFlow" role="region" aria-label="Pump flow result" aria-live="polite">
         <span class="eyebrow">Suggested pump size</span>
         <div class="readout"><b id="gpmOut">9</b><span>gallons / minute</span></div>
         <div class="meter" aria-hidden="true"><i id="gpmBar" style="width:30%"></i></div>
@@ -235,7 +238,7 @@
         </label>
         <p class="fineprint">Not sure? Kill power to the pump, open a faucet until water stops, then check the tank's air valve with a tire gauge.</p>
       </div>
-      <div class="tool-out" id="outTank" aria-live="polite" hidden>
+      <div class="tool-out" id="outTank" role="region" aria-label="Tank pre-charge result" aria-live="polite" hidden>
         <span class="eyebrow">Tank pre-charge</span>
         <div class="readout"><b id="preOut">38</b><span>psi target</span></div>
         <div class="meter" aria-hidden="true"><i id="preBar" style="width:60%"></i></div>
@@ -335,15 +338,15 @@
       <div class="bignum ph" data-f="phone" id="bigPhone" role="button" tabindex="0" title="Copy number"></div>
       <span class="open-pill" id="openPill">Checking hours…</span>
       <dl class="hours" id="hours"></dl>
-      <p style="font-size:.95rem;color:var(--muted)">Email <span class="ph" data-f="email"></span><br>Facebook: <a href="https://www.facebook.com/profile.php?id=61574248502595" target="_blank" rel="noopener">True Flow Pump &amp; Well</a></p>
+      <p style="font-size:.95rem;color:var(--muted)">Email <span class="ph" data-f="email"></span><br>Facebook: <a id="fbLink" href="#" target="_blank" rel="noopener">True Flow Pump &amp; Well</a></p>
     </div>
     <form class="req reveal" id="reqForm" novalidate>
       <h3 style="font-size:1.8rem">Request service</h3>
       <div class="row2">
-        <label for="fName">Name<input id="fName" name="name" autocomplete="name" required></label>
-        <label for="fPhone">Phone<input id="fPhone" name="phone" type="tel" autocomplete="tel" required></label>
+        <label for="fName">Name<input id="fName" name="name" autocomplete="name" maxlength="100" required></label>
+        <label for="fPhone">Phone<input id="fPhone" name="phone" type="tel" autocomplete="tel" maxlength="25" required></label>
       </div>
-      <label for="fAddr">Property address or town<input id="fAddr" name="addr" autocomplete="street-address"></label>
+      <label for="fAddr">Property address or town<input id="fAddr" name="addr" autocomplete="street-address" maxlength="150"></label>
       <fieldset style="border:0;padding:0;margin:0;display:grid;gap:8px">
         <legend style="font-weight:600;font-size:.92rem;margin-bottom:6px">What do you need?</legend>
         <div class="chips">
@@ -354,8 +357,10 @@
           <label for="c5"><input type="radio" name="need" id="c5" value="Something else"><span>Something else</span></label>
         </div>
       </fieldset>
-      <label for="fMsg">Anything else we should know?<textarea id="fMsg" name="msg" rows="3" placeholder="e.g. Pump kicks on but no water since last night"></textarea></label>
+      <label for="fMsg">Anything else we should know?<textarea id="fMsg" name="msg" rows="3" maxlength="2000" placeholder="e.g. Pump kicks on but no water since last night"></textarea></label>
+      <div class="hp" aria-hidden="true"><label for="fGotcha">Leave this empty<input id="fGotcha" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
       <button class="btn btn-signal" type="submit" style="justify-self:start">Send request</button>
+      <p class="privacy">Your details go only to True Flow, to call you back about this job.</p>
       <p class="form-msg" id="formMsg" aria-live="polite"></p>
     </form>
   </div>

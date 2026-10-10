@@ -89,3 +89,45 @@ test("service area checker answers for listed and unlisted towns", async () => {
   assert.match(await page.textContent("#zipOut"), /isn't on our usual list/);
   await page.close();
 });
+
+test("Book this fix keeps what the visitor already typed", async () => {
+  const { page } = await open();
+  await page.fill("#fMsg", "Started last night");
+  await page.click(".symptom[data-i='0']");
+  await page.click("#bookFix");
+  assert.equal(await page.inputValue("#fMsg"), "No water at all. Started last night");
+  await page.close();
+});
+
+test("sizing tabs work from the keyboard", async () => {
+  const { page } = await open();
+  await page.focus("#tabFlow");
+  await page.keyboard.press("ArrowRight");
+  assert.equal(await page.evaluate(() => document.activeElement.id), "tabTank");
+  assert.equal(await page.isVisible("#panelTank"), true);
+  assert.equal(await page.getAttribute("#tabFlow", "tabindex"), "-1");
+  await page.close();
+});
+
+test("keyboard focus is visible on the tank slider", async () => {
+  const { page } = await open();
+  await page.click("#tabTank");
+  await page.focus("#cutIn");
+  await page.keyboard.press("Tab");
+  assert.equal(await page.evaluate(() => document.activeElement.id), "tankAir");
+  const outline = await page.evaluate(() => getComputedStyle(document.activeElement).outlineStyle);
+  assert.notEqual(outline, "none");
+  await page.close();
+});
+
+test("honeypot submissions are dropped without sending", async () => {
+  const { page } = await open();
+  let posted = false;
+  page.on("request", (r) => { if (r.method() === "POST") posted = true; });
+  await page.fill("#fName", "Bot");
+  await page.fill("#fPhone", "8065550101");
+  await page.evaluate(() => { document.querySelector("#fGotcha").value = "spam"; });
+  await page.click("#reqForm [type=submit]");
+  assert.equal(posted, false);
+  await page.close();
+});

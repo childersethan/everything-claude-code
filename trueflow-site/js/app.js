@@ -7,6 +7,16 @@
   const $$ = (s) => [...document.querySelectorAll(s)];
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const esc = (v) => String(v).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  /** Calls onChange(true/false) as `el` scrolls in/out of view or the tab is hidden/shown. */
+  function whenActive(el, onChange) {
+    let inView = true;
+    const update = () => onChange(inView && !document.hidden);
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(([en]) => { inView = en.isIntersecting; update(); }).observe(el);
+    }
+    document.addEventListener("visibilitychange", update);
+    update();
+  }
   const restartAnim = (el) => { el.classList.remove("fade-swap"); void el.offsetWidth; el.classList.add("fade-swap"); };
 
   function fillFields() {
@@ -15,6 +25,7 @@
       el.textContent = BIZ[k];
       if (BIZ.placeholders.includes(k)) el.classList.add("ph");
     });
+    $("#fbLink").href = BIZ.facebook;
     if (BIZ.phoneTel) $$("[data-tel]").forEach((a) => { a.href = "tel:" + BIZ.phoneTel; });
     $("#yr").textContent = new Date().getFullYear();
     $("#draftClose").addEventListener("click", () => { $("#draft").hidden = true; });
@@ -53,9 +64,9 @@
     let psi = 52;
     setTimeout(() => { $("#needle").style.transform = `rotate(${psiToDeg(psi)}deg)`; }, 200);
     if (reduce) return;
-    // gentle pressure cycle between 40 and 60 psi
-    let dir = -1, level = 170;
-    setInterval(() => {
+    // gentle pressure cycle between 40 and 60 psi, only while the hero is on screen
+    let dir = -1, level = 170, timer = null;
+    const tick = () => {
       psi += dir * (Math.random() * 1.6 + 0.4);
       if (psi <= 40) dir = 1;
       if (psi >= 60) dir = -1;
@@ -64,7 +75,11 @@
       $("#needle").style.transform = `rotate(${psiToDeg(psi)}deg)`;
       level = Math.max(160, Math.min(180, level + (Math.random() - 0.5) * 2));
       $("#waterCol").setAttribute("y", level.toFixed(1));
-    }, 600);
+    };
+    whenActive($(".rig"), (on) => {
+      clearInterval(timer);
+      timer = on ? setInterval(tick, 600) : null;
+    });
   }
 
   function initStrip() {
@@ -81,14 +96,14 @@
       $$(".symptom").forEach((b, i) => b.setAttribute("aria-pressed", String(i === n)));
       $("#tNo").textContent = "No. TF-" + String(1000 + (ticketNo++ * 37) % 9000).padStart(4, "0");
       const t = $("#ticket");
-      t.innerHTML = `<span class="urg ${esc(d.urg)}">${URG[d.urg]} · ${esc(d.when)}</span>
+      t.innerHTML = `<span class="urg ${esc(d.urg)}">${esc(URG[d.urg])} · ${esc(d.when)}</span>
         <h3>${esc(d.head)}</h3>
         <dl><dt>Likely</dt><dd>${esc(d.causes)}</dd><dt>We check</dt><dd>${esc(d.check)}</dd><dt>Right now</dt><dd>${esc(d.tip)}</dd></dl>
         <a class="btn btn-primary" href="#contact" style="justify-self:start" id="bookFix">Book this fix</a>`;
       restartAnim(t);
       $("#bookFix").addEventListener("click", () => {
         $("#" + d.need).checked = true;
-        $("#fMsg").value = d.title + ". ";
+        $("#fMsg").value = S.prefillMessage($("#fMsg").value, d.title);
       });
     };
     $$(".symptom").forEach((b) => b.addEventListener("click", () => show(Number(b.dataset.i))));
@@ -102,11 +117,23 @@
 
   function initSizingTools() {
     const tabs = [["tabFlow", ["panelFlow", "outFlow"]], ["tabTank", ["panelTank", "outTank"]]];
-    tabs.forEach(([id]) => $("#" + id).addEventListener("click", () => tabs.forEach(([tid, panes]) => {
-      const on = tid === id;
-      $("#" + tid).setAttribute("aria-selected", String(on));
+    const select = (id, focus) => tabs.forEach(([tid, panes]) => {
+      const on = tid === id, tab = $("#" + tid);
+      tab.setAttribute("aria-selected", String(on));
+      tab.tabIndex = on ? 0 : -1;
+      if (on && focus) tab.focus();
       panes.forEach((p) => { $("#" + p).hidden = !on; });
-    })));
+    });
+    tabs.forEach(([id], i) => {
+      const tab = $("#" + id);
+      tab.addEventListener("click", () => select(id, false));
+      tab.addEventListener("keydown", (e) => {
+        const move = { ArrowRight: 1, ArrowLeft: -1, Home: -i, End: tabs.length - 1 - i }[e.key];
+        if (move === undefined) return;
+        e.preventDefault();
+        select(tabs[(i + move + tabs.length) % tabs.length][0], true);
+      });
+    });
 
     let counts = { bath: 2, kit: 3, hose: 2 };
     const renderFlow = () => {
@@ -155,7 +182,14 @@
       restartAnim(q);
       [...dots.children].forEach((d, i) => d.classList.toggle("on", i === idx));
     };
-    const restart = () => { clearInterval(timer); if (!reduce) timer = setInterval(() => show(idx + 1), 6500); };
+    let paused = false;
+    const restart = () => { clearInterval(timer); if (!reduce && !paused) timer = setInterval(() => show(idx + 1), 6500); };
+    const pause = (p) => { paused = p; restart(); };
+    const box = $(".carousel");
+    box.addEventListener("mouseenter", () => pause(true));
+    box.addEventListener("mouseleave", () => pause(false));
+    box.addEventListener("focusin", () => pause(true));
+    box.addEventListener("focusout", () => pause(false));
     $("#prev").addEventListener("click", () => { show(idx - 1); restart(); });
     $("#next").addEventListener("click", () => { show(idx + 1); restart(); });
     show(0);
@@ -182,7 +216,7 @@
     const c = $("#radar"), x = c.getContext("2d"), W = c.width, C = W / 2;
     const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
     const pts = BIZ.towns.map((t, i) => ({ t, a: i * 2.3 + 0.6, r: 0.3 + ((i * 37) % 55) / 100 }));
-    let a0 = 0;
+    let a0 = 0, running = false;
     const draw = () => {
       const water = css("--water"), line = css("--line"), ink = css("--ink"), sig = css("--signal"), surf = css("--surface");
       x.clearRect(0, 0, W, W);
@@ -207,9 +241,15 @@
       x.fillText(BIZ.radius + " mi", C, 40);
       x.fillText("HQ", C, C + 46);
       a0 += 0.012;
-      if (!reduce) requestAnimationFrame(draw);
+      if (running) requestAnimationFrame(draw);
     };
     draw();
+    if (reduce) return;
+    whenActive(c, (on) => {
+      const wasRunning = running;
+      running = on;
+      if (on && !wasRunning) requestAnimationFrame(draw);
+    });
   }
 
   function initHours() {
@@ -217,9 +257,9 @@
     $("#hours").innerHTML = [1, 2, 3, 4, 5, 6, 0].map((d) => {
       const h = BIZ.hours[d];
       const txt = h ? S.formatHour(h[0]) + "–" + S.formatHour(h[1]) : "Closed" + (BIZ.emergency ? " (emergencies only)" : "");
-      return `<dt>${days[d]}</dt><dd class="ph">${txt}</dd>`;
+      return `<dt>${days[d]}</dt><dd class="ph">${esc(txt)}</dd>`;
     }).join("");
-    const open = S.isOpenNow(BIZ.hours, new Date());
+    const open = S.isOpenNow(BIZ.hours, new Date(), BIZ.timeZone);
     $("#openPill").textContent = open ? "Open now" : BIZ.emergency ? "After hours · emergency line open" : "Closed now";
   }
 
@@ -237,6 +277,8 @@
         return;
       }
       const first = fields.name.value.trim().split(/\s+/)[0];
+      // bots fill the hidden field; pretend success and send nothing
+      if ($("#fGotcha").value) { msg.textContent = `Thanks, ${first}.`; f.reset(); return; }
       if (!/^https:\/\//.test(BIZ.formEndpoint)) {
         msg.textContent = `Thanks, ${first}. This preview doesn't send yet. Once the form is connected, requests go straight to True Flow's inbox.`;
         return;
@@ -285,6 +327,7 @@
   }
 
   function initReveal() {
+    $$("[data-count]").forEach((el) => { el.textContent = el.dataset.count + (el.dataset.suffix || ""); });
     if (!("IntersectionObserver" in window)) return;
     const io = new IntersectionObserver((entries) => entries.forEach((en) => {
       if (!en.isIntersecting) return;
@@ -293,7 +336,7 @@
       if (el.dataset.count) countUp(el);
       el.classList.remove("pre");
     }), { threshold: 0.15 });
-    $$("[data-count]").forEach((el) => { el.textContent = el.dataset.count + (el.dataset.suffix || ""); io.observe(el); });
+    $$("[data-count]").forEach((el) => io.observe(el));
     // only offset elements that start below the fold, so the page is complete at rest
     if (!reduce) $$(".reveal").forEach((el) => { if (el.getBoundingClientRect().top > innerHeight) { el.classList.add("pre"); io.observe(el); } });
   }
@@ -312,5 +355,7 @@
   }
 
   [fillFields, initCopyPhone, initHeroGauges, initStrip, initDiagnoser, initServices, initSizingTools,
-    initGallery, initReviews, initArea, initHours, initForm, initMenu, addStructuredData, initReveal].forEach((fn) => fn());
+    initGallery, initReviews, initArea, initHours, initForm, initMenu, addStructuredData, initReveal].forEach((fn) => {
+    try { fn(); } catch (err) { console.error(`${fn.name} failed:`, err); } // one broken section shouldn't take the rest down
+  });
 })();

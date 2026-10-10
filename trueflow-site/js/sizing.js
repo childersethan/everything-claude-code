@@ -56,11 +56,21 @@
     return { target, status, advice };
   }
 
-  /** hours: {0..6: [openHour, closeHour] | null}. */
-  function isOpenNow(hours, date) {
-    const h = hours[date.getDay()];
-    const hr = date.getHours() + date.getMinutes() / 60;
-    return Boolean(h) && hr >= h[0] && hr < h[1];
+  const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  /** Day of week (0=Sun) and decimal hour of `date` in `timeZone`, not the visitor's own clock. */
+  function localTime(date, timeZone) {
+    const parts = Object.fromEntries(new Intl.DateTimeFormat("en-US", {
+      timeZone, weekday: "short", hour: "numeric", minute: "numeric", hourCycle: "h23"
+    }).formatToParts(date).map((p) => [p.type, p.value]));
+    return { day: WEEKDAYS.indexOf(parts.weekday), hour: Number(parts.hour) + Number(parts.minute) / 60 };
+  }
+
+  /** hours: {0..6: [openHour, closeHour] | null}, in the business's time zone. */
+  function isOpenNow(hours, date, timeZone = "America/Chicago") {
+    const { day, hour } = localTime(date, timeZone);
+    const h = hours[day];
+    return Boolean(h) && hour >= h[0] && hour < h[1];
   }
 
   function formatHour(h) {
@@ -73,6 +83,13 @@
     return d.length === 10 || (d.length === 11 && d[0] === "1");
   }
 
+  /** Returns the message with the symptom title in front, keeping whatever the visitor already typed. */
+  function prefillMessage(current, title) {
+    const text = String(current).trim();
+    if (text.startsWith(title)) return text;
+    return text ? `${title}. ${text}` : `${title}. `;
+  }
+
   /** Validates the request form's fields. Returns the first problem, or null. */
   function validateRequest({ name, phone }) {
     if (!String(name).trim()) return { field: "name", message: "Add your name so we know who to ask for." };
@@ -81,7 +98,7 @@
     return null;
   }
 
-  const api = { LIMITS, stepCount, pumpFlow, tankPrecharge, isOpenNow, formatHour, isValidPhone, validateRequest };
+  const api = { LIMITS, stepCount, pumpFlow, tankPrecharge, localTime, isOpenNow, formatHour, prefillMessage, isValidPhone, validateRequest };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.Sizing = api;
 })(typeof window !== "undefined" ? window : globalThis);

@@ -52,11 +52,23 @@ test("tankPrecharge rejects non-numbers", () => {
   assert.throws(() => S.tankPrecharge(NaN, 20));
 });
 
-test("isOpenNow respects hours and closed days", () => {
+test("isOpenNow uses the business's time zone, not the visitor's", () => {
   const hours = { 0: null, 1: [7, 18], 2: [7, 18], 3: [7, 18], 4: [7, 18], 5: [7, 18], 6: [8, 14] };
-  assert.equal(S.isOpenNow(hours, new Date(2026, 9, 12, 9, 0)), true); // Monday 9am
-  assert.equal(S.isOpenNow(hours, new Date(2026, 9, 12, 18, 0)), false); // Monday 6pm, closing time
-  assert.equal(S.isOpenNow(hours, new Date(2026, 9, 11, 12, 0)), false); // Sunday
+  const tz = "America/Chicago"; // Oct 2026 is CDT, UTC-5
+  assert.equal(S.isOpenNow(hours, new Date("2026-10-12T14:00:00Z"), tz), true); // Mon 9am Central
+  assert.equal(S.isOpenNow(hours, new Date("2026-10-12T23:00:00Z"), tz), false); // Mon 6pm Central, closing time
+  assert.equal(S.isOpenNow(hours, new Date("2026-10-13T00:30:00Z"), tz), false); // Mon 7:30pm Central (5:30pm Pacific)
+  assert.equal(S.isOpenNow(hours, new Date("2026-10-11T17:00:00Z"), tz), false); // Sunday
+});
+
+test("localTime converts to the given zone", () => {
+  assert.deepEqual(S.localTime(new Date("2026-10-12T14:30:00Z"), "America/Chicago"), { day: 1, hour: 9.5 });
+});
+
+test("prefillMessage keeps what the visitor typed", () => {
+  assert.equal(S.prefillMessage("", "No water at all"), "No water at all. ");
+  assert.equal(S.prefillMessage("Started last night", "No water at all"), "No water at all. Started last night");
+  assert.equal(S.prefillMessage("No water at all. Started last night", "No water at all"), "No water at all. Started last night");
 });
 
 test("formatHour uses 12-hour times", () => {
