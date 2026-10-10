@@ -23,12 +23,11 @@
     $$("[data-f]").forEach((el) => {
       const k = el.dataset.f;
       el.textContent = BIZ[k];
-      if (BIZ.placeholders.includes(k)) el.classList.add("ph");
     });
     $("#fbLink").href = BIZ.facebook;
+    $("#mailLink").href = "mailto:" + BIZ.email;
     if (BIZ.phoneTel) $$("[data-tel]").forEach((a) => { a.href = "tel:" + BIZ.phoneTel; });
     $("#yr").textContent = new Date().getFullYear();
-    $("#draftClose").addEventListener("click", () => { $("#draft").hidden = true; });
   }
 
   function initCopyPhone() {
@@ -205,42 +204,21 @@
     box.addEventListener("close", () => opener?.focus());
   }
 
-  function initReviews() {
-    const list = SITE.reviews, dots = $("#dots");
-    let idx = 0, timer;
-    dots.innerHTML = list.map(() => "<i></i>").join("");
-    const show = (n) => {
-      idx = (n + list.length) % list.length;
-      const q = $("#quote");
-      q.textContent = "“" + list[idx].quote + "”";
-      $("#quoteWho").textContent = list[idx].who;
-      restartAnim(q);
-      [...dots.children].forEach((d, i) => d.classList.toggle("on", i === idx));
-    };
-    let paused = false;
-    const restart = () => { clearInterval(timer); if (!reduce && !paused) timer = setInterval(() => show(idx + 1), 6500); };
-    const pause = (p) => { paused = p; restart(); };
-    const box = $(".carousel");
-    box.addEventListener("mouseenter", () => pause(true));
-    box.addEventListener("mouseleave", () => pause(false));
-    box.addEventListener("focusin", () => pause(true));
-    box.addEventListener("focusout", () => pause(false));
-    $("#prev").addEventListener("click", () => { show(idx - 1); restart(); });
-    $("#next").addEventListener("click", () => { show(idx + 1); restart(); });
-    show(0);
-    restart();
-  }
-
   function initArea() {
-    $("#towns").innerHTML = BIZ.towns.map((t) => `<span${BIZ.knownTowns.includes(t) ? "" : ' class="ph"'}>${esc(t)}</span>`).join("");
+    $("#towns").innerHTML = BIZ.towns.map((t) => `<span>${esc(t.name)}</span>`).join("");
     const check = () => {
       const v = $("#zip").value.trim();
       const out = $("#zipOut");
       if (!v) { out.textContent = "Type a town name first."; return; }
-      const hit = BIZ.towns.find((t) => t.toLowerCase() === v.toLowerCase());
-      out.textContent = hit
-        ? `Yes, we're in ${hit} regularly. Call to get on the schedule.`
-        : `${v} isn't on our usual list, but call us. If it's within about ${BIZ.radius} miles we can likely make it.`;
+      const hit = S.findTown(BIZ.towns, v);
+      if (hit) {
+        const mi = Math.round(S.milesBetween(BIZ.base, hit));
+        out.textContent = mi < 5
+          ? `${hit.name} is home base. Call or text and we'll be there.`
+          : `Yes, ${hit.name} is about ${mi} miles from ${BIZ.base.name}, well inside our ${BIZ.radius}-mile range.`;
+        return;
+      }
+      out.textContent = `${v} isn't on this list, but we cover about ${BIZ.radius} miles around ${BIZ.base.name}. Call or text and we'll tell you.`;
     };
     $("#zipBtn").addEventListener("click", check);
     $("#zip").addEventListener("keydown", (e) => { if (e.key === "Enter") check(); });
@@ -250,7 +228,10 @@
   function drawRadar() {
     const c = $("#radar"), x = c.getContext("2d"), W = c.width, C = W / 2;
     const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-    const pts = BIZ.towns.map((t, i) => ({ t, a: i * 2.3 + 0.6, r: 0.3 + ((i * 37) % 55) / 100 }));
+    // place each town by its real bearing and distance from home base
+    const pts = BIZ.towns.filter((t) => t.name !== BIZ.base.name).map((t) => ({
+      t: t.name, a: ((S.bearing(BIZ.base, t) - 90) * Math.PI) / 180, r: Math.min(1, S.milesBetween(BIZ.base, t) / BIZ.radius)
+    }));
     let a0 = 0, running = false;
     const draw = () => {
       const water = css("--water"), line = css("--line"), ink = css("--ink"), sig = css("--signal"), surf = css("--surface");
@@ -266,7 +247,7 @@
       }
       x.font = "600 24px Figtree, sans-serif"; x.textAlign = "center";
       pts.forEach((p) => {
-        const px = C + Math.cos(p.a) * p.r * (C - 30), py = C + Math.sin(p.a) * p.r * (C - 30);
+        const px = C + Math.cos(p.a) * p.r * (C - 8), py = C + Math.sin(p.a) * p.r * (C - 8);
         x.fillStyle = water; x.beginPath(); x.arc(px, py, 9, 0, 7); x.fill();
         x.fillStyle = ink; x.fillText(p.t, px, py - 18);
       });
@@ -274,7 +255,7 @@
       x.strokeStyle = ink; x.lineWidth = 3; x.stroke();
       x.fillStyle = ink; x.font = "700 22px 'JetBrains Mono', monospace";
       x.fillText(BIZ.radius + " mi", C, 40);
-      x.fillText("HQ", C, C + 46);
+      x.fillText(BIZ.base.name.toUpperCase(), C, C + 46);
       a0 += 0.012;
       if (running) requestAnimationFrame(draw);
     };
@@ -349,7 +330,7 @@
     const pad = (h) => String(h).padStart(2, "0") + ":00";
     const data = {
       "@context": "https://schema.org", "@type": "Plumber", name: "True Flow Pump & Well Services",
-      telephone: BIZ.phone, ...(BIZ.email ? { email: BIZ.email } : {}), areaServed: BIZ.knownTowns,
+      telephone: BIZ.phone, ...(BIZ.email ? { email: BIZ.email } : {}), areaServed: BIZ.towns.map((t) => t.name),
       address: { "@type": "PostalAddress", addressLocality: BIZ.city }, sameAs: [BIZ.facebook],
       openingHoursSpecification: Object.entries(BIZ.hours).filter(([, h]) => h)
         .map(([d, h]) => ({ "@type": "OpeningHoursSpecification", dayOfWeek: days[d], opens: pad(h[0]), closes: pad(h[1]) }))
@@ -389,7 +370,7 @@
   }
 
   [fillFields, initCopyPhone, initHeroGauges, initStrip, initDiagnoser, initServices, initSizingTools,
-    initGallery, initReviews, initArea, initHours, initForm, initMenu, addStructuredData, initReveal].forEach((fn) => {
+    initGallery, initArea, initHours, initForm, initMenu, addStructuredData, initReveal].forEach((fn) => {
     try { fn(); } catch (err) { console.error(`${fn.name} failed:`, err); } // one broken section shouldn't take the rest down
   });
 })();

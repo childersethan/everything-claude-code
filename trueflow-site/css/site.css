@@ -47,10 +47,6 @@ section{padding-block:clamp(56px,9vw,104px)}
 
 /* placeholders */
 .ph{color:var(--ph);border-bottom:2px dashed var(--ph);font-weight:600}
-.draft{background:var(--ink);color:var(--bg);font-size:.88rem}
-.draft .wrap{display:flex;gap:12px;align-items:center;justify-content:space-between;padding-block:9px;flex-wrap:wrap}
-.draft b{color:var(--signal)}
-.draft button{background:none;border:1px solid currentColor;color:inherit;font:inherit;padding:3px 10px;border-radius:var(--r);cursor:pointer}
 
 /* header */
 header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
@@ -159,22 +155,6 @@ header .btn{padding:9px 16px;font-size:1rem}
 .stat b{display:block;font-family:var(--f-display);font-size:3rem;font-weight:800;line-height:1;color:var(--water);font-variant-numeric:tabular-nums}
 .stat span{color:var(--muted);font-size:.92rem}
 @media (max-width:820px){.about .wrap{grid-template-columns:1fr}}
-
-/* reviews */
-.reviews{background:var(--ink);color:var(--bg)}
-.reviews .eyebrow{color:var(--signal)}
-.reviews .lede{color:color-mix(in srgb,var(--bg) 70%,var(--ink))}
-.carousel{position:relative;display:grid;gap:22px}
-.quote{font-family:var(--f-display);font-size:clamp(1.7rem,3.6vw,2.6rem);font-weight:600;line-height:1.15;max-width:30ch;text-wrap:balance;min-height:3.5em}
-.quote-who{font-family:var(--f-mono);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--signal)}
-.stars{color:var(--signal);letter-spacing:3px;font-size:1.1rem}
-.car-ctrl{display:flex;gap:10px;align-items:center}
-.car-ctrl button{width:44px;height:44px;border-radius:50%;border:1.5px solid color-mix(in srgb,var(--bg) 40%,transparent);background:transparent;color:inherit;font-size:1.2rem;cursor:pointer}
-.car-ctrl button:hover{background:color-mix(in srgb,var(--bg) 12%,transparent)}
-.dots{display:flex;gap:6px;margin-left:8px}
-.dots i{width:22px;height:4px;border-radius:2px;background:color-mix(in srgb,var(--bg) 25%,transparent);transition:background .3s}
-.dots i.on{background:var(--signal)}
-.sample-note{font-size:.82rem;color:var(--ph)}
 
 /* area */
 .area-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(24px,4vw,48px);align-items:center}

@@ -15,7 +15,7 @@ Static site with no build step. Open `index.html` in a browser, or upload the fo
 
 ## Business details
 
-Phone, email, hours, time zone, town, service radius, owner and towns served are in `biz` in `js/config.js`. They are placeholders and show on the page in dashed orange until replaced. The reviews in `reviews` are samples.
+Phone, email, hours, time zone, home base, service radius and the towns shown on the service-area map are in `biz` in `js/config.js`. Each town has a latitude and longitude so the map plots its real direction and distance from Hoxie. There are no reviews yet; add a section once real ones come in.
 
 ## Turning on the request form
 

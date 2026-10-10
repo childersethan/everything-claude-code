@@ -19,11 +19,6 @@
 <link rel="stylesheet" href="css/site.css">
 </head>
 <body>
-<div class="draft" id="draft"><div class="wrap">
-  <span><b>Draft preview.</b> Text in <span class="ph" style="color:var(--signal);border-color:var(--signal)">dashed orange</span> is a placeholder for details from the Facebook page.</span>
-  <button type="button" id="draftClose">Hide</button>
-</div></div>
-
 <a class="skip" href="#main">Skip to content</a>
 <header class="top">
   <div class="wrap">
@@ -291,26 +286,6 @@
   </div>
 </section>
 
-<section id="reviews" class="reviews">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">Reviews</span>
-      <h2 style="color:var(--bg)">What neighbors say</h2>
-    </div>
-    <div class="carousel">
-      <div class="stars" aria-hidden="true">★★★★★</div>
-      <blockquote class="quote" id="quote" style="margin:0"></blockquote>
-      <div class="quote-who" id="quoteWho"></div>
-      <p class="sample-note">Sample reviews. Replace with real reviews from the Facebook page.</p>
-      <div class="car-ctrl">
-        <button type="button" id="prev" aria-label="Previous review">←</button>
-        <button type="button" id="next" aria-label="Next review">→</button>
-        <div class="dots" id="dots"></div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section id="area">
   <div class="wrap area-grid">
     <div class="reveal" style="display:grid;gap:16px;min-width:0">
@@ -322,7 +297,7 @@
       <div class="check"><input id="zip" placeholder="Type your town" autocomplete="address-level2"><button class="btn btn-primary" type="button" id="zipBtn">Check</button></div>
       <p class="check-out" id="zipOut" aria-live="polite"></p>
     </div>
-    <div class="radius reveal"><canvas id="radar" width="880" height="880" aria-label="Service radius map, illustrative"></canvas></div>
+    <div class="radius reveal"><canvas id="radar" width="880" height="880" aria-label="Service area map showing towns by direction and distance from Hoxie"></canvas></div>
   </div>
 </section>
 
@@ -351,7 +326,7 @@
       <div class="bignum" data-f="phone" id="bigPhone" role="button" tabindex="0" title="Copy number"></div>
       <span class="open-pill" id="openPill">Checking hours…</span>
       <dl class="hours" id="hours"></dl>
-      <p style="font-size:.95rem;color:var(--muted)">Licensed &amp; insured · Residential, agricultural &amp; commercial<br>Facebook: <a id="fbLink" href="#" target="_blank" rel="noopener">True Flow Pump &amp; Well</a></p>
+      <p style="font-size:.95rem;color:var(--muted)">Licensed &amp; insured · Residential, agricultural &amp; commercial<br>Email: <a id="mailLink" href="#" data-f="email"></a><br>Facebook: <a id="fbLink" href="#" target="_blank" rel="noopener">True Flow Pump &amp; Well</a></p>
     </div>
     <form class="req reveal" id="reqForm" novalidate>
       <h3 style="font-size:1.8rem">Request service</h3>

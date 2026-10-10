@@ -4,13 +4,25 @@ window.SITE = Object.freeze({
   biz: Object.freeze({
     phone: "(505) 793-5386",
     phoneTel: "+15057935386",
-    email: "",                         // add one to show it in search results
+    email: "trueflow2026@gmail.com",
     city: "Hoxie, Kansas",
     areaShort: "Hoxie & surrounding farms",
-    radius: 50,                        // PLACEHOLDER (miles)
-    owner: "[owner name]",             // PLACEHOLDER
-    towns: ["Hoxie", "Town B", "Town C", "Town D", "Town E", "Town F"],
-    knownTowns: ["Hoxie"],             // towns confirmed from Facebook; the rest are placeholders
+    radius: 100,                       // service radius in miles
+    // Home base and towns inside the radius, with coordinates for the service-area map
+    base: { name: "Hoxie", lat: 39.357, lon: -100.441 },
+    towns: [
+      { name: "Hoxie", lat: 39.357, lon: -100.441 },
+      { name: "Selden", lat: 39.541, lon: -100.567 },
+      { name: "Oakley", lat: 39.133, lon: -100.864 },
+      { name: "Colby", lat: 39.396, lon: -101.052 },
+      { name: "Hill City", lat: 39.365, lon: -99.842 },
+      { name: "Oberlin", lat: 39.818, lon: -100.528 },
+      { name: "WaKeeney", lat: 39.025, lon: -99.880 },
+      { name: "Norton", lat: 39.834, lon: -99.891 },
+      { name: "Atwood", lat: 39.807, lon: -101.042 },
+      { name: "Goodland", lat: 39.351, lon: -101.710 },
+      { name: "Hays", lat: 38.879, lon: -99.327 }
+    ],
     // 0=Sun … 6=Sat, [open, close] in 24h, null = closed. True Flow advertises 24-hour service.
     hours: { 0: [0, 24], 1: [0, 24], 2: [0, 24], 3: [0, 24], 4: [0, 24], 5: [0, 24], 6: [0, 24] },
     emergency: true,
@@ -29,8 +41,7 @@ window.SITE = Object.freeze({
       { src: "images/stock-tank-float-switch.jpg", cap: "Float switch mounted on a stock tank" },
       { src: "images/frost-free-hydrant-dig.jpg", cap: "Digging out a frost-free hydrant" },
       { src: "images/hydrant-line-trench.jpg", cap: "Trenching to a fire hydrant line" }
-    ],
-    placeholders: ["owner", "radius"]
+    ]
   }),
 
   strip: ["24/hr service, day or night", "Water well installations", "Pump installation & repair", "Windmill service",
@@ -91,13 +102,6 @@ window.SITE = Object.freeze({
     { icon: "trough", tag: "Livestock", title: "Cattle tank installs", text: "Durable cattle tank installs and float controls for water you can count on." },
     { icon: "tank", tag: "Pressure", title: "Pressure tank service", text: "Install, repair and maintain tanks for consistent pressure." },
     { icon: "box", tag: "Lines", title: "Trenching, water lines & leak repair", text: "Trenching and water line installs, plus fast leak detection and repair to stop damage." }
-  ],
-
-  // SAMPLE reviews. Replace with real reviews from the Facebook page.
-  reviews: [
-    { quote: "Water quit on a Sunday night. They were out first thing Monday and had us running by lunch.", who: "Sample review · Homeowner" },
-    { quote: "Explained exactly what was wrong with our pressure tank and didn't try to sell us a pump we didn't need.", who: "Sample review · Rural property" },
-    { quote: "Fair price, showed up when they said, cleaned up after. That's all you can ask for.", who: "Sample review · Ranch owner" }
   ],
 
   gallerySlots: ["Pump pull and replacement", "Pressure tank swap", "Well house rebuild"]

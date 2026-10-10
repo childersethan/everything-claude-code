@@ -83,10 +83,23 @@ test("service area checker answers for listed and unlisted towns", async () => {
   const { page } = await open();
   await page.fill("#zip", "hoxie");
   await page.press("#zip", "Enter");
-  assert.match(await page.textContent("#zipOut"), /Yes, we're in Hoxie/);
+  assert.match(await page.textContent("#zipOut"), /Hoxie is home base/);
+  await page.fill("#zip", "colby");
+  await page.press("#zip", "Enter");
+  assert.match(await page.textContent("#zipOut"), /Colby is about 3\d miles from Hoxie/);
   await page.fill("#zip", "Elsewhere");
   await page.click("#zipBtn");
-  assert.match(await page.textContent("#zipOut"), /isn't on our usual list/);
+  assert.match(await page.textContent("#zipOut"), /isn't on this list/);
+  await page.close();
+});
+
+test("contact shows the email and there are no sample reviews or draft banner", async () => {
+  const { page } = await open();
+  assert.equal(await page.getAttribute("#mailLink", "href"), "mailto:trueflow2026@gmail.com");
+  assert.equal(await page.textContent("#mailLink"), "trueflow2026@gmail.com");
+  assert.equal(await page.$("#reviews"), null);
+  assert.equal(await page.$("#draft"), null);
+  assert.match(await page.textContent("[data-f=radius]"), /^100$/);
   await page.close();
 });
 

@@ -89,6 +89,26 @@ test("isOpenNow is always true for 24-hour days", () => {
   assert.equal(S.isOpenNow(all, new Date("2026-10-12T08:30:00Z"), "America/Chicago"), true); // 3:30am Central
 });
 
+test("milesBetween matches known distances", () => {
+  const hoxie = { lat: 39.357, lon: -100.441 }, colby = { lat: 39.396, lon: -101.052 }, hays = { lat: 38.879, lon: -99.327 };
+  assert.ok(Math.abs(S.milesBetween(hoxie, colby) - 32.6) < 1.5);
+  assert.ok(Math.abs(S.milesBetween(hoxie, hays) - 68) < 3);
+  assert.equal(S.milesBetween(hoxie, hoxie), 0);
+});
+
+test("bearing points the right way", () => {
+  const o = { lat: 39, lon: -100 };
+  assert.ok(Math.abs(S.bearing(o, { lat: 40, lon: -100 }) - 0) < 0.5);
+  assert.ok(Math.abs(S.bearing(o, { lat: 39, lon: -99 }) - 90) < 1);
+  assert.ok(Math.abs(S.bearing(o, { lat: 38, lon: -100 }) - 180) < 0.5);
+});
+
+test("findTown ignores case and spacing", () => {
+  const towns = [{ name: "Hill City" }, { name: "Hoxie" }];
+  assert.equal(S.findTown(towns, "  hill   city ").name, "Hill City");
+  assert.equal(S.findTown(towns, "Denver"), null);
+});
+
 test("isValidPhone accepts 10 digits or 1 + 10 digits", () => {
   assert.equal(S.isValidPhone("(806) 555-0101"), true);
   assert.equal(S.isValidPhone("1-806-555-0101"), true);
