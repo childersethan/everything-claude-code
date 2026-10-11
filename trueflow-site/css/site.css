@@ -41,7 +41,7 @@ body{--contour:color-mix(in srgb,var(--water) 9%,transparent);background:
   repeating-radial-gradient(ellipse 120% 90% at 5% 90%,transparent 0 58px,var(--contour) 58px 59.5px),
   var(--bg);background-attachment:fixed}
 @media (max-width:860px){body{background-attachment:scroll}}
-body{color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body{background-color:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
 a{color:var(--water)}
 h1,h2,h3{font-family:var(--f-display);line-height:1.02;letter-spacing:.005em;text-wrap:balance;margin:0}
 h2{font-size:clamp(2.2rem,5vw,3.4rem);font-weight:700;text-transform:uppercase}
@@ -366,7 +366,10 @@ header.top{view-transition-name:site-header}
 .lab-scene .pw{display:none}
 .lab[data-power="windmill"] .pw-windmill,.lab[data-power="solar"] .pw-solar,.lab[data-power="electric"] .pw-electric{display:inline}
 .lab:not([data-power="solar"]) .sun{opacity:.35}
-.lab-scene #casing,.lab-scene #pump,.lab-scene #riser,.lab-scene #depthTag{transition:height .35s,y .35s,y2 .35s}
+.lab-scene #casing,.lab-scene #pump,.lab-scene #depthTag{transition:height .35s,y .35s}
+/* a dark outline keeps the small white labels readable on any layer */
+.lab-labels text,text.lab-labels{paint-order:stroke;stroke:var(--ink);stroke-width:3px;stroke-linejoin:round}
+.lab-labels text:first-child{stroke:none}
 .lab-scene #tankWater{transition:height .5s,y .5s}
 .cow{opacity:0;transform:translateY(4px);transition:opacity .3s,transform .3s}
 .cow.on{opacity:1;transform:none}

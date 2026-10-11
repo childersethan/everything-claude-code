@@ -76,7 +76,7 @@
           <rect x="0" y="108" width="400" height="26" fill="var(--soil-1)"/>
           <rect x="0" y="134" width="400" height="32" fill="var(--rock)"/>
           <rect x="0" y="166" width="400" height="194" fill="var(--aquifer)"/>
-          <g font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="1">
+          <g font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="1" class="lab-labels">
             <text x="10" y="125" fill="var(--ink)" fill-opacity=".7">TOPSOIL</text>
             <text x="10" y="154" fill="#fff" fill-opacity=".85">CALICHE / ROCK</text>
             <text x="10" y="182" fill="#fff" fill-opacity=".9">OGALLALA AQUIFER</text>
@@ -126,7 +126,7 @@
           <line id="riser" x1="200" y1="100" x2="200" y2="198" stroke="var(--ink)" stroke-width="2.5"/>
           <line class="flowline" x1="200" y1="198" x2="200" y2="100" stroke="var(--water)" stroke-width="2" stroke-dasharray="3 7"/>
           <rect id="pump" x="194" y="198" width="12" height="22" rx="3" fill="var(--brand)"/>
-          <text id="depthTag" x="214" y="224" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#fff">220 FT</text>
+          <text id="depthTag" class="lab-labels" x="214" y="224" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#fff">220 FT</text>
         </svg>
       </figure>
 
@@ -156,12 +156,12 @@
         </div>
       </div>
 
-      <div class="lab-out" aria-live="polite">
+      <div class="lab-out">
         <div class="lab-nums">
           <div><span class="eyebrow">Well pumps</span><b id="supplyOut">0</b><small>gal / day</small></div>
           <div><span class="eyebrow">Herd drinks</span><b id="needOut">0</b><small>gal / day</small></div>
         </div>
-        <p id="verdict" class="lab-verdict"></p>
+        <p id="verdict" class="lab-verdict" aria-live="polite" aria-atomic="true"></p>
         <p id="labTip" class="fineprint"></p>
         <a class="btn btn-primary" id="labBook" href="contact.html">Talk through my setup</a>
         <p class="fineprint">Rough rules of thumb for a typical setup. Every well is different, so we test yours before sizing anything.</p>

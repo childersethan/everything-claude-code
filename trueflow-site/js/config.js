@@ -47,7 +47,6 @@ window.SITE = Object.freeze({
     ]
   }),
 
-
   // need: which "What do you need?" option the "Book this fix" button selects
   symptoms: [
     { icon: "drop", title: "No water at all", sub: "Faucets dry, nothing from the tank", urg: "high", when: "Same-day", need: "c1",
