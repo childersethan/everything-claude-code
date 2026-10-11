@@ -44,8 +44,7 @@
 
   let psi = 52, on = true, shown = { psi: 0, gpm: 0, depth: 0 }, run = 0, sinceText = 1;
 
-  function frame(dt, t) {
-    const still = dt >= 1; // reduced motion: hold a calm mid-cycle picture
+  function frame(dt, t, still) { // still: reduced motion, hold a calm mid-cycle picture
     if (!still) {
       psi += (on ? RISE_PSI_S : -FALL_PSI_S) * dt;
       if (psi >= CUT_OUT) on = false;

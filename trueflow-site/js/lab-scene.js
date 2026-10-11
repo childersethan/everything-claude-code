@@ -69,7 +69,7 @@
       // eased values: depth glides, the wheel has inertia, the tank fills and drains gradually
       cur.depthY = approach(cur.depthY, depthY(T.depth), dt, 6);
       cur.spin = approach(cur.spin, windmill ? T.windFactor * 300 + (T.wind > 3 ? 20 : 0) : 0, dt, 0.9);
-      cur.angle = (cur.angle + cur.spin * dt) % 360000;
+      cur.angle = (cur.angle + cur.spin * dt) % 1080; // 1080 = one full pump stroke cycle (3 turns)
       cur.wind = approach(cur.wind, T.wind, dt, 2);
       const stroke = windmill ? Math.max(0, Math.sin(rad(cur.angle) / 3)) : 1; // a windmill lifts water on each upstroke
       cur.flow = approach(cur.flow, T.gpm > 0 ? 1 : 0, dt, 2.5);
@@ -86,7 +86,8 @@
       const hum = cur.flow > 0.1 && !windmill ? Math.sin(t * 70) * 0.35 * cur.flow : 0;
       el.pumpG.setAttribute("transform", `translate(${hum.toFixed(2)} ${(pumpTop - 200).toFixed(1)})`);
       el.depthTag.setAttribute("y", (bottom + 4).toFixed(1));
-      el.depthTag.textContent = `${T.depth} FT`;
+      const tag = `${T.depth} FT`;
+      if (el.depthTag.textContent !== tag) el.depthTag.textContent = tag;
       const pts = [[WELL_X, pumpTop], [WELL_X, 92], [248, 92], [248, 66], [280, 66], SPOUT];
       el.pipe.setAttribute("d", "M" + pts.map((p) => p.join(" ")).join("L"));
       const d = cur.dip, l = WELL_X - 70, r = WELL_X + 70, w = AQUIFER;

@@ -17,12 +17,13 @@
 
   /**
    * Runs frame(dt, t) on every animation frame while `el` is on screen and the tab is visible.
-   * With reduced motion it draws one settled frame per invalidate() instead of animating.
+   * With reduced motion it draws one settled frame, frame(10, t, true), per change instead of animating.
    * Returns { invalidate } to redraw after the inputs change.
    */
   function loop(el, frame) {
     let raf = 0, last = 0, t = 0, inView = true;
-    const still = reduce();
+    const query = root.matchMedia ? root.matchMedia("(prefers-reduced-motion: reduce)") : null;
+    let still = !!(query && query.matches);
     const tick = (now) => {
       const dt = Math.min(0.05, (now - (last || now)) / 1000);
       last = now; t += dt;
@@ -37,10 +38,12 @@
       new IntersectionObserver(([en]) => { inView = en.isIntersecting; run(); }).observe(el);
     }
     document.addEventListener("visibilitychange", run);
-    const settle = () => frame(10, t); // a big dt lets every eased value land on its target
+    const settle = () => frame(10, t, true); // a big dt lets every eased value land on its target
+    if (query && query.addEventListener) query.addEventListener("change", (e) => { still = e.matches; settle(); run(); });
     settle();
     run();
-    return { invalidate: () => { if (still || !raf) settle(); } };
+    // while animating, the next frame picks up new targets on its own
+    return { invalidate: () => { if (still) settle(); } };
   }
 
   root.Motion = { svg, approach, loop, reduce };
