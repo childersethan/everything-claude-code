@@ -211,6 +211,114 @@
 
     <!-- Pivot sprinklers sim: js/lab-pivot.js, js/lab-pivot-scene.js, css/lab-pivot.css -->
     <div class="lab" id="labPivot" data-mode-panel="pivot" data-lede="Pick a crop, size the pivot and set how much water it puts down. Watch the field grow green, or burn up." hidden>
+      <figure class="lab-scene">
+        <svg viewBox="0 0 400 360" role="img" aria-labelledby="pvSceneTitle" id="pvSvg">
+          <title id="pvSceneTitle">A center pivot sprinkler sweeping around a circle of crops, with a cut-away of the root zone showing how much water is in the soil and the well below.</title>
+          <defs>
+            <linearGradient id="pvSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="sky-top"/><stop offset="1" class="sky-low"/></linearGradient>
+            <linearGradient id="pvAq" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="aq-top"/><stop offset="1" class="aq-low"/></linearGradient>
+            <linearGradient id="pvDust" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="pv-dust-a"/><stop offset="1" class="pv-dust-b"/></linearGradient>
+            <linearGradient id="pvSteel" x1="0" y1="0" x2="1" y2="0"><stop offset="0" class="steel-a"/><stop offset=".45" class="steel-b"/><stop offset="1" class="steel-a"/></linearGradient>
+            <clipPath id="pvFieldClip"><ellipse cx="200" cy="149" rx="190" ry="47"/></clipPath>
+            <clipPath id="pvRootClip"><rect x="0" y="200" width="400" height="88"/></clipPath>
+            <g id="pvPlant"></g>
+          </defs>
+
+          <!-- sky, sun, clouds, the farmstead on the horizon -->
+          <rect x="0" y="0" width="400" height="108" fill="url(#pvSky)"/>
+          <rect id="pvHeat" class="sky-heat" x="0" y="0" width="400" height="108" opacity="0"/>
+          <g id="pvSun" class="pv-sun"></g>
+          <g id="pvClouds" class="cloud"></g>
+          <rect id="pvShade" class="sky-shade" x="0" y="0" width="400" height="200" opacity="0"/>
+          <path id="pvBolt" class="bolt" d="M300 8 290 38h9l-6 26 18-34h-10l7-22Z" opacity="0"/>
+          <path class="hill" d="M0 92Q60 82 120 90T240 86T340 84T400 90V102H0Z"/>
+          <g id="pvFarm" class="pv-farm" transform="translate(0 -5)"></g>
+
+          <!-- the field: dry corners, the watered circle, wheel tracks and the crop -->
+          <rect class="pv-corner" x="0" y="98" width="400" height="102"/>
+          <ellipse id="pvSoil" cx="200" cy="149" rx="190" ry="47"/>
+          <g clip-path="url(#pvFieldClip)"><path id="pvWetPass" class="pv-wet" d="M200 150Z"/><path id="pvCracks" class="pv-cracks" d="M0 0" opacity="0"/><g id="pvRuts" class="pv-ruts"></g></g>
+          <g id="pvBack"></g>
+          <g id="pvRig"></g>
+          <g id="pvFront"></g>
+          <g id="pvParty"></g>
+
+          <!-- cut-away: the root zone, caliche and the aquifer, with the well that feeds the pivot -->
+          <rect class="pv-root" x="0" y="200" width="400" height="88"/>
+          <g clip-path="url(#pvRootClip)"><path id="pvWet" class="pv-soak" d="M0 288H400Z"/><g id="pvPores" class="pv-pores"></g></g>
+          <path id="pvRoots" class="pv-roots" d="M0 0"/>
+          <path class="pv-lip" d="M0 200H400"/>
+          <rect x="0" y="288" width="400" height="26" fill="var(--rock)"/>
+          <rect x="0" y="314" width="400" height="46" fill="url(#pvAq)"/>
+          <rect x="194" y="200" width="12" height="148" fill="url(#pvSteel)" stroke="var(--ink)" stroke-width="1.6"/>
+          <rect x="195.5" y="314" width="9" height="34" fill="var(--water)" fill-opacity=".55"/>
+          <rect x="196" y="326" width="8" height="16" rx="2.5" fill="var(--brand)" stroke="var(--ink)" stroke-width=".8"/>
+          <path id="pvLift" class="pv-lift" d="M200 326V202"/>
+          <g font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="1" class="lab-labels">
+            <text x="10" y="214" fill="var(--ink)" fill-opacity=".75">ROOT ZONE</text>
+            <text id="pvMoist" x="10" y="226" fill="#fff" font-weight="700">SOIL WATER 80%</text>
+            <text x="10" y="304" fill="#fff" fill-opacity=".85">CALICHE / ROCK</text>
+            <text x="10" y="330" fill="#fff" fill-opacity=".9">OGALLALA AQUIFER</text>
+            <text id="pvGpmTag" x="212" y="340" fill="#fff" font-weight="700" font-size="10">800 GPM</text>
+          </g>
+
+          <!-- weather and endings over everything -->
+          <g id="pvWind" class="pv-windlines" opacity="0"></g>
+          <g id="pvRain" class="rain" opacity="0"></g>
+          <rect id="pvDustSky" x="0" y="0" width="400" height="200" fill="url(#pvDust)" opacity="0"/>
+          <g id="pvDoom"></g>
+        </svg>
+        <div class="sim-board" id="pvBoard" hidden>
+          <div class="sim-head"><b id="pvDay">Day 1</b><span id="pvNote"></span></div>
+          <ol class="sim-days" id="pvDays" aria-hidden="true"></ol>
+          <div class="sim-result" id="pvResult" aria-live="polite" aria-atomic="true"></div>
+        </div>
+      </figure>
+
+      <div class="lab-controls">
+        <div class="lab-power pv-crops" role="group" aria-label="Which crop is under the pivot">
+          <button type="button" id="pv-corn" aria-pressed="true"><span data-icon="corn"></span>Corn</button>
+          <button type="button" id="pv-soybeans" aria-pressed="false"><span data-icon="soybeans"></span>Soybeans</button>
+          <button type="button" id="pv-wheat" aria-pressed="false"><span data-icon="wheat"></span>Wheat</button>
+          <button type="button" id="pv-alfalfa" aria-pressed="false"><span data-icon="alfalfa"></span>Alfalfa</button>
+          <button type="button" id="pv-sorghum" aria-pressed="false"><span data-icon="sorghum"></span>Sorghum</button>
+        </div>
+        <label for="pvAcres"><span class="lab-row">Pivot size <output id="pvAcresVal" for="pvAcres">125 acres</output></span>
+          <input type="range" id="pvAcres" min="60" max="160" step="5" value="125"></label>
+        <label for="pvGpm"><span class="lab-row">Pivot capacity <output id="pvGpmVal" for="pvGpm">800 gpm</output></span>
+          <input type="range" id="pvGpm" min="200" max="1200" step="25" value="800"></label>
+        <div class="lab-pair">
+          <label for="pvWeather">Weather
+            <select id="pvWeather">
+              <option value="cool">Cool</option>
+              <option value="mild" selected>Mild</option>
+              <option value="hot">Summer heat</option>
+            </select>
+          </label>
+          <label for="pvSoil">Soil
+            <select id="pvSoil">
+              <option value="sandy">Sandy</option>
+              <option value="loam" selected>Loam</option>
+              <option value="silt">Silt loam</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div class="lab-out">
+        <div class="lab-nums">
+          <div><span class="eyebrow">Pivot puts down</span><b id="pvPutOut">0</b><small>inches / day</small></div>
+          <div><span class="eyebrow">Crop uses</span><b id="pvUseOut">0</b><small>inches / day</small></div>
+        </div>
+        <p id="pvVerdict" class="lab-verdict" aria-live="polite" aria-atomic="true"></p>
+        <p id="pvTip" class="fineprint"></p>
+        <div class="lab-sim">
+          <button type="button" class="btn btn-primary" id="pvRun"><span data-icon="play"></span><span id="pvLabel">Run a 30-day sim</span></button>
+          <p class="fineprint">Plays out a month in the field: heat waves, hot windy days, thunderstorms and the odd day the pivot gets stuck.</p>
+        </div>
+        <a class="btn btn-ghost" id="pvBook" href="contact.html?need=c4">Talk through my setup</a>
+        <p class="fineprint">Rough rules of thumb: about 85% of what the pivot pumps reaches the roots. Every field and well is different, so we test yours before sizing anything.</p>
+      </div>
     </div>
 
     <!-- Irrigation well sim: js/lab-irrigation.js, js/lab-irrigation-scene.js, css/lab-irrigation.css -->

@@ -1,1 +1,76 @@
-/* pivot sim styles for the Water Lab: placeholder until it is built. */
+/* Water Lab, pivot sprinklers: crop buttons and the field diagram. Colors lean on the site.css tokens so dark mode follows. */
+#labPivot .pv-crops{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+#labPivot .pv-crops button{font-size:.82rem;padding:9px 2px;letter-spacing:.02em}
+#labPivot .pv-crops svg{width:28px;height:28px}
+@media (max-width:480px){#labPivot .pv-crops{grid-template-columns:repeat(3,minmax(0,1fr))}#labPivot .pv-crops button{font-size:.9rem}}
+#labPivot .lab-pair select{font-size:.95rem;padding-inline:10px}
+
+/* sky and horizon */
+#labPivot .pv-sun circle{fill:var(--signal)}
+#labPivot .pv-sun line{stroke:var(--signal);stroke-width:2;stroke-linecap:round}
+#labPivot .pv-sun.hot circle{fill:#f08a24}
+#labPivot .pv-sun.hot line{stroke:#f08a24}
+#labPivot .pv-shades path{fill:#14181c}
+#labPivot .pv-shades .pv-shades-bar{fill:none;stroke:#14181c;stroke-width:1.2}
+#labPivot .pv-shades .pv-smile{fill:none;stroke:#14181c;stroke-width:1.3;stroke-linecap:round}
+#labPivot .pv-stormcloud path{fill:#5d6873}
+#labPivot .pv-bin{fill:color-mix(in srgb,var(--rock) 45%,var(--surface));stroke:var(--ink);stroke-width:.8;stroke-opacity:.6}
+#labPivot .pv-bin-line{fill:none;stroke:var(--ink);stroke-width:.5;stroke-opacity:.45}
+#labPivot .pv-barn{fill:color-mix(in srgb,var(--brand) 70%,var(--surface));stroke:var(--ink);stroke-width:.8;stroke-opacity:.6}
+#labPivot .pv-tree{fill:color-mix(in srgb,#4f7d3a 75%,var(--water-soft))}
+
+/* the field */
+#labPivot .pv-corner{fill:color-mix(in srgb,var(--soil-1) 62%,#a4a85e)}
+#labPivot .pv-wet{fill:#2b1b10}
+#labPivot .pv-cracks{fill:none;stroke:#4b3420;stroke-width:.9;stroke-linecap:round;stroke-linejoin:round}
+#labPivot .pv-ruts ellipse{fill:none;stroke:#3a2716;stroke-opacity:.28;stroke-width:1.4}
+#labPivot .pv-st{fill:none;stroke:var(--pv-stem,#3c7a31);stroke-width:1.3;stroke-linecap:round}
+#labPivot .pv-lf{fill:var(--pv-leaf,#3f9441)}
+#labPivot .pv-hd{fill:var(--pv-head,#c9d36a)}
+#labPivot .pv-hs{fill:none;stroke:var(--pv-head,#c9d36a);stroke-width:1.1;stroke-linecap:round}
+#labPivot use.weak{--pv-leaf:var(--pv-leaf-weak)}
+
+/* the pivot */
+#labPivot .pv-pipe{fill:none;stroke:color-mix(in srgb,var(--rock) 25%,#fff);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+#labPivot .pv-pipe-edge{fill:none;stroke:var(--ink);stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+#labPivot .pv-pipe-fill{fill:color-mix(in srgb,var(--rock) 35%,var(--surface));stroke:var(--ink);stroke-width:.8}
+#labPivot .pv-truss{fill:none;stroke:var(--ink);stroke-width:.8;stroke-opacity:.8}
+#labPivot .pv-leg{fill:none;stroke:var(--ink);stroke-width:1.3;stroke-linecap:round}
+#labPivot .pv-hose{fill:none;stroke:var(--ink);stroke-width:.6;stroke-opacity:.7}
+#labPivot .pv-cone{fill:#d9f1ff}
+#labPivot .pv-drop{fill:#e8f6ff}
+#labPivot .pv-gun{fill:none;stroke:#e3f5ff;stroke-width:1.8;stroke-linecap:round;stroke-dasharray:3 4}
+#labPivot .pv-tire{fill:#20262b;stroke:#000;stroke-width:.4}
+#labPivot .pv-pad{fill:color-mix(in srgb,var(--rock) 40%,var(--surface))}
+#labPivot .pv-panel{fill:var(--surface);stroke:var(--ink);stroke-width:.8}
+#labPivot .pv-led{fill:#3fae5a}
+#labPivot .pv-alert path:first-child{fill:var(--signal);stroke:var(--ink);stroke-width:1;stroke-linejoin:round}
+#labPivot .pv-alert-mark{fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round}
+
+/* the cut-away */
+#labPivot .pv-root{fill:var(--soil-1)}
+#labPivot .pv-soak{fill:color-mix(in srgb,var(--soil-2) 55%,#2f2216)}
+#labPivot .pv-pores circle{fill:var(--water)}
+#labPivot .pv-roots{fill:none;stroke-width:1.1;stroke-linecap:round;stroke-opacity:.85}
+#labPivot .pv-lip{stroke:var(--ink);stroke-opacity:.35;stroke-width:1}
+#labPivot .pv-lift{fill:none;stroke:var(--water);stroke-width:3;stroke-dasharray:4 7;stroke-linecap:round}
+
+/* weather and endings */
+#labPivot .pv-windlines path{fill:none;stroke:#fff;stroke-opacity:.8;stroke-width:1.2;stroke-linecap:round}
+#labPivot .pv-dust-a{stop-color:#c79a5b;stop-opacity:.9}
+#labPivot .pv-dust-b{stop-color:#8a6236;stop-opacity:.7}
+#labPivot .pv-dust{fill:#b98b52;fill-opacity:.65}
+#labPivot .pv-weed{fill:none;stroke:#7a5a30;stroke-width:1.3;stroke-linecap:round}
+#labPivot .pv-weed-fill{fill:#a9844e;fill-opacity:.45}
+#labPivot .pv-hopper{fill:#6f7d2b;stroke:#33380f;stroke-width:.6;stroke-linejoin:round}
+#labPivot .pv-combine{fill:#3f8a3a;stroke:var(--ink);stroke-width:.9;stroke-linejoin:round}
+#labPivot .pv-cab{fill:#cfeaf7;stroke:var(--ink);stroke-width:.9}
+#labPivot .pv-header{fill:var(--signal);stroke:var(--ink);stroke-width:.9}
+#labPivot .pv-reel{fill:none;stroke:var(--ink);stroke-width:.9}
+#labPivot .pv-auger{fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round}
+#labPivot .pv-hub{fill:var(--signal)}
+
+/* the 30-day board */
+#labPivot .sim-days li.w-windy .ic{color:var(--ink)}
+#labPivot .sim-days li.w-storm .ic{color:var(--water)}
+#labPivot .sim-days li.w-broke .ic{color:var(--brand)}

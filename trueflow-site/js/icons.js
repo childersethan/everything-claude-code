@@ -29,6 +29,14 @@ window.ICONS = Object.freeze((() => {
     trough: lg('<path d="M5 18h30l-3 12H8Z"/><path d="M9 23h22"/><path d="M12 30v5M28 30v5"/>'),
     lens: lg('<circle cx="18" cy="18" r="9"/><path d="M25 25l8 8"/>'),
     down: lg('<path d="M20 4v26"/><path d="M12 22l8 8 8-8"/><path d="M8 36h24"/>'),
-    camera: '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4Z"/><circle cx="12" cy="13" r="3.5"/></svg>'
+    camera: '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4Z"/><circle cx="12" cy="13" r="3.5"/></svg>',
+    // pivot sim: crops, plus the wind and breakdown days on its board
+    corn: lg('<path d="M20 36V8"/><path d="M20 30q-9-2-12-10M20 24q9-2 12-10"/><path d="M20 8l-2-4M20 8l2-4"/><path d="M23 20q4-1 4 4t-4 5Z"/>'),
+    soybeans: lg('<path d="M20 36V18"/><path d="M20 22q-9 0-11-8 8-1 11 8ZM20 18q9 0 11-8-8-1-11 8Z"/><path d="M14 30q3-5 6-3M26 30q-3-5-6-3"/>'),
+    wheat: lg('<path d="M20 36V6"/><path d="M20 12l-4-4M20 12l4-4M20 18l-4-4M20 18l4-4M20 24l-4-4M20 24l4-4"/><path d="M13 36q2-8 7-10M27 36q-2-8-7-10"/>'),
+    alfalfa: lg('<path d="M20 36V20M20 26l-8-6M20 26l8-6"/><circle cx="20" cy="14" r="4"/><circle cx="11" cy="17" r="3.5"/><circle cx="29" cy="17" r="3.5"/>'),
+    sorghum: lg('<path d="M20 36V14"/><path d="M20 30q-9-1-12-8M20 24q9-1 12-8"/><path d="M20 15q-4-3-3-8 2-3 3-3 1 0 3 3 1 5-3 8Z"/><path d="M18 9h4M17.5 12h5"/>'),
+    wrench: sm('<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a6 6 0 0 1-7.9 7.9l-6.9 6.9a2.1 2.1 0 0 1-3-3l6.9-6.9a6 6 0 0 1 7.9-7.9Z"/>'),
+    wind: sm('<path d="M3 9h11a3 3 0 1 0-3-3M3 15h15a3 3 0 1 1-3 3M3 12h7"/>')
   };
 })());
