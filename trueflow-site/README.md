@@ -2,7 +2,7 @@
 
 Static site with no build step on the server. Open `index.html` in a browser, or deploy it on Netlify (below).
 
-The site has seven pages: Home (`index.html`), Services, Diagnose (`tools.html`), Our work, About, Service area and Contact. Every page shares one header, footer and phone tab bar from `src/layout.html`. To change a page, edit `src/pages/<page>.html` (or the layout), then run `npm run pages` to regenerate the root `*.html` files, and commit both. `npm test` fails if they are out of sync.
+The site has seven pages in the nav: Home (`index.html`), Services, Diagnose (`tools.html`), Our work, About, Service area and Contact, plus a Privacy policy (`privacy.html`) linked from the footer and the form. Update the privacy policy if the site starts collecting anything new (analytics, cookies, payments). Every page shares one header, footer and phone tab bar from `src/layout.html`. To change a page, edit `src/pages/<page>.html` (or the layout), then run `npm run pages` to regenerate the root `*.html` files, and commit both. `npm test` fails if they are out of sync.
 
 | Path | What it is |
 |---|---|
@@ -37,6 +37,9 @@ The form posts to Netlify only when the page is served over http(s) and the form
 Put photos in an `images/` folder and list them in `photos`, e.g. `{ src: "images/pump-pull.jpg", cap: "Pump replacement, 320 ft" }`. Until then the Recent work section shows empty photo slots.
 
 ## Tests
+
+GitHub Actions (`.github/workflows/trueflow-site.yml`) runs the unit and end-to-end tests on every pull request that touches the site.
+
 
 ```sh
 npm test            # unit tests (Node 18+)

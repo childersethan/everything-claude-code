@@ -8,7 +8,7 @@ const path = require("node:path");
 const ROOT = path.resolve(__dirname, "..");
 const SITE_URL = "https://trueflowpumpandwell.com/";
 
-// Order here is the order in the nav. `tab` pages also appear in the phone tab bar.
+// Order here is the order in the nav (pages with `nav: false` are left out). `tab` pages also appear in the phone tab bar.
 const PAGES = [
   { key: "home", file: "index.html", label: "Home", tab: "house",
     title: "True Flow Pump & Well | Water Wells, Pumps & Windmills · Hoxie, KS",
@@ -30,7 +30,10 @@ const PAGES = [
     description: "True Flow Pump & Well covers homes, farms and ranches within about 100 miles of Hoxie, Kansas, including Colby, Oakley, Hill City, Norton, Oberlin, Goodland, WaKeeney and Hays." },
   { key: "contact", file: "contact.html", label: "Contact", tab: "phone",
     title: "Contact & Request Service | True Flow Pump & Well",
-    description: "Call or text (505) 793-5386 any hour, email trueflow2026@gmail.com, or send a service request online." }
+    description: "Call or text (505) 793-5386 any hour, email trueflow2026@gmail.com, or send a service request online." },
+  { key: "privacy", file: "privacy.html", label: "Privacy", nav: false,
+    title: "Privacy Policy | True Flow Pump & Well",
+    description: "What information the True Flow Pump & Well website collects, why, who handles it, and how to ask us to see, correct or delete it." }
 ];
 
 // Small line icons for the phone tab bar (static markup).
@@ -46,8 +49,9 @@ const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&l
 const current = (p, page) => (p.key === page.key ? ' aria-current="page"' : "");
 
 function render(page, layout, body) {
-  const nav = PAGES.map((p) => `      <a href="${p.file}"${current(p, page)}>${p.label}</a>`).join("\n");
-  const drawer = PAGES.map((p) => `    <a href="${p.file}"${current(p, page)}>${p.label}</a>`).join("\n");
+  const inNav = PAGES.filter((p) => p.nav !== false);
+  const nav = inNav.map((p) => `      <a href="${p.file}"${current(p, page)}>${p.label}</a>`).join("\n");
+  const drawer = inNav.map((p) => `    <a href="${p.file}"${current(p, page)}>${p.label}</a>`).join("\n");
   const tabbar = PAGES.filter((p) => p.tab).map((p) =>
     `  <a href="${p.file}"${current(p, page)}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${TAB_ICONS[p.tab]}</svg><span>${p.label}</span></a>`).join("\n");
   const vars = {

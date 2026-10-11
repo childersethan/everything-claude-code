@@ -30,7 +30,8 @@ window.SITE = Object.freeze({
     website: "https://trueflowpumpandwell.com/",
     facebook: "https://www.facebook.com/profile.php?id=61574248502595",
     // Form delivery: "" sends to Netlify Forms when the site is hosted on Netlify.
-    // Paste an https endpoint (e.g. a Formspree form URL) here to use another provider instead.
+    // Paste an https endpoint (e.g. a Formspree form URL) here to use another provider instead,
+    // and update "Who handles it" in src/pages/privacy.html to name that provider.
     formEndpoint: "",
     // Job photos: put files in images/ and list them, e.g. { src: "images/pump-pull.jpg", cap: "Pump replacement, 320 ft" }
     photos: [
