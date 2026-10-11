@@ -278,9 +278,63 @@ test("Water Lab sim plays out a month and says how the herd did", async () => {
   await page.click("#simRun");
   await page.waitForSelector("#simResult b");
   assert.match(await page.textContent("#simResult"), /You lost chickens/);
-  await page.check("#labHouse");
+  await page.check("#labHouseToo");
   await page.fill("#labHerd", "0"); // no animals: nothing to simulate, even with the house drawing water
   assert.equal(await page.isDisabled("#simRun"), true);
+  assert.deepEqual(errors, []);
+  await page.close();
+});
+
+async function openSim(hash) {
+  const page = await browser.newPage({ viewport: { width: 390, height: 900 }, reducedMotion: "reduce" });
+  const errors = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  await page.route(/fonts\.(googleapis|gstatic)\.com|cloudflareinsights\.com/, (r) => r.abort());
+  await page.goto(BASE + "lab.html" + hash);
+  return { page, errors };
+}
+
+test("Water Lab picker switches between the four sims and remembers the choice in the URL", async () => {
+  const { page, errors } = await openSim("");
+  assert.equal(await page.isVisible("#lab"), true);
+  for (const [mode, panel] of [["pivot", "#labPivot"], ["irrigation", "#labIrrigation"], ["house", "#labHouse"]]) {
+    await page.click("#mode-" + mode);
+    assert.equal(await page.isVisible(panel), true, mode);
+    assert.equal(await page.isVisible("#lab"), false, mode);
+    assert.equal(await page.getAttribute("#mode-" + mode, "aria-pressed"), "true");
+    assert.equal(await page.evaluate(() => location.hash), "#" + mode);
+  }
+  await page.click("#mode-livestock");
+  assert.equal(await page.isVisible("#lab"), true);
+  assert.deepEqual(errors, []);
+  await page.close();
+});
+
+test("Pivot sim: more water per acre helps, and a run ends with a verdict", async () => {
+  const { page, errors } = await openSim("#pivot");
+  const num = async (sel) => Number(await page.textContent(sel));
+  const base = await num("#pvPutOut");
+  await page.fill("#pvGpm", "1200");
+  assert.ok(await num("#pvPutOut") > base, "a bigger pivot puts down more");
+  await page.fill("#pvAcres", "160");
+  await page.fill("#pvGpm", "200");
+  await page.selectOption("#pvWeather", "hot");
+  await page.selectOption("#pvSoil", "sandy");
+  await page.click("#pvRun");
+  await page.waitForSelector("#pvResult b");
+  assert.ok((await page.textContent("#pvResult b")).length > 0);
+  assert.deepEqual(errors, []);
+  await page.close();
+});
+
+test("Irrigation sim: a thin aquifer pumps down and burns up the pump", async () => {
+  const { page, errors } = await openSim("#irrigation");
+  await page.fill("#iwSat", "40");
+  await page.click("#iwRun");
+  await page.waitForSelector("#iwResult b");
+  assert.match(await page.textContent("#iwResult b"), /toast/i);
+  await page.fill("#iwSat", "200"); // changing a setting clears the old run
+  assert.equal(await page.isVisible("#iwBoard"), false);
   assert.deepEqual(errors, []);
   await page.close();
 });

@@ -175,7 +175,7 @@
   function create(svgEl) {
     if (!svgEl) return { set() {} };
     const $ = (id) => svgEl.querySelector("#" + id);
-    const el = Object.fromEntries(["pvPlant", "pvSun", "pvClouds", "pvShade", "pvHeat", "pvBolt", "pvFarm", "pvSoil", "pvWetPass", "pvCracks",
+    const el = Object.fromEntries(["pvPlant", "pvSun", "pvClouds", "pvShade", "pvHeat", "pvBolt", "pvFarm", "pvGround", "pvWetPass", "pvCracks",
       "pvRuts", "pvBack", "pvRig", "pvFront", "pvParty", "pvWet", "pvPores", "pvRoots", "pvLift", "pvMoist", "pvGpmTag", "pvWind",
       "pvRain", "pvDustSky", "pvDoom"].map((id) => [id, $(id)]));
 
@@ -357,7 +357,7 @@
 
     function drawGround(t, still) {
       const m = cur.moisture;
-      el.pvSoil.style.fill = `color-mix(in srgb, #4a3220 ${Math.round(18 + m * 50)}%, var(--soil-1))`;
+      el.pvGround.style.fill = `color-mix(in srgb, #4a3220 ${Math.round(18 + m * 50)}%, var(--soil-1))`;
       el.pvCracks.setAttribute("opacity", f1(Math.max(clamp01((0.32 - m) / 0.28), cur.doom)));
       // the wet soil in the cut-away rises and falls with what's in the root zone
       const top = ROOT_FLOOR - (ROOT_FLOOR - FRONT - 4) * m;

@@ -18,3 +18,11 @@ test("each page has its own title and canonical URL", () => {
   assert.match(out["services.html"], /<link rel="canonical" href="https:\/\/trueflowpumpandwell.com\/services.html">/);
   assert.match(out["index.html"], /<link rel="canonical" href="https:\/\/trueflowpumpandwell.com\/">/);
 });
+
+test("no page repeats an id (a repeat makes getElementById pick the wrong element)", () => {
+  for (const [file, html] of Object.entries(build())) {
+    const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]);
+    const repeats = ids.filter((id, i) => ids.indexOf(id) !== i);
+    assert.deepEqual(repeats, [], file);
+  }
+});

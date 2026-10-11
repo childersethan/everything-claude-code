@@ -282,6 +282,6 @@
   [["depth", "labDepth"], ["wind", "labWind"], ["sun", "labSun"], ["herd", "labHerd"]].forEach(([k, id]) =>
     $(id).addEventListener("input", (e) => set({ [k]: Number(e.target.value) })));
   $("labSeason").addEventListener("change", (e) => set({ season: e.target.value }));
-  $("labHouse").addEventListener("change", (e) => set({ house: e.target.checked }));
+  $("labHouseToo").addEventListener("change", (e) => set({ house: e.target.checked }));
   render();
 })(typeof window !== "undefined" ? window : globalThis);
