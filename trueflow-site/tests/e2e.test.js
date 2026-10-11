@@ -338,3 +338,24 @@ test("Irrigation sim: a thin aquifer pumps down and burns up the pump", async ()
   assert.deepEqual(errors, []);
   await page.close();
 });
+
+test("House well sim: a weak well with a big family and a sprinkler runs dry; a good setup gets strong showers", async () => {
+  const { page, errors } = await openSim("#house");
+  await page.fill("#hwPeople", "8");
+  await page.fill("#hwWell", "1");
+  await page.click("#hwSprinkler");
+  await page.click("#hwRun");
+  await page.waitForSelector("#hwResult b");
+  assert.match(await page.getAttribute("#hwResult", "class"), /\blost\b/);
+  await page.fill("#hwPeople", "2");
+  assert.equal(await page.isVisible("#hwBoard"), false, "changing a setting clears the old run");
+  await page.click("#hwSprinkler");
+  await page.fill("#hwWell", "20");
+  await page.fill("#hwPump", "20");
+  await page.fill("#hwTank", "120");
+  await page.click("#hwRun");
+  await page.waitForSelector("#hwResult b");
+  assert.match(await page.getAttribute("#hwResult", "class"), /\bthrived\b/);
+  assert.deepEqual(errors, []);
+  await page.close();
+});

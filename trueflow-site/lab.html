@@ -394,6 +394,212 @@
 
     <!-- House well sim: js/lab-house.js, js/lab-house-scene.js, css/lab-house.css -->
     <div class="lab" id="labHouse" data-mode-panel="house" data-lede="Set how many people live there, how strong the well is and how big the pressure tank is. See if the showers stay hot and strong." hidden>
+      <figure class="lab-scene">
+        <svg viewBox="0 0 400 360" role="img" aria-labelledby="hwSceneTitle" id="hwSvg">
+          <title id="hwSceneTitle">A cutaway farmhouse with two showers, a kitchen sink and a washing machine, a pressure tank and gauge in the basement, and the well and pump below the yard.</title>
+          <defs>
+            <linearGradient id="hwSkyGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" id="hwSkyTop" stop-color="#7fb6dc"/><stop offset="1" id="hwSkyLow" stop-color="#f6d8a8"/></linearGradient>
+            <linearGradient id="hwAqGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="aq-top"/><stop offset="1" class="aq-low"/></linearGradient>
+            <linearGradient id="hwSteel" x1="0" y1="0" x2="1" y2="0"><stop offset="0" class="steel-a"/><stop offset=".45" class="steel-b"/><stop offset="1" class="steel-a"/></linearGradient>
+            <linearGradient id="hwTankGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#1f5f99"/><stop offset=".4" stop-color="#3f8fd2"/><stop offset="1" stop-color="#1a4f80"/></linearGradient>
+            <clipPath id="hwCasingClip"><rect x="123" y="196" width="10" height="156"/></clipPath>
+            <clipPath id="hwTankClip"><rect x="242" y="214" width="20" height="31" rx="3"/></clipPath>
+            <clipPath id="hwDrumClip"><circle cx="339" cy="185" r="7"/></clipPath>
+            <clipPath id="hwSkyClip"><rect x="0" y="0" width="400" height="200"/></clipPath>
+          </defs>
+
+          <!-- sky that turns from night to day and back -->
+          <rect x="0" y="0" width="400" height="200" fill="url(#hwSkyGrad)"/>
+          <g id="hwStars" class="hw-stars"></g>
+          <g clip-path="url(#hwSkyClip)">
+            <g id="hwSun" class="hw-sun"><g id="hwSunRays"></g><circle r="10"/></g>
+            <g id="hwMoon" class="hw-moon"><circle r="8"/><circle cx="3.4" cy="-2.4" r="7" class="hw-moon-bite"/></g>
+          </g>
+          <g id="hwClouds" class="hw-cloud"></g>
+          <path class="hill" d="M0 186Q60 170 130 182T260 178T400 180V200H0Z"/>
+          <g id="hwRainbow" class="hw-rainbow" opacity="0"></g>
+
+          <!-- ground layers -->
+          <rect x="0" y="200" width="400" height="18" fill="var(--soil-1)"/>
+          <rect x="0" y="218" width="400" height="44" fill="var(--rock)"/>
+          <rect x="0" y="262" width="400" height="98" fill="url(#hwAqGrad)"/>
+          <g id="hwRipples" class="aq-ripple"></g>
+          <g id="hwInflow"></g>
+
+          <!-- the yard: a cottonwood, the garden, the stock tank and the sprinkler -->
+          <g class="hw-tree"><path d="M26 200v-34" stroke="#6b4a2f" stroke-width="5" stroke-linecap="round"/><path d="M26 182l-8-8M26 176l7-7" stroke="#6b4a2f" stroke-width="2.4" stroke-linecap="round"/>
+            <circle cx="16" cy="160" r="15"/><circle cx="36" cy="156" r="16"/><circle cx="26" cy="140" r="15"/></g>
+          <ellipse id="hwWet" class="hw-wet" cx="66" cy="200" rx="40" ry="2.6" opacity="0"/>
+          <g id="hwGrass" class="grass"></g>
+          <g id="hwGardenG" class="hw-garden">
+            <rect x="2" y="191" width="42" height="9" rx="1.5" class="hw-bed"/>
+            <g class="hw-veg"><circle cx="9" cy="187" r="5"/><circle cx="21" cy="186" r="5.5"/><circle cx="34" cy="187" r="5"/></g>
+            <g class="hw-tomato"><circle cx="7" cy="186" r="1.4"/><circle cx="11" cy="189" r="1.3"/><circle cx="20" cy="184" r="1.4"/><circle cx="24" cy="188" r="1.3"/><circle cx="33" cy="185" r="1.4"/><circle cx="36" cy="189" r="1.3"/></g>
+            <g id="hwCow"></g>
+            <path d="M86 191h26l-2 8h-22Z" class="hw-trough"/>
+            <path id="hwTroughWater" d="M87 193.2h24" class="hw-trough-water"/>
+            <path d="M86 191h26" stroke="var(--hw-line)" stroke-width="1.6" stroke-linecap="round"/>
+            <path id="hwHose" class="hw-hose" d="M118 196C100 199 76 200 60 199S44 196 40 192" fill="none"/>
+            <path id="hwHoseSpray" class="hw-jet" d="M40 191q-6-5-14-3" fill="none" opacity="0"/>
+          </g>
+          <g id="hwSprinklerG" class="hw-sprinkler">
+            <g id="hwJets"></g>
+            <path d="M66 200v-7" stroke="var(--hw-line)" stroke-width="1.6"/>
+            <path id="hwSprinkHead" d="M62.5 193.5h7l-1.5-3h-4Z" fill="#d9a400" stroke="var(--hw-line)" stroke-width=".8"/>
+          </g>
+
+          <!-- the well: cap, casing, water standing in the casing, drop pipe and submersible pump -->
+          <rect x="121" y="194" width="14" height="160" fill="url(#hwSteel)" stroke="var(--hw-line)" stroke-width="1.6"/>
+          <g clip-path="url(#hwCasingClip)"><rect id="hwCasingWater" class="hw-casing-water" x="123" y="270" width="10" height="90"/><g id="hwBubbles"></g></g>
+          <path d="M128 330V238h7" stroke="var(--hw-line)" stroke-width="2" fill="none"/>
+          <g id="hwPumpG"><rect x="124.5" y="330" width="7" height="14" rx="2" fill="var(--brand)" stroke="var(--hw-line)" stroke-width=".8"/><path d="M125 334h6M125 337h6M125 340h6" stroke="var(--hw-line)" stroke-opacity=".5" stroke-width=".7"/><rect x="125.5" y="344" width="5" height="7" rx="1" fill="#6b7177" stroke="var(--hw-line)" stroke-width=".6"/></g>
+          <circle id="hwPumpGlow" class="hw-glow" cx="128" cy="340" r="9" opacity="0"/>
+          <path d="M116 194h24l-3-5h-18Z" fill="#6b7177" stroke="var(--hw-line)" stroke-width="1.2" stroke-linejoin="round"/>
+          <g id="hwSmoke" class="hw-smoke"></g>
+
+
+          <!-- the house -->
+          <g class="hw-house">
+            <rect x="150" y="200" width="242" height="54" class="hw-concrete"/>
+            <rect x="156" y="203" width="230" height="48" class="hw-cellar"/>
+            <rect x="150" y="92" width="242" height="108" class="hw-siding"/>
+            <path d="M143 96 271 37 399 96 394 99.5 271 43.5 148 99.5Z" class="hw-roof"/>
+            <path d="M152 94 271 43 390 94Z" class="hw-gable"/>
+            <circle cx="271" cy="72" r="7" class="hw-win"/><circle cx="271" cy="72" r="7" class="hw-frame"/><path d="M264 72h14M271 65v14" class="hw-frame"/>
+            <rect x="324" y="48" width="12" height="26" class="hw-chimney"/>
+            <!-- rooms: bath and bedroom upstairs; kitchen, bath and laundry downstairs -->
+            <rect x="156" y="97" width="66" height="46" class="hw-tile"/>
+            <rect x="226" y="97" width="160" height="46" class="hw-paper"/>
+            <rect x="156" y="149" width="110" height="48" class="hw-butter"/>
+            <rect x="270" y="149" width="48" height="48" class="hw-tile"/>
+            <rect x="322" y="149" width="64" height="48" class="hw-paper2"/>
+            <rect x="150" y="143" width="242" height="6" class="hw-floor"/>
+            <rect x="150" y="197" width="242" height="4" class="hw-floor"/>
+            <!-- windows show the sky -->
+            <rect x="196" y="103" width="16" height="14" class="hw-win"/><rect x="196" y="103" width="16" height="14" class="hw-frame"/>
+            <rect x="336" y="103" width="30" height="22" class="hw-win"/><rect x="336" y="103" width="30" height="22" class="hw-frame"/><path d="M351 103v22M336 114h30" class="hw-frame"/>
+            <rect x="172" y="153" width="30" height="16" class="hw-win"/><rect x="172" y="153" width="30" height="16" class="hw-frame"/><path d="M187 153v16" class="hw-frame"/>
+            <rect x="362" y="154" width="18" height="13" class="hw-win"/><rect x="362" y="154" width="18" height="13" class="hw-frame"/>
+          </g>
+
+          <!-- bath upstairs: shower, toilet -->
+          <g class="hw-fixtures">
+            <rect x="159" y="100" width="30" height="43" class="hw-stall"/>
+            <path d="M159 103h12v3" stroke="#8a9399" stroke-width="1.6" fill="none"/>
+            <path d="M168 106h7l1 2.5h-9Z" class="hw-chrome"/>
+            <path d="M206 125h8v10h-8Z" class="hw-porcelain"/><path d="M198 134h17c0 5-3 8-8 8h-1c-5 0-8-3-8-8Z" class="hw-porcelain"/>
+            <!-- bedroom: a picture of a windmill and two big beds -->
+            <rect x="244" y="104" width="22" height="16" class="hw-picture"/><path d="M255 118l-3-9 3-1 3 1-3 9M252 109l6 0" stroke="var(--hw-line)" stroke-width=".8" fill="none"/>
+            <g class="hw-bed"><rect x="234" y="121" width="4" height="22" rx="1"/><rect x="234" y="133" width="72" height="6" rx="1"/><rect x="302" y="128" width="4" height="15" rx="1"/></g>
+            <g class="hw-bed"><rect x="312" y="121" width="4" height="22" rx="1"/><rect x="312" y="133" width="72" height="6" rx="1"/><rect x="380" y="128" width="4" height="15" rx="1"/></g>
+            <g id="hwSleepers"></g>
+            <!-- kitchen: counter, sink, dishwasher, fridge -->
+            <path d="M160 174h78v23h-78Z" class="hw-cabinet"/>
+            <path d="M163 178h14v16h-14ZM180 178h18v16h-18Z" class="hw-cabinet-door"/>
+            <rect x="158" y="172" width="82" height="3" class="hw-counter"/>
+            <path d="M178 172h22l-2 4h-18Z" class="hw-sink"/>
+            <path d="M196 172v-8q0-3-3-3h-3v2" stroke="#8a9399" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+            <rect x="211" y="176" width="25" height="20" rx="1" class="hw-appliance"/><path d="M213 179h21" stroke="var(--hw-line)" stroke-width=".8"/>
+            <circle id="hwDishLed" cx="232" cy="177.6" r=".9" fill="#3fae5a" opacity=".3"/>
+            <rect x="242" y="153" width="21" height="44" rx="2" class="hw-appliance"/><path d="M242 167h21M246 158v6M246 171v8" stroke="var(--hw-line)" stroke-width=".9" stroke-linecap="round"/>
+            <!-- bath downstairs: shower, toilet -->
+            <rect x="272" y="152" width="26" height="45" class="hw-stall"/>
+            <path d="M272 155h10v3" stroke="#8a9399" stroke-width="1.6" fill="none"/>
+            <path d="M279 158h7l1 2.5h-9Z" class="hw-chrome"/>
+            <path d="M306 179h8v10h-8Z" class="hw-porcelain"/><path d="M300 188h16c0 5-3 8-7.5 8h-1c-4.5 0-7.5-3-7.5-8Z" class="hw-porcelain"/>
+            <!-- laundry: washer and dryer, a shelf of soap -->
+            <path d="M326 162h26" stroke="#8a6a4a" stroke-width="1.6"/><rect x="330" y="155" width="5" height="7" rx="1" fill="#3f8fd2"/><rect x="338" y="156" width="5" height="6" rx="1" fill="#f2b631"/>
+            <rect x="326" y="170" width="26" height="27" rx="2" class="hw-appliance"/><path d="M326 175h26" stroke="var(--hw-line)" stroke-width=".8"/><circle cx="330" cy="172.5" r="1" fill="var(--hw-line)"/>
+            <circle cx="339" cy="185" r="8" class="hw-door"/>
+            <g clip-path="url(#hwDrumClip)"><rect id="hwDrumWater" x="330" y="186" width="18" height="8" class="hw-drum-water"/><g id="hwDrum"></g></g>
+            <circle cx="339" cy="185" r="8" fill="none" stroke="var(--hw-line)" stroke-width="1.2"/>
+            <rect x="356" y="170" width="26" height="27" rx="2" class="hw-appliance"/><path d="M356 175h26" stroke="var(--hw-line)" stroke-width=".8"/>
+            <circle cx="369" cy="185" r="7" class="hw-door" fill-opacity=".5"/>
+          </g>
+
+          <!-- water at work: shower spray, the kitchen faucet -->
+          <path id="hwFaucet" class="hw-stream" d="M190 163V173"/>
+          <g id="hwFolks"></g>
+          <g id="hwSprayA" class="hw-spray"></g>
+          <g id="hwSprayB" class="hw-spray"></g>
+          <g class="hw-glass"><rect x="159" y="124" width="30" height="19"/><rect x="272" y="177" width="26" height="20"/></g>
+          <g id="hwFx"></g>
+          <g id="hwShade"></g>
+          <g id="hwLights"></g>
+
+          <!-- the basement: pressure tank, gauge, switch, water heater, canned goods -->
+          <g class="hw-cellar-stuff">
+            <!-- pipe from the well to the tank tee, then up into the house; dots of water ride it -->
+            <path d="M128 330V238H236M268 238H290V203" stroke="var(--hw-line)" stroke-width="2.2" fill="none" stroke-linejoin="round"/>
+            <g id="hwFeedDots"></g>
+            <path d="M214 238V226" stroke="var(--hw-line)" stroke-width="2"/>
+            <rect x="221" y="224" width="10" height="10" rx="1.5" fill="#8a9399" stroke="var(--hw-line)" stroke-width=".8"/>
+            <circle id="hwSwitchLed" cx="226" cy="229" r="1.5" fill="#3fae5a" opacity=".3"/>
+            <path d="M236 249h32" stroke="var(--hw-line)" stroke-width="1.4"/>
+            <path d="M236 216a16 9 0 0 1 32 0v31c0 1.5-1 2.5-2.5 2.5h-27c-1.5 0-2.5-1-2.5-2.5Z" fill="url(#hwTankGrad)" stroke="var(--hw-line)" stroke-width="1.3"/>
+            <rect x="242" y="214" width="20" height="31" rx="3" class="hw-tank-air"/>
+            <g clip-path="url(#hwTankClip)"><path id="hwTankWater" class="hw-tank-water" d="M242 245H262Z"/></g>
+            <rect x="242" y="214" width="20" height="31" rx="3" fill="none" stroke="var(--hw-line)" stroke-width=".9"/>
+            <text x="252" y="222" class="hw-air" text-anchor="middle">AIR</text>
+            <rect x="298" y="210" width="20" height="39" rx="4" class="hw-heater"/><rect x="304" y="240" width="8" height="5" rx="1" fill="#2a1a10"/><path id="hwFlame" d="M306 245q2-5 4 0Z" fill="#f59e0b"/>
+            <path d="M308 210V203" stroke="var(--hw-line)" stroke-width="1.6"/>
+            <g class="hw-shelf"><path d="M338 222h44M338 238h44" stroke="#8a6a4a" stroke-width="1.6"/>
+              <rect x="341" y="214" width="6" height="8" rx="1.5" fill="#d0503c"/><rect x="350" y="215" width="6" height="7" rx="1.5" fill="#e3a72f"/><rect x="359" y="214" width="6" height="8" rx="1.5" fill="#6aa84f"/><rect x="368" y="215" width="6" height="7" rx="1.5" fill="#d0503c"/>
+              <rect x="343" y="230" width="6" height="8" rx="1.5" fill="#9c4f9c"/><rect x="352" y="231" width="6" height="7" rx="1.5" fill="#e3a72f"/><rect x="361" y="230" width="6" height="8" rx="1.5" fill="#d0503c"/></g>
+            <!-- the gauge: green from 40 to 60 psi -->
+            <circle cx="214" cy="216" r="10" fill="var(--surface)" stroke="var(--hw-line)" stroke-width="1.4"/>
+            <path id="hwGaugeRed" class="hw-zone-red" fill="none" stroke-width="2.2"/>
+            <path id="hwGaugeGreen" class="hw-zone-green" fill="none" stroke-width="2.2"/>
+            <g id="hwTicks"></g>
+            <path id="hwNeedle" d="M214 217.2l-.9-1.2 .9-7 .9 7Z" fill="var(--brand)"/>
+            <circle cx="214" cy="216" r="1.4" fill="var(--hw-line)"/>
+            <text id="hwPsiTag" x="161" y="215" class="hw-psi">52 PSI</text>
+          </g>
+
+          <g font-family="JetBrains Mono, monospace" font-size="8" font-weight="700" letter-spacing=".5" class="lab-labels">
+            <text x="8" y="213" fill="var(--hw-line)" fill-opacity=".7">TOPSOIL</text>
+            <text x="8" y="276" fill="#fff" fill-opacity=".9">OGALLALA AQUIFER</text>
+            <text id="hwCasingTag" x="140" y="296" fill="#fff">CASING 105 GAL</text>
+            <text id="hwWellTag" x="8" y="352" fill="#fff" fill-opacity=".85">WELL GIVES 8 GPM</text>
+            <text id="hwPumpTag" x="140" y="343" fill="#fff" fill-opacity=".85">PUMP 10 GPM</text>
+          </g>
+        </svg>
+        <div class="sim-board" id="hwBoard" hidden>
+          <div class="sim-head"><b id="hwDay">5 AM</b><span id="hwNote"></span></div>
+          <ol class="sim-days" id="hwDays" aria-hidden="true"></ol>
+          <div class="sim-result" id="hwResult" aria-live="polite" aria-atomic="true"></div>
+        </div>
+      </figure>
+
+      <div class="lab-controls">
+        <label for="hwPeople"><span class="lab-row">People in the house <output id="hwPeopleVal" for="hwPeople">4 people</output></span>
+          <input type="range" id="hwPeople" min="1" max="8" step="1" value="4"></label>
+        <label for="hwWell"><span class="lab-row">What the well gives <output id="hwWellVal" for="hwWell">8 gpm</output></span>
+          <input type="range" id="hwWell" min="1" max="20" step="1" value="8"></label>
+        <label for="hwPump"><span class="lab-row">Pump size <output id="hwPumpVal" for="hwPump">10 gpm</output></span>
+          <input type="range" id="hwPump" min="5" max="20" step="1" value="10"></label>
+        <label for="hwTank"><span class="lab-row">Pressure tank <output id="hwTankVal" for="hwTank">44 gal</output></span>
+          <input type="range" id="hwTank" min="20" max="120" step="2" value="44"></label>
+        <div class="lab-power hw-extras" role="group" aria-label="Extras that use water">
+          <button type="button" id="hwSprinkler" aria-pressed="false"><span data-icon="sprinkler"></span>Lawn sprinkler</button>
+          <button type="button" id="hwGarden" aria-pressed="false"><span data-icon="sprout"></span>Garden &amp; stock tank</button>
+        </div>
+      </div>
+
+      <div class="lab-out">
+        <div class="lab-nums">
+          <div><span class="eyebrow">Pump gives</span><b id="hwPumpOut">10</b><small>gal / min</small></div>
+          <div><span class="eyebrow" id="hwRushLabel">Morning rush needs</span><b id="hwRushOut">0</b><small>gal / min</small></div>
+        </div>
+        <p id="hwVerdict" class="lab-verdict" aria-live="polite" aria-atomic="true"></p>
+        <p id="hwTip" class="fineprint"></p>
+        <div class="lab-sim">
+          <button type="button" class="btn btn-primary" id="hwRun"><span data-icon="play"></span><span id="hwLabel">Run a busy-day sim</span></button>
+          <p class="fineprint">Plays out one busy day, hour by hour: the morning shower rush, laundry, supper dishes and bedtime showers.</p>
+        </div>
+        <a class="btn btn-ghost" id="hwBook" href="contact.html">Talk through my setup</a>
+        <p class="fineprint">Rough rules of thumb for a typical farmhouse. Every well is different, so we test yours before sizing anything.</p>
+      </div>
     </div>
   </div>
 </section>

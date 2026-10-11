@@ -39,6 +39,13 @@ window.ICONS = Object.freeze((() => {
     wrench: sm('<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a6 6 0 0 1-7.9 7.9l-6.9 6.9a2.1 2.1 0 0 1-3-3l6.9-6.9a6 6 0 0 1 7.9-7.9Z"/>'),
     wind: sm('<path d="M3 9h11a3 3 0 1 0-3-3M3 15h15a3 3 0 1 1-3 3M3 12h7"/>'),
     // irrigation sim: rain weeks on its board
-    rain: sm('<path d="M7 14h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.5 1.5A3.3 3.3 0 0 0 7 14Z"/><path d="M8 17l-1 3M12 17l-1 3M16 17l-1 3"/>')
+    rain: sm('<path d="M7 14h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.5 1.5A3.3 3.3 0 0 0 7 14Z"/><path d="M8 17l-1 3M12 17l-1 3M16 17l-1 3"/>'),
+    // House well sim (Water Lab)
+    shower: sm('<path d="M4 21V6a3 3 0 0 1 3-3h4v3"/><path d="M7.5 6h7l1.5 3H6Z"/><path d="M8 12v1.5M11 12v2.5M14 12v1.5M9.5 17v1.5M12.5 17v1.5"/>'),
+    washer: sm('<rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="13" r="4.5"/><path d="M7 6.5h3M16 6.5h1"/>'),
+    moon: sm('<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/>'),
+    faucet: sm('<path d="M3 13V9h10a4 4 0 0 1 4 4"/><path d="M8 9V5M5 5h6"/><path d="M17 16.5v1.5M17 20.5v.5"/>'),
+    sprinkler: lg('<path d="M20 35V24M14 35h12"/><circle cx="20" cy="22" r="2.5"/><path d="M6 20c3-7 8-11 14-11s11 4 14 11" stroke-dasharray="2 3.5"/><path d="M11 23c2-4 5-6 9-6s7 2 9 6" stroke-dasharray="2 3.5"/>'),
+    sprout: lg('<path d="M20 35V18"/><path d="M20 20c0-6-4-9-11-9 0 6 4 9 11 9Z"/><path d="M20 24c0-6 4-9 11-9 0 6-4 9-11 9Z"/><path d="M10 35h20"/>')
   };
 })());

@@ -1,1 +1,114 @@
-/* house sim styles for the Water Lab: placeholder until it is built. */
+/* Water Lab, House well: the farmhouse cutaway, its people and the extras toggles.
+   Scoped with div#labHouse because the livestock panel's "The house too" checkbox is also id="labHouse". */
+div#labHouse{
+  --hw-line:#22303a;--hw-siding:#f4efe6;--hw-roof:#5b3a32;--hw-gable:#ebe3d4;--hw-tile:#d6ecef;--hw-paper:#f6e7c8;
+  --hw-butter:#fbefd2;--hw-paper2:#e3ecf2;--hw-floor:#8a5a3b;--hw-concrete:#9aa1a6;--hw-cellar:#c7ccd0;--hw-wood:#b07a4f;
+  --hw-appliance:#f7f8f9;--hw-cabinet:#7f9c82;--hw-grass:#5e9e45;--hw-lawn:#7bb661
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) div#labHouse{
+  --hw-siding:#d9d2c5;--hw-roof:#4a2f29;--hw-gable:#cfc6b6;--hw-tile:#b9d3d7;--hw-paper:#dccca9;--hw-butter:#dfd2b2;--hw-paper2:#c5d0d8;
+  --hw-concrete:#6e757a;--hw-cellar:#9aa1a6;--hw-appliance:#e3e6e8;--hw-grass:#4b8a37;--hw-lawn:#5f9a4a}}
+:root[data-theme="dark"] div#labHouse{
+  --hw-siding:#d9d2c5;--hw-roof:#4a2f29;--hw-gable:#cfc6b6;--hw-tile:#b9d3d7;--hw-paper:#dccca9;--hw-butter:#dfd2b2;--hw-paper2:#c5d0d8;
+  --hw-concrete:#6e757a;--hw-cellar:#9aa1a6;--hw-appliance:#e3e6e8;--hw-grass:#4b8a37;--hw-lawn:#5f9a4a}
+
+/* the run board sits under the picture here, so the well and the basement stay in view */
+@media (min-width:861px){div#labHouse .lab-scene{align-content:start}div#labHouse .sim-board{position:static;margin:12px 16px 16px;box-shadow:none}}
+div#labHouse .hw-extras{grid-template-columns:repeat(2,1fr)}
+div#labHouse .sim-days li.w-dry .ic{color:var(--brand)}
+div#labHouse .sim-days li.w-rush .ic,div#labHouse .sim-days li.w-sprinkler .ic,div#labHouse .sim-days li.w-laundry .ic{color:var(--water)}
+div#labHouse .sim-days li.w-garden .ic{color:#3f8a3a}
+div#labHouse .sim-days li.w-day .ic{color:#d99a00}
+
+/* sky */
+#hwSvg .hw-sun circle{fill:var(--signal)}
+#hwSvg .hw-sun line{stroke:var(--signal);stroke-width:2;stroke-linecap:round}
+#hwSvg .hw-moon circle{fill:#f4f1de}
+#hwSvg .hw-moon .hw-moon-bite{fill:#0f1d38;fill-opacity:.85}
+#hwSvg .hw-stars circle{fill:#fff}
+#hwSvg .hw-cloud path{fill:#fff;fill-opacity:.85}
+#hwSvg .hw-rainbow{fill:none;stroke-width:3}
+
+/* yard */
+#hwSvg .hw-tree circle{fill:#5f8f3e;stroke:var(--hw-line);stroke-width:.8}
+#hwSvg .grass path{fill:none;stroke:var(--hw-grass);stroke-width:1.4;stroke-linecap:round}
+#hwSvg .hw-wet{fill:#3d7a2c}
+#hwSvg .hw-bed{fill:#8a5a3b;stroke:var(--hw-line);stroke-width:.8}
+#hwSvg .hw-veg circle{fill:#4f8f34;stroke:var(--hw-line);stroke-width:.6}
+#hwSvg .hw-tomato circle{fill:#e2442f}
+#hwSvg .hw-trough{fill:#a9b2b8;stroke:var(--hw-line);stroke-width:1.1;stroke-linejoin:round}
+#hwSvg .hw-trough-water{stroke:var(--water);stroke-width:2.6;stroke-linecap:round}
+#hwSvg .hw-hose{stroke:#2f8a3e;stroke-width:1.4;stroke-linecap:round}
+#hwSvg .hw-jet{stroke:#cfe9ff;stroke-width:1.3;stroke-linecap:round;stroke-dasharray:2 2.5}
+#hwSvg .hw-jets path{fill:none;stroke:#d9efff;stroke-width:1.1;stroke-linecap:round;stroke-dasharray:1.6 3}
+#hwSvg .hw-garden,#hwSvg .hw-sprinkler{transition:opacity .4s}
+
+/* well */
+#hwSvg .hw-casing-water{fill:var(--water);fill-opacity:.7}
+#hwSvg .hw-glow{fill:#ff5a1f}
+#hwSvg .hw-smoke circle{fill:#4a4f54}
+#hwSvg .hw-spark{fill:#ffd34d;stroke:#ff6a00;stroke-width:.4}
+#hwSvg .hw-alarm{fill:none;stroke:var(--brand);stroke-width:2.4}
+#hwSvg .hw-pfft{font:italic 800 6.5px var(--f-display,sans-serif);fill:#5b6770;paint-order:stroke;stroke:#fff;stroke-width:1.6px}
+#hwSvg .hw-dot{fill:#fff}
+#hwSvg .hw-inflow{fill:#fff}
+
+/* house */
+#hwSvg .hw-siding{fill:var(--hw-siding);stroke:var(--hw-line);stroke-width:1.6}
+#hwSvg .hw-roof{fill:var(--hw-roof);stroke:var(--hw-line);stroke-width:1.4;stroke-linejoin:round}
+#hwSvg .hw-gable{fill:var(--hw-gable);stroke:var(--hw-line);stroke-width:1}
+#hwSvg .hw-chimney{fill:#a4503c;stroke:var(--hw-line);stroke-width:1.2}
+#hwSvg .hw-tile{fill:var(--hw-tile)}
+#hwSvg .hw-paper{fill:var(--hw-paper)}
+#hwSvg .hw-paper2{fill:var(--hw-paper2)}
+#hwSvg .hw-butter{fill:var(--hw-butter)}
+#hwSvg .hw-floor{fill:var(--hw-floor)}
+#hwSvg .hw-concrete{fill:var(--hw-concrete);stroke:var(--hw-line);stroke-width:1.4}
+#hwSvg .hw-cellar{fill:var(--hw-cellar)}
+#hwSvg .hw-win{fill:#9fd0ef}
+#hwSvg .hw-frame{fill:none;stroke:#fff;stroke-width:1.6}
+#hwSvg .hw-stall{fill:#eef7f8;stroke:#a8c7cc;stroke-width:.8}
+#hwSvg .hw-chrome{fill:#b8c1c7;stroke:var(--hw-line);stroke-width:.6}
+#hwSvg .hw-porcelain{fill:#fbfbfb;stroke:var(--hw-line);stroke-width:.8}
+#hwSvg .hw-picture{fill:#bfe0f0;stroke:var(--hw-wood);stroke-width:1.6}
+#hwSvg .hw-bed rect{fill:var(--hw-wood);stroke:var(--hw-line);stroke-width:.6}
+#hwSvg .hw-cabinet{fill:var(--hw-cabinet);stroke:var(--hw-line);stroke-width:.8}
+#hwSvg .hw-cabinet-door{fill:none;stroke:var(--hw-line);stroke-opacity:.45;stroke-width:.7}
+#hwSvg .hw-counter{fill:#e9e2d4;stroke:var(--hw-line);stroke-width:.7}
+#hwSvg .hw-sink{fill:#b8c1c7;stroke:var(--hw-line);stroke-width:.6}
+#hwSvg .hw-appliance{fill:var(--hw-appliance);stroke:var(--hw-line);stroke-width:.9}
+#hwSvg .hw-door{fill:#cfe3ef;stroke:#8a9399;stroke-width:1.6}
+#hwSvg .hw-drum-water{fill:var(--water);fill-opacity:.7}
+#hwSvg .hw-glass rect{fill:#fff;fill-opacity:.55;stroke:#a8c7cc;stroke-width:.8}
+#hwSvg .hw-stream{stroke:var(--water);stroke-width:1.6;stroke-linecap:round;stroke-dasharray:3 2}
+#hwSvg .hw-spray line{stroke:#3d9ad6;stroke-width:1.2;stroke-linecap:round;stroke-dasharray:2.5 2.5}
+#hwSvg .hw-spray .puff{fill:#fff;stroke:#a8b4bb;stroke-width:.5}
+#hwSvg .hw-steam{fill:none;stroke:#fff;stroke-width:1.2;stroke-linecap:round}
+
+/* people: flat cartoon folks with a dark outline */
+#hwSvg .hw-person .ol{stroke:var(--hw-line);stroke-width:.7;stroke-linejoin:round}
+#hwSvg .hw-person .eye{fill:#1b2228}
+#hwSvg .hw-person .mouth{fill:none;stroke:#1b2228;stroke-width:.7;stroke-linecap:round}
+#hwSvg .hw-person .mouth-o{fill:#7a2a2a}
+#hwSvg .hw-person .cheek{fill:#f08a8a;fill-opacity:.55}
+#hwSvg .hw-person .towel{stroke:var(--hw-line);stroke-width:.6}
+#hwSvg .hw-person.cold .skin{fill:#a9cbe3}
+#hwSvg .hw-suds circle{fill:#fff;stroke:#c9dbe6;stroke-width:.4}
+#hwSvg .hw-quilt{stroke:var(--hw-line);stroke-width:.6}
+#hwSvg .hw-pillow{fill:#fff;stroke:var(--hw-line);stroke-width:.5}
+#hwSvg .hw-z{font:700 9px var(--f-display,sans-serif);fill:#fff}
+#hwSvg .hw-note{fill:var(--hw-line)}
+#hwSvg .hw-shock{font:800 11px var(--f-display,sans-serif);fill:var(--brand);paint-order:stroke;stroke:#fff;stroke-width:2.4px}
+#hwSvg .hw-brr{font:700 7px var(--f-mono,monospace);fill:#2d6fa3;paint-order:stroke;stroke:#fff;stroke-width:2px}
+
+/* basement */
+#hwSvg .hw-tank-air{fill:#e9f1f6}
+#hwSvg .hw-tank-water{fill:var(--water)}
+#hwSvg .hw-psi{font:700 8.5px var(--f-mono,monospace);fill:#22303a}
+#hwSvg .hw-air{font:700 5px var(--f-mono,monospace);fill:#7a8a94}
+#hwSvg .hw-heater{fill:#eef0f1;stroke:var(--hw-line);stroke-width:1}
+#hwSvg .hw-zone-red{stroke:var(--brand)}
+#hwSvg .hw-zone-green{stroke:#3fae5a}
+#hwSvg .hw-tick{stroke:var(--hw-line);stroke-width:.6}
+#hwSvg .hw-bulb{stroke:var(--hw-line);stroke-width:.4}
+#hwSvg .hw-wire{fill:none;stroke:#2b2b2b;stroke-width:.6}
