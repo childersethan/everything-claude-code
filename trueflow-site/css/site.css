@@ -372,9 +372,9 @@ header.top{view-transition-name:site-header}
 .grass{fill:none;stroke:color-mix(in srgb,#6f8f3a 80%,var(--ink));stroke-width:1.3;stroke-linecap:round}
 .lab-scene .pw{display:none}
 .lab[data-power="windmill"] .pw-windmill,.lab[data-power="solar"] .pw-solar,.lab[data-power="electric"] .pw-electric{display:inline}
-.lab:not([data-power="solar"]) .sun{opacity:.55}
+#lab:not([data-power="solar"]) .sun{opacity:.55}
 /* a dark outline keeps the small white labels readable on any layer */
-.lab-labels text,text.lab-labels{paint-order:stroke;stroke:var(--ink);stroke-width:2.2px;stroke-opacity:.6;stroke-linejoin:round}
+.lab-labels text,text.lab-labels{paint-order:stroke;stroke:#0E1C24;stroke-width:2.2px;stroke-opacity:.6;stroke-linejoin:round}
 .lab-labels text:first-child{stroke:none}
 .lab-controls{grid-area:controls;padding:clamp(20px,3vw,28px);display:grid;gap:16px;align-content:start}
 .lab-power{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
