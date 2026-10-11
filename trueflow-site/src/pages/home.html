@@ -34,20 +34,19 @@
         <defs>
           <pattern id="gravel" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="3" cy="4" r="1.6" fill="var(--soil-2)"/><circle cx="10" cy="10" r="1.2" fill="var(--soil-2)"/></pattern>
           <pattern id="rockp" width="30" height="16" patternUnits="userSpaceOnUse"><path d="M0 8h30M15 0v8M5 8v8" stroke="var(--bg)" stroke-opacity=".35" stroke-width="1" fill="none"/></pattern>
+          <linearGradient id="hSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="sky-top"/><stop offset="1" class="sky-low"/></linearGradient>
           <clipPath id="casingClip"><rect x="182" y="70" width="36" height="250"/></clipPath>
         </defs>
         <!-- sky / ground -->
-        <rect x="0" y="0" width="400" height="70" fill="var(--surface)"/>
+        <rect x="0" y="0" width="400" height="70" fill="url(#hSky)"/>
+        <g id="hClouds" class="cloud"></g>
         <rect x="0" y="70" width="400" height="60" fill="var(--soil-1)"/>
         <rect x="0" y="70" width="400" height="60" fill="url(#gravel)"/>
         <rect x="0" y="130" width="400" height="90" fill="var(--rock)"/>
         <rect x="0" y="130" width="400" height="90" fill="url(#rockp)"/>
         <rect x="0" y="220" width="400" height="110" fill="var(--aquifer)"/>
-        <g fill="var(--bg)" fill-opacity=".45">
-          <rect class="ripple" x="40" y="240" width="60" height="2" rx="1"/>
-          <rect class="ripple" x="290" y="270" width="70" height="2" rx="1" style="animation-delay:1s"/>
-          <rect class="ripple" x="60" y="300" width="50" height="2" rx="1" style="animation-delay:2s"/>
-        </g>
+        <g id="hRipples" fill="var(--bg)"></g>
+        <path id="hCone" fill="var(--rock)" d="M130 220H270Z"/>
         <!-- strata labels -->
         <g font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="1" fill="var(--ink)" fill-opacity=".75">
           <text x="10" y="90">LOESS / TOPSOIL</text>
@@ -60,14 +59,17 @@
           <rect x="24" y="30" width="12" height="18" fill="var(--ink)"/>
           <rect x="6" y="30" width="12" height="10" fill="var(--water-soft)" stroke="var(--ink)" stroke-width="1.5"/>
         </g>
+        <g id="hGrass" class="grass"></g>
         <!-- pressure tank -->
         <g transform="translate(140 38)">
-          <rect x="0" y="0" width="22" height="32" rx="10" fill="var(--water)"/>
+          <clipPath id="hTankClip"><rect x="0" y="0" width="22" height="32" rx="10"/></clipPath>
+          <rect x="0" y="0" width="22" height="32" rx="10" fill="var(--surface)"/>
+          <rect id="hTankWater" x="0" y="12" width="22" height="20" fill="var(--water)" clip-path="url(#hTankClip)"/>
+          <rect x="0" y="0" width="22" height="32" rx="10" fill="none" stroke="var(--ink)" stroke-width="1.5"/>
           <text x="11" y="-4" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--muted)">TANK</text>
         </g>
         <!-- line from wellhead to tank to house -->
         <path d="M200 62 V56 H151 M200 56 H280" stroke="var(--ink)" stroke-width="3" fill="none"/>
-        <path d="M200 56 H280" stroke="var(--water)" stroke-width="2" stroke-dasharray="6 10" fill="none" class="tap-stream"/>
         <!-- wellhead -->
         <rect x="190" y="54" width="20" height="16" rx="2" fill="var(--ink)"/>
         <!-- casing -->
@@ -77,15 +79,14 @@
         </g>
         <!-- drop pipe -->
         <rect x="197" y="62" width="6" height="226" fill="var(--ink)" fill-opacity=".8"/>
-        <g clip-path="url(#casingClip)">
-          <circle class="drop" cx="200" cy="286" r="2.2" fill="var(--water-soft)"/>
-          <circle class="drop" cx="200" cy="286" r="2.2" fill="var(--water-soft)" style="animation-delay:.55s"/>
-          <circle class="drop" cx="200" cy="286" r="2.2" fill="var(--water-soft)" style="animation-delay:1.1s"/>
-          <circle class="drop" cx="200" cy="286" r="2.2" fill="var(--water-soft)" style="animation-delay:1.65s"/>
-        </g>
+        <g id="hIntake" fill="#fff"></g>
         <!-- pump -->
-        <rect x="191" y="282" width="18" height="34" rx="3" fill="var(--signal)" stroke="var(--ink)" stroke-width="1.5"/>
-        <path d="M193 292h14M193 297h14M193 302h14" stroke="var(--ink)" stroke-width="1"/>
+        <g id="hPump">
+          <rect x="191" y="282" width="18" height="34" rx="3" fill="var(--signal)" stroke="var(--ink)" stroke-width="1.5"/>
+          <path d="M193 292h14M193 297h14M193 302h14" stroke="var(--ink)" stroke-width="1"/>
+        </g>
+        <!-- water moving through the pipes -->
+        <g id="hDrops" fill="#fff"></g>
         <!-- depth scale -->
         <g font-family="JetBrains Mono, monospace" font-size="8" fill="var(--bg)" fill-opacity=".95">
           <path d="M232 70 v250" stroke="var(--bg)" stroke-opacity=".6" stroke-width="1"/>

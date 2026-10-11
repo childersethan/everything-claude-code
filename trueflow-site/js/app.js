@@ -45,43 +45,6 @@
     bp.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); copy(); } });
   }
 
-  function setGauge(el, text) { el.firstChild.nodeValue = text; }
-
-  function initHeroGauges() {
-    const psiToDeg = (p) => -120 + (p / 80) * 240;
-    const targets = [["#gPsi", 52, 0, 1400], ["#gGpm", 9.5, 1, 1400], ["#gDepth", 340, 0, 1600]];
-    targets.forEach(([sel, to, dec, ms]) => {
-      const el = $(sel);
-      if (reduce) { setGauge(el, to.toFixed(dec)); return; }
-      const t0 = performance.now();
-      const step = (t) => {
-        const p = Math.min(1, (t - t0) / ms);
-        setGauge(el, (to * (1 - Math.pow(1 - p, 3))).toFixed(dec));
-        if (p < 1) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
-    });
-    let psi = 52;
-    setTimeout(() => { $("#needle").style.transform = `rotate(${psiToDeg(psi)}deg)`; }, 200);
-    if (reduce) return;
-    // gentle pressure cycle between 40 and 60 psi, only while the hero is on screen
-    let dir = -1, level = 170, timer = null;
-    const tick = () => {
-      psi += dir * (Math.random() * 1.6 + 0.4);
-      if (psi <= 40) dir = 1;
-      if (psi >= 60) dir = -1;
-      setGauge($("#gPsi"), String(Math.round(psi)));
-      setGauge($("#gGpm"), (dir > 0 ? 9 + Math.random() : 0).toFixed(1));
-      $("#needle").style.transform = `rotate(${psiToDeg(psi)}deg)`;
-      level = Math.max(160, Math.min(180, level + (Math.random() - 0.5) * 2));
-      $("#waterCol").setAttribute("y", level.toFixed(1));
-    };
-    whenActive($(".rig"), (on) => {
-      clearInterval(timer);
-      timer = on ? setInterval(tick, 600) : null;
-    });
-  }
-
   function initDiagnoser() {
     const URG = { high: "Urgent", med: "Needs attention", low: "Not urgent" };
     let ticketNo = 1;
@@ -379,7 +342,7 @@
   }
 
   // Each page has only some sections; an init runs only when its section is on the page.
-  [[null, fillFields], ["#bigPhone", initCopyPhone], [".rig", initHeroGauges],
+  [[null, fillFields], ["#bigPhone", initCopyPhone],
     ["#symptoms", initDiagnoser], ["#svcGrid", initServices], ["#tabFlow", initSizingTools], ["#gallery", initGallery],
     ["#towns", initArea], ["#hours", initHours], ["#reqForm", initForm], ["#menuBtn", initMenu], ["[data-icon]", initTiles],
     [null, addStructuredData], [null, initReveal]].forEach(([sel, fn]) => {
