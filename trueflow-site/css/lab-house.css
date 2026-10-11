@@ -27,7 +27,6 @@ div#labHouse .sim-days li.w-day .ic{color:#d99a00}
 #hwSvg .hw-moon .hw-moon-bite{fill:#0f1d38;fill-opacity:.85}
 #hwSvg .hw-stars circle{fill:#fff}
 #hwSvg .hw-cloud path{fill:#fff;fill-opacity:.85}
-#hwSvg .hw-rainbow{fill:none;stroke-width:3}
 
 /* yard */
 #hwSvg .hw-tree circle{fill:#5f8f3e;stroke:var(--hw-line);stroke-width:.8}

@@ -38,14 +38,6 @@
     return { sun, rays, clouds, shade, heat };
   }
 
-  /** A rainbow over the field for the celebration. */
-  function buildRainbow(g) {
-    const rb = svg("g", { class: "iw-rainbow", opacity: 0, "clip-path": "url(#iwSkyClip)" }, g);
-    ["#e5484d", "#f5a524", "#f5d90a", "#46a758", "#0090ff", "#6e56cf"].forEach((c, i) =>
-      svg("path", { d: `M${190 + i * 5} 150A${110 - i * 5} ${96 - i * 5} 0 0 1 ${410 - i * 5} 150`, stroke: c, "stroke-width": 5, fill: "none", "stroke-opacity": 0.8 }, rb));
-    return rb;
-  }
-
   /** The field at the horizon: hills, a band of corn rows and the little pivots on the neighbors' quarters. */
   function buildField(g) {
     svg("path", { class: "hill", d: "M0 124Q60 112 130 120T260 116T400 120V130H0Z" }, g);
@@ -265,7 +257,6 @@
     const clipR = svgEl.querySelector("#iwCasingClipR");
     const layer = () => svg("g", {}, rootG);
     const sky = buildSky(layer());
-    const rainbow = buildRainbow(layer());
     const field = buildField(layer());
     const ground = buildGround(layer());
     const labels = buildLabels(layer());
@@ -447,7 +438,6 @@
         f.mist.forEach((m, k) => m.setAttribute("cy", f1(120 + ((t * 1.2 + k * 0.3) % 1) * 7)));
         f.mist.forEach((m) => m.setAttribute("opacity", f1(sp)));
       });
-      rainbow.setAttribute("opacity", f1(cur.party * 0.95));
 
       // ----- corn: grows over the season, goes yellow then brown when it's short of water -----
       const hl = clamp01(cur.health);

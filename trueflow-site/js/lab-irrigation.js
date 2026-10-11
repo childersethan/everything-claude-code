@@ -277,7 +277,7 @@
     const o = run.outcome, last = run.weeks[run.weeks.length - 1];
     board.result({ ...o, icon: RESULT_ICON[o.level] }, "Season's over");
     const survived = o.level === "thrived" || o.level === "tight", lost = o.level === "lost";
-    // survived: water's on and the rainbow's out; thirsty: still pumping flat out over wilted corn; lost: the wreck
+    // survived: water's on and the crop's green; thirsty: still pumping flat out over wilted corn; lost: the wreck
     scene.set({
       mode: lost ? "dead" : survived ? "party" : "run",
       weather: survived ? "clear" : lost ? WEATHER[last.weather] : "hot",
