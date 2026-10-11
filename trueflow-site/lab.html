@@ -64,13 +64,13 @@
     <div class="sec-head reveal">
       <span class="eyebrow">Water Lab</span>
       <h1 class="lab-title">Build a well. See if it keeps up.</h1>
-      <p class="lede">Pick how you'll pump, drag the well deeper, turn up the wind and add cattle. Watch the stock tank fill, or run dry.</p>
+      <p class="lede">Pick how you'll pump, drag the well deeper, turn up the wind and add cattle, goats or chickens. Watch the stock tank fill, or run dry.</p>
     </div>
 
     <div class="lab" id="lab" data-power="windmill">
       <figure class="lab-scene">
         <svg viewBox="0 0 400 360" role="img" aria-labelledby="labSceneTitle" id="labSvg">
-          <title id="labSceneTitle">A well running down to the aquifer, with the chosen pump at the top filling a stock tank for the cattle.</title>
+          <title id="labSceneTitle">A well running down to the aquifer, with the chosen pump at the top filling a stock tank for the livestock.</title>
           <defs>
             <linearGradient id="labSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="sky-top"/><stop offset="1" class="sky-low"/></linearGradient>
             <linearGradient id="labAq" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="aq-top"/><stop offset="1" class="aq-low"/></linearGradient>
@@ -85,6 +85,10 @@
           <rect x="0" y="0" width="400" height="108" fill="url(#labSky)"/>
           <g id="sun" class="sun"><g id="sunRays"></g><circle r="11"/></g>
           <g id="clouds" class="cloud"></g>
+          <rect id="skyShade" class="sky-shade" x="0" y="0" width="400" height="108" opacity="0"/>
+          <rect id="skyHeat" class="sky-heat" x="0" y="0" width="400" height="108" opacity="0"/>
+          <path id="bolt" class="bolt" d="M92 14 82 44h9l-6 26 18-34h-10l7-22Z" opacity="0"/>
+          <g id="rain" class="rain" opacity="0"></g>
           <path class="hill" d="M0 98Q50 86 110 96T230 94T330 90T400 96V108H0Z"/>
 
           <!-- ground layers -->
@@ -141,6 +145,11 @@
           <g id="herd"></g>
           <g id="grass" class="grass"></g>
         </svg>
+        <div class="sim-board" id="simBoard" hidden>
+          <div class="sim-head"><b id="simDay">Day 1</b><span id="simNote"></span></div>
+          <ol class="sim-days" id="simDays" aria-hidden="true"></ol>
+          <div class="sim-result" id="simResult" aria-live="polite" aria-atomic="true"></div>
+        </div>
       </figure>
 
       <div class="lab-controls">
@@ -155,7 +164,12 @@
           <input type="range" id="labWind" min="0" max="30" value="12"></label>
         <label for="labSun" id="sunRow" hidden><span class="lab-row">Full sun per day <output id="sunVal">5.5 hrs</output></span>
           <input type="range" id="labSun" min="2" max="7" step="0.5" value="5.5"></label>
-        <label for="labHerd"><span class="lab-row">Cattle <output id="herdVal">60 head</output></span>
+        <div class="lab-power" role="group" aria-label="Which animals drink from the well">
+          <button type="button" id="an-cattle" aria-pressed="true"><span data-icon="cow"></span>Cattle</button>
+          <button type="button" id="an-goats" aria-pressed="false"><span data-icon="goat"></span>Goats</button>
+          <button type="button" id="an-chickens" aria-pressed="false"><span data-icon="chicken"></span>Chickens</button>
+        </div>
+        <label for="labHerd"><span class="lab-row"><span id="herdLabel">Cattle</span> <output id="herdVal">60 head</output></span>
           <input type="range" id="labHerd" min="0" max="400" step="10" value="60"></label>
         <div class="lab-pair">
           <label for="labSeason">Weather
@@ -172,11 +186,15 @@
       <div class="lab-out">
         <div class="lab-nums">
           <div><span class="eyebrow">Well pumps</span><b id="supplyOut">0</b><small>gal / day</small></div>
-          <div><span class="eyebrow">Herd drinks</span><b id="needOut">0</b><small>gal / day</small></div>
+          <div><span class="eyebrow" id="needLabel">Herd drinks</span><b id="needOut">0</b><small>gal / day</small></div>
         </div>
         <p id="verdict" class="lab-verdict" aria-live="polite" aria-atomic="true"></p>
         <p id="labTip" class="fineprint"></p>
-        <a class="btn btn-primary" id="labBook" href="contact.html">Talk through my setup</a>
+        <div class="lab-sim">
+          <button type="button" class="btn btn-primary" id="simRun"><span data-icon="play"></span><span id="simLabel">Run a 30-day sim</span></button>
+          <p class="fineprint">Plays out a month of real-world weather: calm spells, cloudy days, storms and heat waves.</p>
+        </div>
+        <a class="btn btn-ghost" id="labBook" href="contact.html">Talk through my setup</a>
         <p class="fineprint">Rough rules of thumb for a typical setup. Every well is different, so we test yours before sizing anything.</p>
       </div>
     </div>
@@ -207,6 +225,7 @@
 <script src="js/motion.js"></script>
 <script src="js/app.js"></script>
 <script src="js/hero.js"></script>
+<script src="js/lab-animals.js"></script>
 <script src="js/lab-scene.js"></script>
 <script src="js/lab.js"></script>
 <!-- Cloudflare Web Analytics: cookie-free page view counts -->

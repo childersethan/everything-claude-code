@@ -254,3 +254,33 @@ test("all job photos load", async () => {
   assert.deepEqual(broken, []);
   await page.close();
 });
+
+test("Water Lab sim plays out a month and says how the herd did", async () => {
+  const page = await browser.newPage({ viewport: { width: 390, height: 900 }, reducedMotion: "reduce" });
+  const errors = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  await page.route(/fonts\.(googleapis|gstatic)\.com|cloudflareinsights\.com/, (r) => r.abort());
+  await page.goto(BASE + "lab.html");
+  assert.equal(await page.isVisible("#simBoard"), false);
+  await page.fill("#labWind", "2"); // no wind: the tank runs dry and cattle are lost
+  await page.click("#simRun");
+  assert.equal(await page.locator("#simDays li").count(), 30);
+  await page.waitForSelector("#simResult b");
+  assert.match(await page.textContent("#simResult"), /You lost cattle/);
+  assert.equal(await page.textContent("#simLabel"), "Run it again");
+  await page.fill("#labWind", "12"); // changing a setting clears the old run
+  assert.equal(await page.isVisible("#simBoard"), false);
+  await page.click("#an-chickens"); // chickens: own slider range and wording
+  assert.equal(await page.textContent("#herdLabel"), "Chickens");
+  assert.equal(await page.textContent("#herdVal"), "1,000 birds");
+  assert.equal(await page.getAttribute("#labHerd", "max"), "10000");
+  await page.fill("#labWind", "2");
+  await page.click("#simRun");
+  await page.waitForSelector("#simResult b");
+  assert.match(await page.textContent("#simResult"), /You lost chickens/);
+  await page.check("#labHouse");
+  await page.fill("#labHerd", "0"); // no animals: nothing to simulate, even with the house drawing water
+  assert.equal(await page.isDisabled("#simRun"), true);
+  assert.deepEqual(errors, []);
+  await page.close();
+});

@@ -10,7 +10,7 @@
   const depthY = (ft) => GROUND + (ft / 600) * 232;
   const rad = (deg) => (deg * Math.PI) / 180;
 
-  // where each cow stands, in the order they arrive: the first two drink at the tank
+  // where each animal stands, in the order they arrive: the first two drink at the tank
   const SPOTS = [
     { x: 354, face: -1, s: 1, drink: true }, { x: 245, face: 1, s: 1, drink: true },
     { x: 60, face: 1, s: 1 }, { x: 104, face: -1, s: 1 }, { x: 22, face: 1, s: 0.8, y: 101 },
@@ -29,24 +29,11 @@
     svg("circle", { cx: 0, cy: 0, r: 3.2, fill: "var(--ink)" }, g);
   }
 
-  function buildCow(parent, spot) {
-    const g = svg("g", { class: "cow-g" }, parent);
-    const body = svg("g", {}, g);
-    const tail = svg("path", { d: "M0 0q-3 5-1.5 10", stroke: "var(--ink)", "stroke-width": 1.4, fill: "none", "stroke-linecap": "round" }, body);
-    svg("path", { d: "M-12-13q0-5 5-5h13q6 0 6 5v5q0 3-3 3h-18q-3 0-3-3z", fill: "var(--ink)" }, body);
-    svg("ellipse", { cx: -2, cy: -13, rx: 3.5, ry: 2.4, fill: "var(--surface)", "fill-opacity": 0.55 }, body);
-    const legs = [-9, -5, 5, 9].map((x) => svg("line", { x1: x, y1: -6, x2: x, y2: 0, stroke: "var(--ink)", "stroke-width": 2.2, "stroke-linecap": "round" }, body));
-    const head = svg("g", {}, body);
-    svg("path", { d: "M0-2h5q4 0 4 4v2q0 2-2 2h-4q-3 0-3-3z", fill: "var(--ink)" }, head);
-    svg("path", { d: "M1-2l-3-3M3-2l1-3", stroke: "var(--ink)", "stroke-width": 1.2, "stroke-linecap": "round" }, head);
-    return { g, tail, head, legs, spot, vis: 0, nod: 0, ph: Math.random() * 6 };
-  }
-
   function create(svgEl) {
     const $ = (id) => svgEl.querySelector("#" + id);
     const el = Object.fromEntries(["wheel", "tail", "rod", "sun", "sunRays", "clouds", "ripples", "drawdown", "casing",
       "casingClip", "casingWater", "pipe", "drops", "pumpG", "pump", "pumpBands", "depthTag", "stream", "tankWater",
-      "splash", "herd", "grass", "sheen", "wirePulse", "led", "intake"].map((id) => [id, $(id)]));
+      "splash", "herd", "grass", "sheen", "wirePulse", "led", "intake", "skyShade", "skyHeat", "bolt", "rain"].map((id) => [id, $(id)]));
 
     buildWheel(el.wheel);
     for (let i = 0; i < 8; i++) svg("line", { x1: 0, y1: -15, x2: 0, y2: -19, stroke: "var(--signal)", "stroke-width": 2, "stroke-linecap": "round", transform: `rotate(${i * 45})` }, el.sunRays);
@@ -58,13 +45,16 @@
     const rings = [0, 0.33, 0.66].map((off) => ({ off, node: svg("ellipse", { cx: SPOUT[0], rx: 0, ry: 0, fill: "none", stroke: "#fff", "stroke-width": 1 }, el.splash) }));
     // specks of groundwater drawn in toward the pump intake
     const specks = Array.from({ length: 10 }, (_, i) => ({ a: (i / 10) * Math.PI * 2 + 0.3, off: (i * 0.37) % 1, node: svg("circle", { r: 1.1, class: "intake" }, el.intake) }));
-    const cows = SPOTS.map((spot) => buildCow(el.herd, spot));
+    const rain = Array.from({ length: 18 }, (_, i) => ({ x: (i * 53) % 400, off: (i * 0.37) % 1, node: svg("line", { y1: 0, y2: 7 }, el.rain) }));
+    let herd = [], kind = "";
+    const restock = (next) => { el.herd.replaceChildren(); herd = SPOTS.map((spot) => root.LabAnimals.create(el.herd, spot, next)); kind = next; };
+    const buzzards = root.LabAnimals.vultures(svg("g", { class: "vultures" }, el.clouds));
     const grass = GRASS_X.map((x, i) => ({ x, ph: i * 0.9, node: svg("path", { d: "M0 0q-1-5-4-7M0 0q0-6 1-9M0 0q1-4 4-6", transform: `translate(${x} ${GROUND})` }, el.grass) }));
 
-    let target = { power: "windmill", depth: 220, wind: 12, windFactor: 0.67, sun: 5.5, gpm: 3, level: 0.9, herd: 2 };
-    const cur = { depthY: depthY(220), spin: 0, angle: 0, flow: 0, gpm: 0, level: 0.5, sunY: 40, dip: 0, phase: 0, wind: 12, rod: 0 };
+    let target = { power: "windmill", depth: 220, wind: 12, windFactor: 0.67, sun: 5.5, gpm: 3, level: 0.9, herd: 2, animal: "cattle", weather: "clear", down: 0, death: "fall" };
+    const cur = { depthY: depthY(220), spin: 0, angle: 0, flow: 0, gpm: 0, level: 0.5, sunY: 40, dip: 0, phase: 0, wind: 12, rod: 0, dark: 0, heat: 0, rain: 0 };
 
-    function frame(dt, t) {
+    function frame(dt, t, still) {
       const T = target, windmill = T.power === "windmill";
       // eased values: depth glides, the wheel has inertia, the tank fills and drains gradually
       cur.depthY = approach(cur.depthY, depthY(T.depth), dt, 6);
@@ -140,6 +130,22 @@
       el.wirePulse.setAttribute("stroke-dashoffset", (-t * 40 * cur.flow).toFixed(1));
       el.led.setAttribute("opacity", cur.flow > 0.5 && Math.sin(t * 7) > 0 ? 1 : 0.35);
 
+      // sim weather: storms and cloudy days darken the sky, a heat wave warms it
+      const W = T.weather;
+      cur.dark = approach(cur.dark, W === "storm" ? 1 : W === "cloudy" ? 0.6 : 0, dt, 2);
+      cur.heat = approach(cur.heat, W === "heat" ? 1 : 0, dt, 2);
+      cur.rain = approach(cur.rain, W === "storm" ? 1 : 0, dt, 2);
+      const flash = cur.rain > 0.8 && (t % 3.7) < 0.14 ? 1 : 0; // now and then a lightning bolt
+      el.skyShade.setAttribute("opacity", (cur.dark * 0.5 - flash * 0.25).toFixed(2));
+      el.skyHeat.setAttribute("opacity", (cur.heat * (0.22 + Math.sin(t * 2) * 0.04)).toFixed(2));
+      el.bolt.setAttribute("opacity", flash);
+      el.rain.setAttribute("opacity", cur.rain.toFixed(2));
+      if (cur.rain > 0.01) rain.forEach((r) => {
+        const y = ((t * 1.6 + r.off) % 1) * 112 - 8;
+        r.node.setAttribute("transform", `translate(${r.x} ${y.toFixed(1)}) rotate(14)`);
+      });
+      el.sun.setAttribute("opacity", (1 - cur.dark * 0.8).toFixed(2));
+
       // weather and ground life
       clouds.forEach((c) => {
         c.x += (3 + cur.wind * 0.9) * c.s * dt;
@@ -155,21 +161,15 @@
         gr.node.setAttribute("transform", `translate(${gr.x} ${GROUND}) rotate(${lean.toFixed(1)})`);
       });
 
-      // cattle walk in, swish their tails, and dip their heads to drink or graze
-      cows.forEach((c, i) => {
-        const { spot } = c, on = i < T.herd;
-        c.vis = approach(c.vis, on ? 1 : 0, dt, 3);
-        const thirsty = spot.drink ? cur.level > 0.08 : true;
-        const down = thirsty && Math.sin(t * (spot.drink ? 0.8 : 0.5) + c.ph) > 0.15;
-        c.nod = approach(c.nod, down ? 1 : 0, dt, 4);
-        const x = spot.x - (1 - c.vis) * 24 * spot.face;
-        c.g.setAttribute("transform", `translate(${x.toFixed(1)} ${spot.y || GROUND}) scale(${spot.face * spot.s} ${spot.s})`);
-        c.g.setAttribute("opacity", c.vis.toFixed(2));
-        c.head.setAttribute("transform", `translate(10 -14) rotate(${(c.nod * 40).toFixed(1)})`);
-        c.tail.setAttribute("transform", `translate(-12 -15) rotate(${(Math.sin(t * 2.2 + c.ph) * 14).toFixed(1)})`);
-        const step = c.vis < 0.98 ? Math.sin(t * 14) * 1.6 : 0; // legs move while walking in
-        c.legs.forEach((leg, j) => leg.setAttribute("x2", (leg.x1.baseVal.value + (j % 2 ? step : -step)).toFixed(1)));
+      // animals walk in, swish their tails, and dip their heads to drink, graze or peck
+      if (T.animal !== kind) restock(T.animal);
+      let shake = 0;
+      herd.forEach((c, i) => {
+        const first = T.herd - T.down, on = i < T.herd; // the last few in line are the ones lost
+        shake = Math.max(shake, c.draw({ t, dt, still, on, dying: on && i >= first, delay: (i - first) * 0.7, death: T.death, level: cur.level }));
       });
+      buzzards.draw(t, dt, T.down > 0 && T.death !== "blown");
+      svgEl.style.transform = shake > 0.05 ? `translate(${(Math.sin(t * 90) * shake).toFixed(1)}px, ${(Math.cos(t * 77) * shake * 0.6).toFixed(1)}px)` : "";
     }
 
     const anim = loop(svgEl, frame);
