@@ -67,8 +67,33 @@ test("nav marks the current page and the phone tab bar moves between pages", asy
 test("home tiles link to each part of the site", async () => {
   const { page } = await open();
   const hrefs = await page.$$eval(".tile", (a) => a.map((x) => x.getAttribute("href")));
-  assert.deepEqual(hrefs, ["tools.html", "services.html", "tools.html#sizing", "work.html", "area.html", "contact.html"]);
+  assert.deepEqual(hrefs, ["tools.html", "services.html", "lab.html", "work.html", "area.html", "contact.html"]);
   assert.equal(await page.$$eval(".tile .tile-ico svg", (s) => s.length), 6);
+  await page.close();
+});
+
+test("Water Lab reacts to the power source, depth, wind and herd", async () => {
+  const { page } = await open("lab.html");
+  const num = async (sel) => Number((await page.textContent(sel)).replace(/,/g, ""));
+  assert.equal(await page.isVisible("#labWind"), true);
+  assert.equal(await page.isVisible("#labSun"), false);
+  const shallow = await num("#supplyOut");
+  await page.fill("#labDepth", "600");
+  assert.ok(await num("#supplyOut") < shallow, "a deeper well pumps less");
+  await page.fill("#labWind", "2");
+  assert.equal(await num("#supplyOut"), 0);
+  assert.match(await page.textContent("#verdict"), /Falls short/);
+  await page.click("#pw-solar");
+  assert.equal(await page.getAttribute("#pw-solar", "aria-pressed"), "true");
+  assert.equal(await page.isVisible("#labSun"), true);
+  await page.click("#pw-electric");
+  await page.fill("#labHerd", "100");
+  assert.equal(await num("#needOut"), 1500);
+  assert.match(await page.textContent("#verdict"), /room to spare/);
+  assert.match(await page.textContent("#labTip"), /HP pump/);
+  await page.click("#labBook");
+  await page.waitForURL(/contact\.html\?need=c4$/);
+  assert.equal(await page.isChecked("#c4"), true);
   await page.close();
 });
 
