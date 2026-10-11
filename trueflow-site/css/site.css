@@ -433,13 +433,22 @@ header.top{view-transition-name:site-header}
 .sim-result.lost .ic{color:var(--brand)}
 @keyframes simPop{from{transform:scale(.94);opacity:0}to{transform:none;opacity:1}}
 @media (prefers-reduced-motion:reduce){.sim-result{animation:none}.sim-days li,.sim-days li .bar i{transition:none}}
-.lab-scene .critter .dark{fill:var(--ink)}
-.lab-scene .critter .light{fill:#f4efe3}
-.lab-scene .critter .spot{fill:var(--surface);fill-opacity:.55}
-.lab-scene .critter.parched .fur{fill:#8a6a3c}
-.lab-scene .critter.parched .limb{stroke:#8a6a3c}
-.lab-scene .critter.parched .spot{fill-opacity:0}
-.lab-scene .critterhost path{fill:#fff;fill-opacity:.8}
-.lab-scene .critterhost .legs{fill:none;stroke:#fff;stroke-opacity:.8;stroke-width:2;stroke-linecap:round}
-.lab-scene .critterhost .halo{fill:none;stroke:var(--signal);stroke-width:1.4}
+.lab-scene .critter .dark{fill:#1f262c}
+.lab-scene .critter .light{fill:#f6f1e6}
+.lab-scene .critter .patch{fill:#f6f1e6}
+.lab-scene .critter .patch.tan{fill:#b98d55}
+.lab-scene .critter .patch.wing{fill:#e8dfcb}
+.lab-scene .critter .pink{fill:#eaa6a0}
+.lab-scene .critter.parched .fur,.lab-scene .critter.parched .patch{fill:#8a6a3c}
+.lab-scene .critter.parched .limb{stroke:#7a5a30}
+.lab-scene .critter.charred .fur,.lab-scene .critter.charred .patch,.lab-scene .critter.charred .pink{fill:#111}
+.lab-scene .critter-fx .star{fill:#ffd34d;stroke:#b07a00;stroke-width:.3}
+.lab-scene .critter-fx .steam{fill:none;stroke:#fff;stroke-width:1.1;stroke-linecap:round}
+.lab-scene .critter-fx .dust{fill:#cdb791}
+.lab-scene .critter-fx .feather{fill:#fff;stroke:#d8cfbd;stroke-width:.3}
+.lab-scene .critter-fx .zap{fill:none;stroke:#fff6a8;stroke-width:2.2;stroke-linejoin:round}
+.lab-scene .critter-ghost path,.lab-scene .critter-ghost circle{fill:#fff;fill-opacity:.9}
+.lab-scene .critter-ghost .wings{fill:#fff;fill-opacity:.95;stroke:#cfd8e0;stroke-width:.4}
+.lab-scene .critter-ghost .halo{fill:none;stroke:var(--signal);stroke-width:1.4}
+.lab-scene .vulture{fill:none;stroke:#1f262c;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 @media (min-width:861px){.lab-scene{position:relative}.sim-board{position:absolute;inset:0 0 auto;margin:50% 16px 0;box-shadow:0 18px 40px -20px rgba(0,0,0,.5)}}
