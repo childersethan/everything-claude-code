@@ -29,6 +29,13 @@ window.ICONS = Object.freeze((() => {
     trough: lg('<path d="M5 18h30l-3 12H8Z"/><path d="M9 23h22"/><path d="M12 30v5M28 30v5"/>'),
     lens: lg('<circle cx="18" cy="18" r="9"/><path d="M25 25l8 8"/>'),
     down: lg('<path d="M20 4v26"/><path d="M12 22l8 8 8-8"/><path d="M8 36h24"/>'),
-    camera: '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4Z"/><circle cx="12" cy="13" r="3.5"/></svg>'
+    camera: '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4Z"/><circle cx="12" cy="13" r="3.5"/></svg>',
+    // House well sim (Water Lab)
+    shower: sm('<path d="M4 21V6a3 3 0 0 1 3-3h4v3"/><path d="M7.5 6h7l1.5 3H6Z"/><path d="M8 12v1.5M11 12v2.5M14 12v1.5M9.5 17v1.5M12.5 17v1.5"/>'),
+    washer: sm('<rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="13" r="4.5"/><path d="M7 6.5h3M16 6.5h1"/>'),
+    moon: sm('<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/>'),
+    faucet: sm('<path d="M3 13V9h10a4 4 0 0 1 4 4"/><path d="M8 9V5M5 5h6"/><path d="M17 16.5v1.5M17 20.5v.5"/>'),
+    sprinkler: lg('<path d="M20 35V24M14 35h12"/><circle cx="20" cy="22" r="2.5"/><path d="M6 20c3-7 8-11 14-11s11 4 14 11" stroke-dasharray="2 3.5"/><path d="M11 23c2-4 5-6 9-6s7 2 9 6" stroke-dasharray="2 3.5"/>'),
+    sprout: lg('<path d="M20 35V18"/><path d="M20 20c0-6-4-9-11-9 0 6 4 9 11 9Z"/><path d="M20 24c0-6 4-9 11-9 0 6-4 9-11 9Z"/><path d="M10 35h20"/>')
   };
 })());
