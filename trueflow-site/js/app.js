@@ -225,11 +225,6 @@
   }
 
   function initHours() {
-    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    $("#hours").innerHTML = [1, 2, 3, 4, 5, 6, 0].map((d) => {
-      const h = BIZ.hours[d];
-      return `<dt>${days[d]}</dt><dd>${esc(S.formatHours(h, BIZ.emergency))}</dd>`;
-    }).join("");
     const open = S.isOpenNow(BIZ.hours, new Date(), BIZ.timeZone);
     $("#openPill").textContent = open ? "Open now" : BIZ.emergency ? "After hours · emergency line open" : "Closed now";
   }
@@ -344,7 +339,7 @@
   // Each page has only some sections; an init runs only when its section is on the page.
   [[null, fillFields], ["#bigPhone", initCopyPhone],
     ["#symptoms", initDiagnoser], ["#svcGrid", initServices], ["#tabFlow", initSizingTools], ["#gallery", initGallery],
-    ["#towns", initArea], ["#hours", initHours], ["#reqForm", initForm], ["#menuBtn", initMenu], ["[data-icon]", initTiles],
+    ["#towns", initArea], ["#openPill", initHours], ["#reqForm", initForm], ["#menuBtn", initMenu], ["[data-icon]", initTiles],
     [null, addStructuredData], [null, initReveal]].forEach(([sel, fn]) => {
     if (sel && !$(sel)) return;
     try { fn(); } catch (err) { console.error(`${fn.name} failed:`, err); } // one broken section shouldn't take the rest down
