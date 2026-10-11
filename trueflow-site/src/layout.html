@@ -16,8 +16,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="{{url}}">
 <meta name="theme-color" content="#0B6E99">
-<!-- If you change form providers, add its origin to connect-src. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; form-action 'self'; base-uri 'none'; object-src 'none'">
+<!-- If you change form providers, add its origin to connect-src. Cloudflare Web Analytics needs static.cloudflareinsights.com (script) and cloudflareinsights.com (beacon). -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://cloudflareinsights.com; form-action 'self'; base-uri 'none'; object-src 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect x='16' y='2' width='8' height='36' rx='2' fill='%230E1C24'/%3E%3Cpath d='M20 10c-5 7-8 11-8 15a8 8 0 0 0 16 0c0-4-3-8-8-15Z' fill='%230B6E99'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -53,6 +53,7 @@
     <img class="foot-logo logo-ink" src="images/logo.png" alt="True Flow Pump &amp; Well" width="62" height="44" loading="lazy">
     <span>© <span id="yr"></span> True Flow Pump &amp; Well Services · <span data-f="city"></span></span>
     <span>Licensed &amp; insured · Wells · Pumps · Windmills · Solar · Irrigation · <a href="privacy.html">Privacy</a></span>
+    <a class="fb-link" href="https://www.facebook.com/profile.php?id=61574248502595" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7A10 10 0 0 0 22 12Z"/></svg><span>Follow us on Facebook</span></a>
   </div>
 </footer>
 
@@ -67,5 +68,7 @@
 <script src="js/hero.js"></script>
 <script src="js/lab-scene.js"></script>
 <script src="js/lab.js"></script>
+<!-- Cloudflare Web Analytics: cookie-free page view counts -->
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "0252e175db344365ae989163037d3802"}'></script>
 </body>
 </html>

@@ -39,6 +39,8 @@ async function open(file = "index.html", viewport = { width: 1280, height: 900 }
   page.on("console", (m) => { if (m.type() === "error") errors.push(m.text()); });
   // keep the tests offline: Google Fonts aren't needed to check behavior
   await page.route(/fonts\.(googleapis|gstatic)\.com/, (r) => r.abort());
+  // stand in for the Cloudflare analytics beacon; a CSP that blocked it would still log an error
+  await page.route(/cloudflareinsights\.com/, (r) => r.fulfill({ status: 200, contentType: "text/javascript", body: "" }));
   await page.goto(BASE + file);
   return { page, errors: () => errors.filter((e) => !/fonts\.(googleapis|gstatic)|net::ERR_FAILED/.test(e)) };
 }

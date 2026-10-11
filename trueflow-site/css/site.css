@@ -178,9 +178,6 @@ header .btn{padding:9px 16px;font-size:1rem}
 .contact .wrap{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,5vw,64px)}
 .callcard{display:grid;gap:18px;align-content:start}
 .bignum{font-family:var(--f-display);font-weight:800;font-size:clamp(2.4rem,6vw,3.6rem);line-height:1;user-select:all}
-.hours{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;font-size:.98rem}
-.hours dt{color:var(--muted)}
-.hours dd{margin:0;font-weight:600}
 .open-pill{display:inline-flex;gap:8px;align-items:center;font-family:var(--f-mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700}
 .open-pill::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--signal);animation:pulse 1.6s infinite}
 @keyframes pulse{50%{opacity:.3}}
@@ -293,6 +290,9 @@ input[type=range]{padding:0;accent-color:var(--water);border:0;background:none}
 
 footer{border-top:1px solid var(--line);padding-block:32px;font-size:.9rem;color:var(--muted)}
 .foot-logo{height:44px;width:auto}
+.fb-link{display:inline-flex;align-items:center;gap:8px;font-weight:600}
+.fb-link svg,.fb-btn svg{color:#1877F2;flex:none}
+.fb-btn{justify-self:start;font-size:1rem}
 footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
 
 /* phone tab bar */
