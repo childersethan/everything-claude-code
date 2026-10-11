@@ -47,8 +47,6 @@ window.SITE = Object.freeze({
     ]
   }),
 
-  strip: ["24/hr service, day or night", "Water well installations", "Pump installation & repair", "Windmill service",
-    "Solar well systems", "Irrigation wells", "Cattle tank installs", "Free estimates", "Licensed & insured"],
 
   // need: which "What do you need?" option the "Book this fix" button selects
   symptoms: [

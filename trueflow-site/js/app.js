@@ -82,10 +82,6 @@
     });
   }
 
-  function initStrip() {
-    $("#track").innerHTML = [...SITE.strip, ...SITE.strip].map((s) => `<span>${esc(s)}</span>`).join("");
-  }
-
   function initDiagnoser() {
     const URG = { high: "Urgent", med: "Needs attention", low: "Not urgent" };
     let ticketNo = 1;
@@ -383,9 +379,9 @@
   }
 
   // Each page has only some sections; an init runs only when its section is on the page.
-  [[null, fillFields], ["#bigPhone", initCopyPhone], [".rig", initHeroGauges], ["#track", initStrip],
+  [[null, fillFields], ["#bigPhone", initCopyPhone], [".rig", initHeroGauges],
     ["#symptoms", initDiagnoser], ["#svcGrid", initServices], ["#tabFlow", initSizingTools], ["#gallery", initGallery],
-    ["#towns", initArea], ["#hours", initHours], ["#reqForm", initForm], ["#menuBtn", initMenu], [".tiles", initTiles],
+    ["#towns", initArea], ["#hours", initHours], ["#reqForm", initForm], ["#menuBtn", initMenu], ["[data-icon]", initTiles],
     [null, addStructuredData], [null, initReveal]].forEach(([sel, fn]) => {
     if (sel && !$(sel)) return;
     try { fn(); } catch (err) { console.error(`${fn.name} failed:`, err); } // one broken section shouldn't take the rest down

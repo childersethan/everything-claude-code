@@ -9,7 +9,7 @@ sed -e '/^<!doctype html>$/d' -e '/^<html /d' -e '/^<\/html>$/d' -e '/^<head>$/d
     -e '/^<body/d' -e '/^<\/body>$/d' -e '/^<meta charset/d' -e '/^<meta name="viewport"/d' \
     -e '/^<link rel="icon"/d' -e '/Content-Security-Policy/d' -e '/If you change form providers/d' \
     -e 's/ data-netlify="true"//' -e 's/ data-delivery="netlify"//' -e 's/href="index.html"/href="preview.html"/g' index.html > preview/preview.html
-for f in services tools work about area contact; do
+for f in services tools lab work about area contact; do
   sed -e '/Content-Security-Policy/d' -e '/If you change form providers/d' \
       -e 's/ data-netlify="true"//' -e 's/ data-delivery="netlify"//' -e 's/href="index.html"/href="preview.html"/g' "$f.html" > "preview/$f.html"
 done

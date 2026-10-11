@@ -33,7 +33,15 @@ body{margin:0}img{max-width:100%}[hidden]{display:none!important}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:84px}
 @media (max-width:860px){html{scroll-padding-bottom:84px}}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+/* page backdrop: sky glow up top, warm wheat glow below, and faint contour lines like a topo map of the plains */
+body{--contour:color-mix(in srgb,var(--water) 9%,transparent);background:
+  radial-gradient(ellipse 80% 50% at 0% 0%,color-mix(in srgb,var(--water-soft) 85%,transparent),transparent 70%),
+  radial-gradient(ellipse 70% 50% at 100% 100%,color-mix(in srgb,var(--signal) 14%,transparent),transparent 70%),
+  repeating-radial-gradient(ellipse 140% 100% at 85% 15%,transparent 0 46px,var(--contour) 46px 47.5px),
+  repeating-radial-gradient(ellipse 120% 90% at 5% 90%,transparent 0 58px,var(--contour) 58px 59.5px),
+  var(--bg);background-attachment:fixed}
+@media (max-width:860px){body{background-attachment:scroll}}
+body{color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
 a{color:var(--water)}
 h1,h2,h3{font-family:var(--f-display);line-height:1.02;letter-spacing:.005em;text-wrap:balance;margin:0}
 h2{font-size:clamp(2.2rem,5vw,3.4rem);font-weight:700;text-transform:uppercase}
@@ -98,11 +106,6 @@ header .btn{padding:9px 16px;font-size:1rem}
 @keyframes stream{to{stroke-dashoffset:-16}}
 .needle{transform-origin:0 0;transition:transform 1.2s cubic-bezier(.3,1.5,.5,1)}
 
-/* trust strip */
-.strip{background:var(--water);color:var(--on-water);padding-block:0;overflow:hidden}
-.strip .track{display:flex;gap:48px;white-space:nowrap;padding-block:16px;width:max-content;animation:marquee 38s linear infinite;font-family:var(--f-display);font-weight:700;font-size:1.35rem;text-transform:uppercase;letter-spacing:.06em}
-.strip .track span::after{content:"◆";margin-left:48px;color:var(--signal)}
-@keyframes marquee{to{transform:translateX(-50%)}}
 
 /* diagnoser */
 .diag{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(24px,4vw,48px);align-items:start}
@@ -301,7 +304,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;
 /* phone tab bar */
 .tabbar{display:none}
 @media (max-width:860px){
-  .tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:30;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(12px);border-top:1px solid var(--line)}
+  .tabbar{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;position:fixed;left:0;right:0;bottom:0;z-index:30;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(12px);border-top:1px solid var(--line)}
   .tabbar a{position:relative;display:grid;justify-items:center;gap:2px;padding:6px 2px;color:var(--muted);text-decoration:none;font-size:.7rem;font-weight:600;border-radius:var(--r);transition:color .15s,background .15s}
   .tabbar svg{width:24px;height:24px;transition:transform .2s}
   .tabbar a[aria-current="page"]{color:var(--water)}
@@ -349,3 +352,47 @@ header.top{view-transition-name:site-header}
   *,*::before,*::after{animation:none!important;transition:none!important}
   html{scroll-behavior:auto}
 }
+
+/* the hero runs straight into the tiles now that the scrolling strip is gone */
+.hero+.tiles-sec{padding-top:8px}
+
+/* Water Lab */
+.lab-title{font-size:clamp(2.6rem,7vw,4.6rem);font-weight:800;text-transform:uppercase}
+.lab{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);grid-template-areas:"scene controls" "scene out";gap:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;box-shadow:0 30px 60px -40px rgba(10,40,60,.45)}
+.lab-scene{grid-area:scene;margin:0;background:var(--aquifer);border-right:1px solid var(--line);display:grid;align-items:start}
+.lab-scene svg{display:block;width:100%;height:auto}
+.lab-scene .sky{fill:var(--water-soft)}
+.lab-scene .sun{fill:var(--signal);transition:cy .4s}
+.lab-scene .pw{display:none}
+.lab[data-power="windmill"] .pw-windmill,.lab[data-power="solar"] .pw-solar,.lab[data-power="electric"] .pw-electric{display:inline}
+.lab:not([data-power="solar"]) .sun{opacity:.35}
+.lab-scene #casing,.lab-scene #pump,.lab-scene #riser,.lab-scene #depthTag{transition:height .35s,y .35s,y2 .35s}
+.lab-scene #tankWater{transition:height .5s,y .5s}
+.cow{opacity:0;transform:translateY(4px);transition:opacity .3s,transform .3s}
+.cow.on{opacity:1;transform:none}
+.flowline{opacity:0}
+.lab.flowing .flowline{opacity:1;animation:labflow var(--flow,1.5s) linear infinite}
+@keyframes labflow{to{stroke-dashoffset:-20}}
+.lab.spinning .blades{animation:labspin var(--spin,1s) linear infinite}
+@keyframes labspin{to{transform:rotate(360deg)}}
+.lab-controls{grid-area:controls;padding:clamp(20px,3vw,28px);display:grid;gap:16px;align-content:start}
+.lab-power{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.lab-power button{display:grid;justify-items:center;gap:4px;padding:10px 6px;border:1.5px solid var(--line);border-radius:var(--r);background:var(--surface);color:var(--ink);font-family:var(--f-display);font-weight:700;font-size:1.05rem;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;transition:border-color .15s,background .15s,transform .15s}
+.lab-power button:hover{transform:translateY(-2px)}
+.lab-power button[aria-pressed="true"]{border-color:var(--water);background:var(--water-soft);color:var(--water)}
+.lab-power svg{width:30px;height:30px}
+.lab-row{display:flex;justify-content:space-between;gap:10px}
+.lab-row output{font-family:var(--f-mono);color:var(--water);font-weight:700}
+.lab-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:end}
+.lab-check{display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);border-radius:var(--r);padding:10px 12px;cursor:pointer}
+.lab-check input{width:auto;accent-color:var(--water)}
+.lab-out{grid-area:out;padding:clamp(20px,3vw,28px);display:grid;gap:14px;align-content:start;border-top:1px solid var(--line)}
+.lab-nums{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.lab-nums div{display:grid;gap:2px}
+.lab-nums b{font-family:var(--f-display);font-weight:800;font-size:clamp(2.2rem,5vw,3rem);line-height:1;color:var(--water);font-variant-numeric:tabular-nums}
+.lab-nums small{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);text-transform:uppercase}
+.lab-verdict{font-weight:700;padding:10px 14px;border-radius:var(--r);border-left:4px solid var(--water);background:var(--water-soft)}
+.lab-verdict.close{border-color:var(--signal);background:color-mix(in srgb,var(--signal) 16%,var(--surface))}
+.lab-verdict.short{border-color:var(--brand);background:color-mix(in srgb,var(--brand) 12%,var(--surface))}
+.lab-out .btn{justify-self:start}
+@media (max-width:860px){.lab{grid-template-columns:1fr;grid-template-areas:"scene" "controls" "out"}.lab-scene{border-right:0;border-bottom:1px solid var(--line)}}

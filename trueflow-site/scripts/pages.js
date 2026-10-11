@@ -19,6 +19,9 @@ const PAGES = [
   { key: "tools", file: "tools.html", label: "Diagnose", tab: "dial",
     title: "Diagnose & Size Your Water System | True Flow Pump & Well",
     description: "Pick your water symptom to see likely causes and urgency, and size your pump flow and pressure tank pre-charge in a few taps." },
+  { key: "lab", file: "lab.html", label: "Water Lab", tab: "flask",
+    title: "Water Lab: Build a Well for Your Herd | True Flow Pump & Well",
+    description: "Pick a windmill, solar or electric pump, set your well depth, wind and herd size, and see if the stock tank keeps up. A hands-on rule-of-thumb tool from True Flow Pump & Well." },
   { key: "work", file: "work.html", label: "Our work", tab: "camera",
     title: "Our Work | True Flow Pump & Well",
     description: "Photos of windmill repairs, solar wells, stock tanks and water line work by True Flow Pump & Well." },
@@ -42,6 +45,7 @@ const TAB_ICONS = {
   pump: '<rect x="8" y="3" width="8" height="18" rx="2"/><path d="M8 9h8M8 13h8"/>',
   dial: '<path d="M4 16a8 8 0 1 1 16 0"/><path d="M12 16l4-5"/>',
   camera: '<path d="M4 8h3l2-3h6l2 3h3v11H4Z"/><circle cx="12" cy="13" r="3.5"/>',
+  flask: '<path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/><path d="M7.5 15h9"/>',
   phone: '<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/>'
 };
 

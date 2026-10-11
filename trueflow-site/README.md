@@ -2,7 +2,7 @@
 
 Static site with no build step on the server. Open `index.html` in a browser, or deploy it on Netlify (below).
 
-The site has seven pages in the nav: Home (`index.html`), Services, Diagnose (`tools.html`), Our work, About, Service area and Contact, plus a Privacy policy (`privacy.html`) linked from the footer and the form. Update the privacy policy if the site starts collecting anything new (analytics, cookies, payments). Every page shares one header, footer and phone tab bar from `src/layout.html`. To change a page, edit `src/pages/<page>.html` (or the layout), then run `npm run pages` to regenerate the root `*.html` files, and commit both. `npm test` fails if they are out of sync.
+The site has eight pages in the nav: Home (`index.html`), Services, Diagnose (`tools.html`), Water Lab (`lab.html`, an interactive build-a-well tool whose math is in `js/lab.js`), Our work, About, Service area and Contact, plus a Privacy policy (`privacy.html`) linked from the footer and the form. Update the privacy policy if the site starts collecting anything new (analytics, cookies, payments). Every page shares one header, footer and phone tab bar from `src/layout.html`. To change a page, edit `src/pages/<page>.html` (or the layout), then run `npm run pages` to regenerate the root `*.html` files, and commit both. `npm test` fails if they are out of sync.
 
 | Path | What it is |
 |---|---|

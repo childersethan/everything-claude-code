@@ -1,0 +1,110 @@
+<section class="lab-sec">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Water Lab</span>
+      <h1 class="lab-title">Build a well. See if it keeps up.</h1>
+      <p class="lede">Pick how you'll pump, drag the well deeper, turn up the wind and add cattle. Watch the stock tank fill, or run dry.</p>
+    </div>
+
+    <div class="lab" id="lab" data-power="windmill">
+      <figure class="lab-scene">
+        <svg viewBox="0 0 400 360" role="img" aria-labelledby="labSceneTitle">
+          <title id="labSceneTitle">A well running down to the aquifer, with the chosen pump at the top filling a stock tank for the cattle.</title>
+          <rect x="0" y="0" width="400" height="108" class="sky"/>
+          <circle id="sunDisc" cx="340" cy="38" r="14" class="sun"/>
+          <rect x="0" y="108" width="400" height="26" fill="var(--soil-1)"/>
+          <rect x="0" y="134" width="400" height="32" fill="var(--rock)"/>
+          <rect x="0" y="166" width="400" height="194" fill="var(--aquifer)"/>
+          <g font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="1">
+            <text x="10" y="125" fill="var(--ink)" fill-opacity=".7">TOPSOIL</text>
+            <text x="10" y="154" fill="#fff" fill-opacity=".85">CALICHE / ROCK</text>
+            <text x="10" y="182" fill="#fff" fill-opacity=".9">OGALLALA AQUIFER</text>
+            <text x="10" y="352" fill="#fff" fill-opacity=".7">600 FT</text>
+          </g>
+
+          <!-- power sources: only the chosen one shows -->
+          <g class="pw pw-windmill">
+            <path d="M184 106 200 34 216 106M188 88h24M192 66h16" stroke="var(--ink)" stroke-width="2.5" fill="none"/>
+            <g class="blades" style="transform-origin:200px 30px">
+              <circle cx="200" cy="30" r="20" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="3 3"/>
+              <path d="M200 10v40M180 30h40M186 16l28 28M214 16l-28 28" stroke="var(--ink)" stroke-width="2.5"/>
+            </g>
+            <path d="M200 30h-30l-6 8h12z" fill="var(--brand)"/>
+          </g>
+          <g class="pw pw-solar">
+            <path d="M200 106V78" stroke="var(--ink)" stroke-width="3"/>
+            <path d="M168 84 184 56h44l-16 28Z" fill="var(--water)" stroke="var(--ink)" stroke-width="2"/>
+            <path d="M176 70h44M190 56l-8 28M206 56l-8 28" stroke="#fff" stroke-opacity=".6" stroke-width="1"/>
+          </g>
+          <g class="pw pw-electric">
+            <path d="M150 106V24M138 32h24M150 24c25 10 40 30 50 60" stroke="var(--ink)" stroke-width="2.5" fill="none"/>
+            <rect x="190" y="80" width="20" height="18" rx="2" fill="var(--signal)" stroke="var(--ink)" stroke-width="2"/>
+            <path d="m201 83-5 8h5l-2 5 6-8h-5z" fill="var(--ink)"/>
+          </g>
+
+          <!-- stock tank and the line that feeds it -->
+          <path d="M200 100V92h74v-10" stroke="var(--ink)" stroke-width="3" fill="none"/>
+          <path class="flowline" d="M200 100V92h74v-10" stroke="var(--water-soft)" stroke-width="1.6" stroke-dasharray="3 7" fill="none"/>
+          <rect x="262" y="78" width="80" height="28" rx="4" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/>
+          <rect id="tankWater" x="264" y="91" width="76" height="13" fill="var(--water)"/>
+
+          <!-- the herd: one cow per 50 head -->
+          <g fill="var(--ink)">
+            <g class="cow"><rect x="14" y="92" width="18" height="9" rx="3"/><rect x="30" y="88" width="7" height="6" rx="2"/><path d="M16 101v5M29 101v5" stroke="var(--ink)" stroke-width="2"/></g>
+            <g class="cow"><rect x="44" y="94" width="18" height="9" rx="3"/><rect x="60" y="90" width="7" height="6" rx="2"/><path d="M46 103v4M59 103v4" stroke="var(--ink)" stroke-width="2"/></g>
+            <g class="cow"><rect x="74" y="92" width="18" height="9" rx="3"/><rect x="90" y="88" width="7" height="6" rx="2"/><path d="M76 101v5M89 101v5" stroke="var(--ink)" stroke-width="2"/></g>
+            <g class="cow"><rect x="104" y="94" width="18" height="9" rx="3"/><rect x="120" y="90" width="7" height="6" rx="2"/><path d="M106 103v4M119 103v4" stroke="var(--ink)" stroke-width="2"/></g>
+            <g class="cow"><rect x="350" y="92" width="18" height="9" rx="3"/><rect x="345" y="88" width="7" height="6" rx="2"/><path d="M352 101v5M365 101v5" stroke="var(--ink)" stroke-width="2"/></g>
+            <g class="cow"><rect x="374" y="94" width="18" height="9" rx="3"/><rect x="369" y="90" width="7" height="6" rx="2"/><path d="M376 103v4M389 103v4" stroke="var(--ink)" stroke-width="2"/></g>
+            <g class="cow"><rect x="24" y="78" width="16" height="8" rx="3"/><rect x="38" y="75" width="6" height="5" rx="2"/></g>
+            <g class="cow"><rect x="84" y="78" width="16" height="8" rx="3"/><rect x="98" y="75" width="6" height="5" rx="2"/></g>
+          </g>
+
+          <!-- the well -->
+          <rect id="casing" x="192" y="100" width="16" height="120" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/>
+          <line id="riser" x1="200" y1="100" x2="200" y2="198" stroke="var(--ink)" stroke-width="2.5"/>
+          <line class="flowline" x1="200" y1="198" x2="200" y2="100" stroke="var(--water)" stroke-width="2" stroke-dasharray="3 7"/>
+          <rect id="pump" x="194" y="198" width="12" height="22" rx="3" fill="var(--brand)"/>
+          <text id="depthTag" x="214" y="224" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#fff">220 FT</text>
+        </svg>
+      </figure>
+
+      <div class="lab-controls">
+        <div class="lab-power" role="group" aria-label="How the well is pumped">
+          <button type="button" id="pw-windmill" aria-pressed="true"><span data-icon="windmill"></span>Windmill</button>
+          <button type="button" id="pw-solar" aria-pressed="false"><span data-icon="sun"></span>Solar</button>
+          <button type="button" id="pw-electric" aria-pressed="false"><span data-icon="bolt"></span>Electric</button>
+        </div>
+        <label for="labDepth"><span class="lab-row">Well depth <output id="depthVal">220 ft</output></span>
+          <input type="range" id="labDepth" min="40" max="600" step="10" value="220"></label>
+        <label for="labWind" id="windRow"><span class="lab-row">Average wind <output id="windVal">12 mph</output></span>
+          <input type="range" id="labWind" min="0" max="30" value="12"></label>
+        <label for="labSun" id="sunRow" hidden><span class="lab-row">Full sun per day <output id="sunVal">5.5 hrs</output></span>
+          <input type="range" id="labSun" min="2" max="7" step="0.5" value="5.5"></label>
+        <label for="labHerd"><span class="lab-row">Cattle <output id="herdVal">60 head</output></span>
+          <input type="range" id="labHerd" min="0" max="400" step="10" value="60"></label>
+        <div class="lab-pair">
+          <label for="labSeason">Weather
+            <select id="labSeason">
+              <option value="cool">Cool</option>
+              <option value="mild" selected>Mild</option>
+              <option value="hot">Summer heat</option>
+            </select>
+          </label>
+          <label for="labHouse" class="lab-check"><input type="checkbox" id="labHouse"> The house too</label>
+        </div>
+      </div>
+
+      <div class="lab-out" aria-live="polite">
+        <div class="lab-nums">
+          <div><span class="eyebrow">Well pumps</span><b id="supplyOut">0</b><small>gal / day</small></div>
+          <div><span class="eyebrow">Herd drinks</span><b id="needOut">0</b><small>gal / day</small></div>
+        </div>
+        <p id="verdict" class="lab-verdict"></p>
+        <p id="labTip" class="fineprint"></p>
+        <a class="btn btn-primary" id="labBook" href="contact.html">Talk through my setup</a>
+        <p class="fineprint">Rough rules of thumb for a typical setup. Every well is different, so we test yours before sizing anything.</p>
+      </div>
+    </div>
+  </div>
+</section>
