@@ -37,13 +37,12 @@ window.SITE = Object.freeze({
     photos: [
       { src: "images/windmill-boom-lift.jpg", cap: "Raising a windmill head with the boom truck" },
       { src: "images/cattle-tank-float.jpg", cap: "Stock tank with a new float switch, herd waiting" },
-      { src: "images/solar-well-array.jpg", cap: "Solar well array behind the pipe gate" },
       { src: "images/windmill-tower.jpg", cap: "Pulling sucker rods on a windmill" },
       { src: "images/water-line-leak-repair.jpg", cap: "Water line leak, dug out and repaired" },
       { src: "images/solar-panel-hail-damage.jpg", cap: "Hail-damaged solar panel, ready for replacement" },
       { src: "images/stock-tank-float-switch.jpg", cap: "Float switch mounted on a stock tank" },
-      { src: "images/frost-free-hydrant-dig.jpg", cap: "Digging out a frost-free hydrant" },
-      { src: "images/hydrant-line-trench.jpg", cap: "Trenching to a fire hydrant line" }
+      { src: "images/frost-free-hydrant-dig.jpg", cap: "Patching and fixing a water line" },
+      { src: "images/hydrant-line-trench.jpg", cap: "Searching for a water leak around a fire hydrant" }
     ]
   }),
 
