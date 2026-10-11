@@ -1,0 +1,35 @@
+# Runs the True Flow website's tests on every pull request and push to main that touches the site.
+name: True Flow site tests
+
+on:
+  pull_request:
+    paths: ["trueflow-site/**", "netlify.toml", ".github/workflows/trueflow-site.yml"]
+  push:
+    branches: [main]
+    paths: ["trueflow-site/**", "netlify.toml", ".github/workflows/trueflow-site.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: trueflow-site
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Unit tests and generated-pages check
+        run: npm test
+      - name: Install Playwright and Chromium
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: End-to-end tests
+        run: npm run test:e2e
