@@ -1,0 +1,137 @@
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-copy reveal">
+      <span class="eyebrow">Wells · Pumps · Windmill &amp; solar · 24-hour service</span>
+      <h1>Reliable water. <span class="flow">Built to last.</span></h1>
+      <p class="lede">True Flow Pump &amp; Well serves local farmers and ranchers with dependable well, pump, and water system work. When your water stops, call any hour, day or night.</p>
+      <div class="cta-row">
+        <a class="btn btn-brand" href="contact.html" data-tel>Call or text <span data-f="phone"></span></a>
+        <a class="btn btn-ghost" href="tools.html">Check my symptoms</a>
+      </div>
+      <ul class="proof">
+        <li>Free estimates</li>
+        <li>Licensed &amp; insured</li>
+        <li>Home, farm &amp; ranch</li>
+      </ul>
+    </div>
+
+    <figure class="rig reveal" aria-label="Animated cross-section of a working water well" style="margin:0">
+      <svg viewBox="0 0 400 330" role="img" aria-labelledby="rigTitle">
+        <title id="rigTitle">A house above ground, a well casing running down through soil and rock into the aquifer, with a submersible pump pushing water up to the house.</title>
+        <defs>
+          <pattern id="gravel" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="3" cy="4" r="1.6" fill="var(--soil-2)"/><circle cx="10" cy="10" r="1.2" fill="var(--soil-2)"/></pattern>
+          <pattern id="rockp" width="30" height="16" patternUnits="userSpaceOnUse"><path d="M0 8h30M15 0v8M5 8v8" stroke="var(--bg)" stroke-opacity=".35" stroke-width="1" fill="none"/></pattern>
+          <clipPath id="casingClip"><rect x="182" y="70" width="36" height="250"/></clipPath>
+        </defs>
+        <!-- sky / ground -->
+        <rect x="0" y="0" width="400" height="70" fill="var(--surface)"/>
+        <rect x="0" y="70" width="400" height="60" fill="var(--soil-1)"/>
+        <rect x="0" y="70" width="400" height="60" fill="url(#gravel)"/>
+        <rect x="0" y="130" width="400" height="90" fill="var(--rock)"/>
+        <rect x="0" y="130" width="400" height="90" fill="url(#rockp)"/>
+        <rect x="0" y="220" width="400" height="110" fill="var(--aquifer)"/>
+        <g fill="var(--bg)" fill-opacity=".45">
+          <rect class="ripple" x="40" y="240" width="60" height="2" rx="1"/>
+          <rect class="ripple" x="290" y="270" width="70" height="2" rx="1" style="animation-delay:1s"/>
+          <rect class="ripple" x="60" y="300" width="50" height="2" rx="1" style="animation-delay:2s"/>
+        </g>
+        <!-- strata labels -->
+        <g font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="1" fill="var(--ink)" fill-opacity=".75">
+          <text x="10" y="90">LOESS / TOPSOIL</text>
+          <text x="10" y="150" fill="var(--bg)" fill-opacity=".9">CALICHE / CLAY</text>
+          <text x="10" y="236" fill="var(--bg)" fill-opacity=".95">OGALLALA AQUIFER</text>
+        </g>
+        <!-- house -->
+        <g transform="translate(250 22)">
+          <path d="M0 26 30 4 60 26v22H0Z" fill="var(--bg)" stroke="var(--ink)" stroke-width="2"/>
+          <rect x="24" y="30" width="12" height="18" fill="var(--ink)"/>
+          <rect x="6" y="30" width="12" height="10" fill="var(--water-soft)" stroke="var(--ink)" stroke-width="1.5"/>
+        </g>
+        <!-- pressure tank -->
+        <g transform="translate(140 38)">
+          <rect x="0" y="0" width="22" height="32" rx="10" fill="var(--water)"/>
+          <text x="11" y="-4" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="var(--muted)">TANK</text>
+        </g>
+        <!-- line from wellhead to tank to house -->
+        <path d="M200 62 V56 H151 M200 56 H280" stroke="var(--ink)" stroke-width="3" fill="none"/>
+        <path d="M200 56 H280" stroke="var(--water)" stroke-width="2" stroke-dasharray="6 10" fill="none" class="tap-stream"/>
+        <!-- wellhead -->
+        <rect x="190" y="54" width="20" height="16" rx="2" fill="var(--ink)"/>
+        <!-- casing -->
+        <rect x="182" y="70" width="36" height="250" fill="var(--surface)" fill-opacity=".85" stroke="var(--ink)" stroke-width="2"/>
+        <g clip-path="url(#casingClip)">
+          <rect id="waterCol" x="182" y="170" width="36" height="160" fill="var(--water)" fill-opacity=".55"/>
+        </g>
+        <!-- drop pipe -->
+        <rect x="197" y="62" width="6" height="226" fill="var(--ink)" fill-opacity=".8"/>
+        <g clip-path="url(#casingClip)">
+          <circle class="drop" cx="200" cy="286" r="2.2" fill="var(--water-soft)"/>
+          <circle class="drop" cx="200" cy="286" r="2.2" fill="var(--water-soft)" style="animation-delay:.55s"/>
+          <circle class="drop" cx="200" cy="286" r="2.2" fill="var(--water-soft)" style="animation-delay:1.1s"/>
+          <circle class="drop" cx="200" cy="286" r="2.2" fill="var(--water-soft)" style="animation-delay:1.65s"/>
+        </g>
+        <!-- pump -->
+        <rect x="191" y="282" width="18" height="34" rx="3" fill="var(--signal)" stroke="var(--ink)" stroke-width="1.5"/>
+        <path d="M193 292h14M193 297h14M193 302h14" stroke="var(--ink)" stroke-width="1"/>
+        <!-- depth scale -->
+        <g font-family="JetBrains Mono, monospace" font-size="8" fill="var(--bg)" fill-opacity=".95">
+          <path d="M232 70 v250" stroke="var(--bg)" stroke-opacity=".6" stroke-width="1"/>
+          <g stroke="var(--bg)" stroke-opacity=".7">
+            <path d="M232 70h6M232 132.5h6M232 195h6M232 257.5h6M232 320h6"/>
+          </g>
+          <text x="242" y="134" fill="var(--ink)" fill-opacity=".7">100 ft</text>
+          <text x="242" y="197">200 ft</text>
+          <text x="242" y="260">300 ft</text>
+          <text x="242" y="318">400 ft</text>
+        </g>
+        <!-- pressure gauge -->
+        <g transform="translate(70 40)">
+          <circle r="22" fill="var(--bg)" stroke="var(--ink)" stroke-width="2"/>
+          <path d="M-15 11A18 18 0 1 1 15 11" fill="none" stroke="var(--line)" stroke-width="3"/>
+          <path d="M-6 -16.9A18 18 0 0 1 12 -13.4" fill="none" stroke="var(--water)" stroke-width="3"/>
+          <g class="needle" id="needle" style="transform:rotate(-120deg)"><path d="M0 0 L0 -16" stroke="#C23A22" stroke-width="2" stroke-linecap="round"/></g>
+          <circle r="2.5" fill="var(--ink)"/>
+          <text y="14" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6.5" fill="var(--muted)">PSI</text>
+        </g>
+      </svg>
+      <div class="gauges" aria-live="off">
+        <div class="gauge"><span>Pressure</span><b id="gPsi">0<small>psi</small></b></div>
+        <div class="gauge"><span>Flow</span><b id="gGpm">0.0<small>gpm</small></b></div>
+        <div class="gauge"><span>Pump set</span><b id="gDepth">0<small>ft</small></b></div>
+      </div>
+      <figcaption class="rig-cap">A healthy system: pump cycling, tank holding 40–60 psi.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<div class="strip" aria-hidden="true"><div class="track" id="track"></div></div>
+
+<section class="tiles-sec">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Where to?</span>
+      <h2>What do you need today?</h2>
+    </div>
+    <div class="tiles">
+      <a class="tile tile-urgent reveal" href="tools.html"><span class="tile-ico" data-icon="drop2"></span><b>No water?</b><span>Pick your symptom and see the likely cause.</span><i aria-hidden="true">→</i></a>
+      <a class="tile reveal" href="services.html"><span class="tile-ico" data-icon="pump"></span><b>Services</b><span>Wells, pumps, windmills, solar and water lines.</span><i aria-hidden="true">→</i></a>
+      <a class="tile reveal" href="tools.html#sizing"><span class="tile-ico" data-icon="dial"></span><b>Size my system</b><span>Pump flow and tank pressure in a few taps.</span><i aria-hidden="true">→</i></a>
+      <a class="tile reveal" href="work.html"><span class="tile-ico" data-icon="windmill"></span><b>Our work</b><span>Photos from jobs across the High Plains.</span><i aria-hidden="true">→</i></a>
+      <a class="tile reveal" href="area.html"><span class="tile-ico" data-icon="lens"></span><b>Service area</b><span>Check your town on the 100-mile map.</span><i aria-hidden="true">→</i></a>
+      <a class="tile tile-cta reveal" href="contact.html"><span class="tile-ico" data-icon="house"></span><b>Request service</b><span>Call, text or send a request any hour.</span><i aria-hidden="true">→</i></a>
+    </div>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="bandTitle">
+  <img src="images/windmill-repair-crew.jpg" alt="True Flow service truck with its boom raised beside a windmill while a crew member works at the tower base" width="1600" height="1200">
+  <div class="wrap">
+    <span class="band-cap">Windmill service on the open range</span>
+    <h2 id="bandTitle">True service. True results. True flow.</h2>
+    <ul class="values">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6Z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>Honest service</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3c-4 5-6 8-6 11a6 6 0 0 0 12 0c0-3-2-6-6-11Z"/></svg>Quality work</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg>Lasting results</li>
+    </ul>
+  </div>
+</section>

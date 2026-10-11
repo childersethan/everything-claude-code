@@ -1,0 +1,71 @@
+<section id="diagnose">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Diagnose it</span>
+      <h2>What's going on with your water?</h2>
+      <p class="lede">At the house, the stock tank or the windmill, pick the closest match. You'll see the usual causes, how urgent it is, and what we'd check first when we get there.</p>
+    </div>
+    <div class="diag">
+      <div class="symptoms" id="symptoms" role="group" aria-label="Symptoms"></div>
+      <article class="ticket" aria-live="polite">
+        <div class="ticket-head"><span>Service ticket</span><span id="tNo">No. TF-0001</span></div>
+        <div class="ticket-body" id="ticket"></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="sizing" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Size my system</span>
+      <h2>How much water does your place need?</h2>
+      <p class="lede">Two quick tools we use on every call. They give you a starting number to talk through with us, not a final quote.</p>
+    </div>
+    <div class="tools reveal">
+      <div class="tabs" role="tablist" aria-label="Sizing tools">
+        <button type="button" role="tab" id="tabFlow" aria-selected="true" aria-controls="panelFlow">Pump flow (GPM)</button>
+        <button type="button" role="tab" id="tabTank" aria-selected="false" aria-controls="panelTank" tabindex="-1">Tank pre-charge</button>
+      </div>
+
+      <div class="tool-in" id="panelFlow" role="tabpanel" aria-labelledby="tabFlow">
+        <div class="stepper"><span>Bathrooms<small>Full or half</small></span><span class="ctl"><button type="button" data-step="bath" data-d="-1" aria-label="Fewer bathrooms">−</button><output id="o-bath">2</output><button type="button" data-step="bath" data-d="1" aria-label="More bathrooms">+</button></span></div>
+        <div class="stepper"><span>Kitchen &amp; laundry fixtures<small>Sinks, dishwasher, washer</small></span><span class="ctl"><button type="button" data-step="kit" data-d="-1" aria-label="Fewer fixtures">−</button><output id="o-kit">3</output><button type="button" data-step="kit" data-d="1" aria-label="More fixtures">+</button></span></div>
+        <div class="stepper"><span>Outdoor hydrants &amp; hose bibs</span><span class="ctl"><button type="button" data-step="hose" data-d="-1" aria-label="Fewer hydrants">−</button><output id="o-hose">2</output><button type="button" data-step="hose" data-d="1" aria-label="More hydrants">+</button></span></div>
+        <div class="switch-row">
+          <label for="xIrr"><input type="checkbox" id="xIrr"> Lawn irrigation</label>
+          <label for="xStock"><input type="checkbox" id="xStock"> Livestock water</label>
+        </div>
+      </div>
+      <div class="tool-out" id="outFlow" role="region" aria-label="Pump flow result" aria-live="polite">
+        <span class="eyebrow">Suggested pump size</span>
+        <div class="readout"><b id="gpmOut">9</b><span>gallons / minute</span></div>
+        <div class="meter" aria-hidden="true"><i id="gpmBar" style="width:30%"></i></div>
+        <ul id="gpmNotes"></ul>
+        <p class="fineprint">Rule of thumb: about 1 GPM per fixture in the house, plus outdoor use. Your well's own yield sets the ceiling, so we test it before sizing a pump.</p>
+      </div>
+
+      <div class="tool-in" id="panelTank" role="tabpanel" aria-labelledby="tabTank" hidden>
+        <label for="cutIn">Pressure switch setting
+          <select id="cutIn">
+            <option value="20">20/40 psi</option>
+            <option value="30">30/50 psi</option>
+            <option value="40" selected>40/60 psi</option>
+            <option value="50">50/70 psi</option>
+          </select>
+        </label>
+        <label for="tankAir">What your tank reads now (air valve, pump off, water drained)
+          <input type="range" id="tankAir" min="0" max="60" value="25">
+        </label>
+        <p class="fineprint">Not sure? Kill power to the pump, open a faucet until water stops, then check the tank's air valve with a tire gauge.</p>
+      </div>
+      <div class="tool-out" id="outTank" role="region" aria-label="Tank pre-charge result" aria-live="polite" hidden>
+        <span class="eyebrow">Tank pre-charge</span>
+        <div class="readout"><b id="preOut">38</b><span>psi target</span></div>
+        <div class="meter" aria-hidden="true"><i id="preBar" style="width:60%"></i></div>
+        <p id="preMsg"></p>
+        <p class="fineprint">Pre-charge should sit 2 psi below the pump's cut-in pressure. Too low and the pump short-cycles. If it won't hold air, the bladder has likely failed.</p>
+      </div>
+    </div>
+  </div>
+</section>

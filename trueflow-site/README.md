@@ -1,17 +1,21 @@
 # True Flow Pump & Well website
 
-Static site with no build step. Open `index.html` in a browser, or deploy it on Netlify (below).
+Static site with no build step on the server. Open `index.html` in a browser, or deploy it on Netlify (below).
+
+The site has seven pages: Home (`index.html`), Services, Diagnose (`tools.html`), Our work, About, Service area and Contact. Every page shares one header, footer and phone tab bar from `src/layout.html`. To change a page, edit `src/pages/<page>.html` (or the layout), then run `npm run pages` to regenerate the root `*.html` files, and commit both. `npm test` fails if they are out of sync.
 
 | Path | What it is |
 |---|---|
-| `index.html` | The page markup |
+| `src/layout.html`, `src/pages/` | Page sources: the shared layout and each page's content |
+| `scripts/pages.js` | Builds the root `*.html` pages from `src/`; the page list, titles and tab bar live here |
+| `*.html` (root) | The generated pages Netlify serves |
 | `css/site.css` | All styles, with light and dark themes |
 | `js/config.js` | **Business details and page content. Edit this to update the site.** |
-| `js/sizing.js` | Pure calculations (pump sizing, tank pre-charge, open hours, form checks) |
+| `js/sizing.js` | Pure calculations (pump sizing, tank pre-charge, open hours, form checks, distances) |
 | `js/icons.js` | Inline SVG icons |
-| `js/app.js` | Wires the page together |
-| `tests/` | Unit tests for `sizing.js` and Playwright end-to-end tests |
-| `build.sh` | Builds `preview/preview.html`, a copy without the `<head>` wrapper for the Claude artifact preview. The real site doesn't need it. |
+| `js/app.js` | Wires each page together; each part runs only on the page that has it |
+| `tests/` | Unit tests and Playwright end-to-end tests (served over http like Netlify) |
+| `build.sh` | Builds `preview/` for the Claude artifact preview. The real site doesn't need it. |
 
 ## Business details
 
