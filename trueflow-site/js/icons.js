@@ -29,6 +29,8 @@ window.ICONS = Object.freeze((() => {
     trough: lg('<path d="M5 18h30l-3 12H8Z"/><path d="M9 23h22"/><path d="M12 30v5M28 30v5"/>'),
     lens: lg('<circle cx="18" cy="18" r="9"/><path d="M25 25l8 8"/>'),
     down: lg('<path d="M20 4v26"/><path d="M12 22l8 8 8-8"/><path d="M8 36h24"/>'),
+    rain: sm('<path d="M7 14h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.5 1.5A3.3 3.3 0 0 0 7 14Z"/><path d="M8 17l-1 3M12 17l-1 3M16 17l-1 3"/>'),
+    corn: sm('<path d="M12 3c-3 0-4.5 4-4.5 8.5S9 20 12 20s4.5-4 4.5-8.5S15 3 12 3Z"/><path d="M8 8.5h8M7.6 12.5h8.8M8.4 16.5h7.2M12 3v17"/><path d="M7.5 12C5 14 5.2 18.5 9 21.5M16.5 12c2.5 2 2.3 6.5-1.5 9.5"/>'),
     camera: '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4Z"/><circle cx="12" cy="13" r="3.5"/></svg>'
   };
 })());
