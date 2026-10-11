@@ -24,6 +24,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&amp;family=Figtree:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap">
 <link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/lab-pivot.css">
+<link rel="stylesheet" href="css/lab-irrigation.css">
+<link rel="stylesheet" href="css/lab-house.css">
 </head>
 <body data-page="lab">
 <a class="skip" href="#main">Skip to content</a>
@@ -64,10 +67,17 @@
     <div class="sec-head reveal">
       <span class="eyebrow">Water Lab</span>
       <h1 class="lab-title">Build a well. See if it keeps up.</h1>
-      <p class="lede">Pick how you'll pump, drag the well deeper, turn up the wind and add cattle, goats or chickens. Watch the stock tank fill, or run dry.</p>
+      <p class="lede" id="labLede">Pick how you'll pump, drag the well deeper, turn up the wind and add cattle, goats or chickens. Watch the stock tank fill, or run dry.</p>
     </div>
 
-    <div class="lab" id="lab" data-power="windmill">
+    <div class="lab-modes" role="group" aria-label="Pick a sim">
+      <button type="button" id="mode-livestock" aria-pressed="true"><span data-icon="cow"></span>Livestock</button>
+      <button type="button" id="mode-pivot" aria-pressed="false"><span data-icon="pivot"></span>Pivot sprinklers</button>
+      <button type="button" id="mode-irrigation" aria-pressed="false"><span data-icon="pump"></span>Irrigation well</button>
+      <button type="button" id="mode-house" aria-pressed="false"><span data-icon="house"></span>House well</button>
+    </div>
+
+    <div class="lab" id="lab" data-power="windmill" data-mode-panel="livestock" data-lede="Pick how you'll pump, drag the well deeper, turn up the wind and add cattle, goats or chickens. Watch the stock tank fill, or run dry.">
       <figure class="lab-scene">
         <svg viewBox="0 0 400 360" role="img" aria-labelledby="labSceneTitle" id="labSvg">
           <title id="labSceneTitle">A well running down to the aquifer, with the chosen pump at the top filling a stock tank for the livestock.</title>
@@ -198,6 +208,18 @@
         <p class="fineprint">Rough rules of thumb for a typical setup. Every well is different, so we test yours before sizing anything.</p>
       </div>
     </div>
+
+    <!-- Pivot sprinklers sim: js/lab-pivot.js, js/lab-pivot-scene.js, css/lab-pivot.css -->
+    <div class="lab" id="labPivot" data-mode-panel="pivot" data-lede="Pick a crop, size the pivot and set how much water it puts down. Watch the field grow green, or burn up." hidden>
+    </div>
+
+    <!-- Irrigation well sim: js/lab-irrigation.js, js/lab-irrigation-scene.js, css/lab-irrigation.css -->
+    <div class="lab" id="labIrrigation" data-mode-panel="irrigation" data-lede="Size the pump, set how much water is left in the aquifer and how many pivots it runs. See if the well holds up all season." hidden>
+    </div>
+
+    <!-- House well sim: js/lab-house.js, js/lab-house-scene.js, css/lab-house.css -->
+    <div class="lab" id="labHouse" data-mode-panel="house" data-lede="Set how many people live there, how strong the well is and how big the pressure tank is. See if the showers stay hot and strong." hidden>
+    </div>
   </div>
 </section>
 </main>
@@ -225,9 +247,17 @@
 <script src="js/motion.js"></script>
 <script src="js/app.js"></script>
 <script src="js/hero.js"></script>
+<script src="js/lab-board.js"></script>
 <script src="js/lab-animals.js"></script>
 <script src="js/lab-scene.js"></script>
 <script src="js/lab.js"></script>
+<script src="js/lab-pivot-scene.js"></script>
+<script src="js/lab-pivot.js"></script>
+<script src="js/lab-irrigation-scene.js"></script>
+<script src="js/lab-irrigation.js"></script>
+<script src="js/lab-house-scene.js"></script>
+<script src="js/lab-house.js"></script>
+<script src="js/lab-modes.js"></script>
 <!-- Cloudflare Web Analytics: cookie-free page view counts -->
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "0252e175db344365ae989163037d3802"}'></script>
 </body>

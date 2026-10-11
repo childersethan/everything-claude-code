@@ -3,10 +3,17 @@
     <div class="sec-head reveal">
       <span class="eyebrow">Water Lab</span>
       <h1 class="lab-title">Build a well. See if it keeps up.</h1>
-      <p class="lede">Pick how you'll pump, drag the well deeper, turn up the wind and add cattle, goats or chickens. Watch the stock tank fill, or run dry.</p>
+      <p class="lede" id="labLede">Pick how you'll pump, drag the well deeper, turn up the wind and add cattle, goats or chickens. Watch the stock tank fill, or run dry.</p>
     </div>
 
-    <div class="lab" id="lab" data-power="windmill">
+    <div class="lab-modes" role="group" aria-label="Pick a sim">
+      <button type="button" id="mode-livestock" aria-pressed="true"><span data-icon="cow"></span>Livestock</button>
+      <button type="button" id="mode-pivot" aria-pressed="false"><span data-icon="pivot"></span>Pivot sprinklers</button>
+      <button type="button" id="mode-irrigation" aria-pressed="false"><span data-icon="pump"></span>Irrigation well</button>
+      <button type="button" id="mode-house" aria-pressed="false"><span data-icon="house"></span>House well</button>
+    </div>
+
+    <div class="lab" id="lab" data-power="windmill" data-mode-panel="livestock" data-lede="Pick how you'll pump, drag the well deeper, turn up the wind and add cattle, goats or chickens. Watch the stock tank fill, or run dry.">
       <figure class="lab-scene">
         <svg viewBox="0 0 400 360" role="img" aria-labelledby="labSceneTitle" id="labSvg">
           <title id="labSceneTitle">A well running down to the aquifer, with the chosen pump at the top filling a stock tank for the livestock.</title>
@@ -136,6 +143,18 @@
         <a class="btn btn-ghost" id="labBook" href="contact.html">Talk through my setup</a>
         <p class="fineprint">Rough rules of thumb for a typical setup. Every well is different, so we test yours before sizing anything.</p>
       </div>
+    </div>
+
+    <!-- Pivot sprinklers sim: js/lab-pivot.js, js/lab-pivot-scene.js, css/lab-pivot.css -->
+    <div class="lab" id="labPivot" data-mode-panel="pivot" data-lede="Pick a crop, size the pivot and set how much water it puts down. Watch the field grow green, or burn up." hidden>
+    </div>
+
+    <!-- Irrigation well sim: js/lab-irrigation.js, js/lab-irrigation-scene.js, css/lab-irrigation.css -->
+    <div class="lab" id="labIrrigation" data-mode-panel="irrigation" data-lede="Size the pump, set how much water is left in the aquifer and how many pivots it runs. See if the well holds up all season." hidden>
+    </div>
+
+    <!-- House well sim: js/lab-house.js, js/lab-house-scene.js, css/lab-house.css -->
+    <div class="lab" id="labHouse" data-mode-panel="house" data-lede="Set how many people live there, how strong the well is and how big the pressure tank is. See if the showers stay hot and strong." hidden>
     </div>
   </div>
 </section>

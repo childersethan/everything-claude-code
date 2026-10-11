@@ -132,7 +132,7 @@
     const c = { vis: 0, nod: 0, ph: Math.random() * 6, dying: 0 };
 
     /** Draws one frame. Returns how hard this animal is shaking the picture (0 when it isn't). */
-    function draw({ t, dt, still, on, dying, delay, death, level }) {
+    function draw({ t, dt, still, on, dying, delay, death, level, party }) {
       c.vis = approach(c.vis, on ? 1 : 0, dt, 3);
       if (!dying && c.dying > 0) c.vis = 0; // a fresh run: the animal walks back in
       c.dying = dying ? (still ? 60 : c.dying + dt) : 0; // reduced motion: skip straight to the end of the scene
@@ -142,7 +142,8 @@
       c.nod = approach(c.nod, down ? 1 : 0, dt, 4);
 
       const s = spot.s * sp.scale, baseY = spot.y || 108;
-      const x = spot.x - (1 - c.vis) * 24 * spot.face, y = baseY - F.lift;
+      const hop = party && !still ? Math.abs(Math.sin(t * 7 + c.ph)) * 7 : 0; // a happy herd jumps for joy
+      const x = spot.x - (1 - c.vis) * 24 * spot.face, y = baseY - F.lift - hop;
       g.setAttribute("transform", `translate(${(x + F.dx).toFixed(1)} ${y.toFixed(1)}) scale(${spot.face * s} ${s}) rotate(${F.wobble.toFixed(1)}) rotate(${(F.spin + F.flip * 180).toFixed(1)} 0 -10.5)`);
       g.setAttribute("opacity", (c.vis * F.fade).toFixed(2));
       body.setAttribute("transform", `scale(${F.sx.toFixed(3)} ${F.sy.toFixed(3)})`);

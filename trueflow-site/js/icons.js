@@ -14,6 +14,7 @@ window.ICONS = Object.freeze((() => {
     heat: sm('<path d="M10 14V5a2 2 0 0 1 4 0v9a4 4 0 1 1-4 0Z"/><path d="M12 9v7"/>'),
     storm: sm('<path d="M7 15h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.5 1.5A3.3 3.3 0 0 0 7 15Z"/><path d="m12 15-2 4h3l-2 4"/>'),
     cow: lg('<path d="M13 14h14v10a7 7 0 0 1-14 0Z"/><path d="M13 16 6 13l2-5M27 16l7-3-2-5"/><path d="M17 27h.01M23 27h.01"/>'),
+    pivot: lg('<path d="M4 14h32M8 14l4 8M20 14v8M32 14l-4 8"/><path d="M6 14 4 10h32l-2 4"/><circle cx="12" cy="24" r="2"/><circle cx="28" cy="24" r="2"/><path d="M10 28v3M16 28v4M22 28v3M28 28v4M34 28v3"/>'),
     goat: lg('<path d="M14 15h12l-2 12a4 4 0 0 1-8 0Z"/><path d="M15 15q-6-4-3-10M25 15q6-4 3-10"/><path d="M14 18 8 20M26 18l6 2"/><path d="M20 31v5"/>'),
     chicken: lg('<path d="M10 22a10 9 0 0 0 20 2l4-10-6 3a8 8 0 0 0-14-4"/><path d="M14 13q1-5 4-3 2-4 4 1"/><path d="M9 15l-4 1 4 2"/><path d="M17 31v5M23 31v5"/><circle cx="13" cy="15" r=".6" fill="currentColor"/>'),
     bolt: sm('<path d="M13 2 4 14h7l-1 8 9-12h-7Z"/>'),
