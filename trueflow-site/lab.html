@@ -69,13 +69,30 @@
 
     <div class="lab" id="lab" data-power="windmill">
       <figure class="lab-scene">
-        <svg viewBox="0 0 400 360" role="img" aria-labelledby="labSceneTitle">
+        <svg viewBox="0 0 400 360" role="img" aria-labelledby="labSceneTitle" id="labSvg">
           <title id="labSceneTitle">A well running down to the aquifer, with the chosen pump at the top filling a stock tank for the cattle.</title>
-          <rect x="0" y="0" width="400" height="108" class="sky"/>
-          <circle id="sunDisc" cx="340" cy="38" r="14" class="sun"/>
+          <defs>
+            <linearGradient id="labSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="sky-top"/><stop offset="1" class="sky-low"/></linearGradient>
+            <linearGradient id="labAq" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="aq-top"/><stop offset="1" class="aq-low"/></linearGradient>
+            <linearGradient id="labSheen" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+            <linearGradient id="labSteel" x1="0" y1="0" x2="1" y2="0"><stop offset="0" class="steel-a"/><stop offset=".45" class="steel-b"/><stop offset="1" class="steel-a"/></linearGradient>
+            <clipPath id="labPanelClip"><path d="M128 86 144 58h48l-16 28Z"/></clipPath>
+            <clipPath id="labTankClip"><rect x="265" y="70" width="74" height="34"/></clipPath>
+            <clipPath id="labCasingClip"><rect id="casingClip" x="193" y="100" width="14" height="140"/></clipPath>
+          </defs>
+
+          <!-- sky, sun, clouds, distant hills -->
+          <rect x="0" y="0" width="400" height="108" fill="url(#labSky)"/>
+          <g id="sun" class="sun"><g id="sunRays"></g><circle r="11"/></g>
+          <g id="clouds" class="cloud"></g>
+          <path class="hill" d="M0 98Q50 86 110 96T230 94T330 90T400 96V108H0Z"/>
+
+          <!-- ground layers -->
           <rect x="0" y="108" width="400" height="26" fill="var(--soil-1)"/>
           <rect x="0" y="134" width="400" height="32" fill="var(--rock)"/>
-          <rect x="0" y="166" width="400" height="194" fill="var(--aquifer)"/>
+          <rect x="0" y="166" width="400" height="194" fill="url(#labAq)"/>
+          <g id="ripples" class="aq-ripple"></g>
+          <path id="drawdown" fill="var(--rock)" d="M140 166H260Z"/>
           <g font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="1" class="lab-labels">
             <text x="10" y="125" fill="var(--ink)" fill-opacity=".7">TOPSOIL</text>
             <text x="10" y="154" fill="#fff" fill-opacity=".85">CALICHE / ROCK</text>
@@ -85,48 +102,44 @@
 
           <!-- power sources: only the chosen one shows -->
           <g class="pw pw-windmill">
-            <path d="M184 106 200 34 216 106M188 88h24M192 66h16" stroke="var(--ink)" stroke-width="2.5" fill="none"/>
-            <g class="blades" style="transform-origin:200px 30px">
-              <circle cx="200" cy="30" r="20" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="3 3"/>
-              <path d="M200 10v40M180 30h40M186 16l28 28M214 16l-28 28" stroke="var(--ink)" stroke-width="2.5"/>
-            </g>
-            <path d="M200 30h-30l-6 8h12z" fill="var(--brand)"/>
+            <path d="M185 106 200 36 215 106M189 88h22M193 68h14M187 97l24-18M213 97l-24-18" stroke="var(--ink)" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <line id="rod" x1="200" y1="34" x2="200" y2="98" stroke="var(--ink)" stroke-width="1.4"/>
+            <g id="tail"><path d="M200 30H168" stroke="var(--ink)" stroke-width="2"/><path d="M168 22 158 24v12l10 2Z" fill="var(--brand)" stroke="var(--ink)" stroke-width="1"/></g>
+            <g id="wheel"></g>
           </g>
           <g class="pw pw-solar">
-            <path d="M200 106V78" stroke="var(--ink)" stroke-width="3"/>
-            <path d="M168 84 184 56h44l-16 28Z" fill="var(--water)" stroke="var(--ink)" stroke-width="2"/>
-            <path d="M176 70h44M190 56l-8 28M206 56l-8 28" stroke="#fff" stroke-opacity=".6" stroke-width="1"/>
+            <path d="M160 106V82M150 106h20" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+            <path d="M128 86 144 58h48l-16 28Z" class="panel" stroke="var(--ink)" stroke-width="2"/>
+            <path d="M136 72h48M152 58l-8 28M168 58l-8 28M184 58l-8 28" stroke="#fff" stroke-opacity=".5" stroke-width="1"/>
+            <g clip-path="url(#labPanelClip)"><rect id="sheen" x="110" y="56" width="26" height="32" fill="url(#labSheen)"/></g>
+            <path d="M172 88Q190 100 200 98" stroke="var(--ink)" stroke-width="1.2" fill="none"/>
           </g>
           <g class="pw pw-electric">
-            <path d="M150 106V24M138 32h24M150 24c25 10 40 30 50 60" stroke="var(--ink)" stroke-width="2.5" fill="none"/>
-            <rect x="190" y="80" width="20" height="18" rx="2" fill="var(--signal)" stroke="var(--ink)" stroke-width="2"/>
-            <path d="m201 83-5 8h5l-2 5 6-8h-5z" fill="var(--ink)"/>
+            <path d="M140 106V16M127 23h26" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M153 23Q172 46 180 78" stroke="var(--ink)" stroke-width="1.4" fill="none"/>
+            <path id="wirePulse" d="M153 23Q172 46 180 78" stroke="var(--signal)" stroke-width="1.8" stroke-dasharray="3 14" fill="none"/>
+            <rect x="172" y="78" width="18" height="14" rx="2" fill="var(--surface)" stroke="var(--ink)" stroke-width="1.6"/>
+            <circle id="led" cx="177" cy="83" r="1.8" fill="var(--signal)"/>
+            <path d="M181 106V92M190 88h10" stroke="var(--ink)" stroke-width="1.6"/>
           </g>
 
-          <!-- stock tank and the line that feeds it -->
-          <path d="M200 100V92h74v-10" stroke="var(--ink)" stroke-width="3" fill="none"/>
-          <path class="flowline" d="M200 100V92h74v-10" stroke="var(--water-soft)" stroke-width="1.6" stroke-dasharray="3 7" fill="none"/>
-          <rect x="262" y="78" width="80" height="28" rx="4" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/>
-          <rect id="tankWater" x="264" y="91" width="76" height="13" fill="var(--water)"/>
-
-          <!-- the herd: one cow per 50 head -->
-          <g fill="var(--ink)">
-            <g class="cow"><rect x="14" y="92" width="18" height="9" rx="3"/><rect x="30" y="88" width="7" height="6" rx="2"/><path d="M16 101v5M29 101v5" stroke="var(--ink)" stroke-width="2"/></g>
-            <g class="cow"><rect x="44" y="94" width="18" height="9" rx="3"/><rect x="60" y="90" width="7" height="6" rx="2"/><path d="M46 103v4M59 103v4" stroke="var(--ink)" stroke-width="2"/></g>
-            <g class="cow"><rect x="74" y="92" width="18" height="9" rx="3"/><rect x="90" y="88" width="7" height="6" rx="2"/><path d="M76 101v5M89 101v5" stroke="var(--ink)" stroke-width="2"/></g>
-            <g class="cow"><rect x="104" y="94" width="18" height="9" rx="3"/><rect x="120" y="90" width="7" height="6" rx="2"/><path d="M106 103v4M119 103v4" stroke="var(--ink)" stroke-width="2"/></g>
-            <g class="cow"><rect x="350" y="92" width="18" height="9" rx="3"/><rect x="345" y="88" width="7" height="6" rx="2"/><path d="M352 101v5M365 101v5" stroke="var(--ink)" stroke-width="2"/></g>
-            <g class="cow"><rect x="374" y="94" width="18" height="9" rx="3"/><rect x="369" y="90" width="7" height="6" rx="2"/><path d="M376 103v4M389 103v4" stroke="var(--ink)" stroke-width="2"/></g>
-            <g class="cow"><rect x="24" y="78" width="16" height="8" rx="3"/><rect x="38" y="75" width="6" height="5" rx="2"/></g>
-            <g class="cow"><rect x="84" y="78" width="16" height="8" rx="3"/><rect x="98" y="75" width="6" height="5" rx="2"/></g>
-          </g>
-
-          <!-- the well -->
-          <rect id="casing" x="192" y="100" width="16" height="120" fill="var(--surface)" stroke="var(--ink)" stroke-width="2"/>
-          <line id="riser" x1="200" y1="100" x2="200" y2="198" stroke="var(--ink)" stroke-width="2.5"/>
-          <line class="flowline" x1="200" y1="198" x2="200" y2="100" stroke="var(--water)" stroke-width="2" stroke-dasharray="3 7"/>
-          <rect id="pump" x="194" y="198" width="12" height="22" rx="3" fill="var(--brand)"/>
+          <!-- the well: casing, water column, drop pipe, pump -->
+          <rect id="casing" x="191" y="100" width="18" height="140" fill="url(#labSteel)" stroke="var(--ink)" stroke-width="2"/>
+          <g id="intake"></g>
+          <g clip-path="url(#labCasingClip)"><rect id="casingWater" x="193" y="166" width="14" height="200" fill="var(--water)" fill-opacity=".5"/></g>
+          <path id="pipe" d="M200 200V92H248V66H280V71" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linejoin="round"/>
+          <g id="drops"></g>
+          <g id="pumpG"><rect id="pump" x="194" y="200" width="12" height="20" rx="3" fill="var(--brand)" stroke="var(--ink)" stroke-width="1"/><path id="pumpBands" d="M195 206h10M195 210h10M195 214h10" stroke="var(--ink)" stroke-opacity=".5" stroke-width="1"/></g>
           <text id="depthTag" class="lab-labels" x="214" y="224" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#fff">220 FT</text>
+
+          <!-- stock tank -->
+          <line id="stream" x1="280" y1="71" x2="280" y2="95" stroke="var(--water)" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="5 3"/>
+          <g clip-path="url(#labTankClip)"><path id="tankWater" fill="var(--water)" d="M265 104H339Z"/><g id="splash"></g></g>
+          <path d="M262 76h80l-3 30h-74Z" fill="none" stroke="var(--ink)" stroke-width="2.2" stroke-linejoin="round"/>
+          <path d="M260 76h84" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+
+          <g id="herd"></g>
+          <g id="grass" class="grass"></g>
         </svg>
       </figure>
 
@@ -190,7 +203,9 @@
 <script src="js/config.js"></script>
 <script src="js/icons.js"></script>
 <script src="js/sizing.js"></script>
+<script src="js/motion.js"></script>
 <script src="js/app.js"></script>
+<script src="js/lab-scene.js"></script>
 <script src="js/lab.js"></script>
 </body>
 </html>

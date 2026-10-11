@@ -78,14 +78,13 @@
   if (!lab) return;
 
   const $ = (id) => document.getElementById(id);
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const TIPS = {
     windmill: "Windmills run free on Kansas wind, but a still week drains the tank. Pair one with a big storage tank.",
     solar: "Solar pumps run all day in the sun with no power bill. A float switch shuts them off when the tank is full.",
     electric: "An electric submersible pumps whenever you need it, as long as there's power at the well."
   };
   const NEED = { windmill: "c6", solar: "c6", electric: "c4" };
-  const DEPTH_Y = (d) => 108 + (clamp(d, LIMITS.depth) / LIMITS.depth[1]) * 232; // ground is y=108, 600 ft is y=340
+  const scene = root.LabScene.create(document.getElementById("labSvg"));
   let state = { power: "windmill", depth: 220, wind: 12, sun: 5.5, herd: 60, season: "mild", house: false };
 
   function render() {
@@ -111,26 +110,13 @@
     $("labTip").textContent = TIPS[s.power] + (out.hp ? ` At ${s.depth} ft that's about a ${out.hp} HP pump.` : "");
     $("labBook").href = "contact.html?" + new URLSearchParams({ need: NEED[s.power] });
 
-    // scene
-    const y = DEPTH_Y(s.depth);
-    $("casing").setAttribute("height", (y - 100).toFixed(0));
-    $("pump").setAttribute("y", (y - 22).toFixed(0));
-    $("riser").setAttribute("y2", (y - 22).toFixed(0));
-    $("depthTag").setAttribute("y", (y + 4).toFixed(0));
-    $("depthTag").textContent = s.depth + " FT";
-    const fill = Math.max(0, Math.min(1, need ? out.galPerDay / need : 1));
-    $("tankWater").setAttribute("height", (26 * fill).toFixed(1));
-    $("tankWater").setAttribute("y", (104 - 26 * fill).toFixed(1));
-    const herdShown = Math.min(8, Math.ceil(s.herd / 50));
-    lab.querySelectorAll(".cow").forEach((c, i) => c.classList.toggle("on", i < herdShown));
-    $("sunDisc").setAttribute("cy", (66 - (s.sun - 2) * 8).toFixed(0));
-
-    // motion: blade spin follows the wind, water speed follows the flow
-    const flowing = out.galPerDay > 0;
-    lab.style.setProperty("--spin", windFactor(s.wind) > 0 ? (2.4 - 1.9 * windFactor(s.wind)).toFixed(2) + "s" : "0s");
-    lab.style.setProperty("--flow", Math.max(0.4, 3 - out.gpm / 4).toFixed(2) + "s");
-    lab.classList.toggle("flowing", flowing && !reduce);
-    lab.classList.toggle("spinning", s.power === "windmill" && windFactor(s.wind) > 0 && !reduce);
+    // the diagram: the windmill only moves water while the wind turns it
+    const gpm = out.galPerDay > 0 ? (s.power === "windmill" ? out.gpm * windFactor(s.wind) : out.gpm) : 0;
+    scene.set({
+      power: s.power, depth: s.depth, wind: s.wind, windFactor: windFactor(s.wind), sun: s.sun, gpm,
+      level: need ? Math.min(1, out.galPerDay / need) * 0.9 : 0.9,
+      herd: Math.min(8, Math.ceil(s.herd / 50))
+    });
   }
 
   const set = (patch) => { state = { ...state, ...patch }; render(); };
