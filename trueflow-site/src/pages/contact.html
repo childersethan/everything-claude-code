@@ -1,0 +1,54 @@
+<section id="contact" class="contact">
+  <div class="wrap">
+    <div class="callcard reveal">
+      <span class="eyebrow">Contact</span>
+      <h2>No water? We can help.</h2>
+      <p class="lede">Call or text, 24 hours a day. Tap the number to copy it.</p>
+      <div class="bignum" data-f="phone" id="bigPhone" role="button" tabindex="0" title="Copy number"></div>
+      <span class="open-pill" id="openPill">Checking hours…</span>
+      <dl class="hours" id="hours"></dl>
+      <p style="font-size:.95rem;color:var(--muted)">Licensed &amp; insured · Residential, agricultural &amp; commercial<br>Email: <a id="mailLink" href="#" data-f="email"></a><br>Facebook: <a id="fbLink" href="#" target="_blank" rel="noopener">True Flow Pump &amp; Well</a></p>
+    </div>
+    <form class="req reveal" id="reqForm" name="service-request" method="POST" data-netlify="true" data-delivery="netlify" netlify-honeypot="_gotcha" novalidate>
+      <input type="hidden" name="form-name" value="service-request">
+      <h3 style="font-size:1.8rem">Request service</h3>
+      <div class="row2">
+        <label for="fName">Name<input id="fName" name="name" autocomplete="name" maxlength="100" required></label>
+        <label for="fPhone">Phone<input id="fPhone" name="phone" type="tel" autocomplete="tel" maxlength="25" required></label>
+      </div>
+      <label for="fAddr">Property address or town<input id="fAddr" name="addr" autocomplete="street-address" maxlength="150"></label>
+      <fieldset style="border:0;padding:0;margin:0;display:grid;gap:8px">
+        <legend style="font-weight:600;font-size:.92rem;margin-bottom:6px">What do you need?</legend>
+        <div class="chips">
+          <label for="c1"><input type="radio" name="need" id="c1" value="No water" checked><span>No water</span></label>
+          <label for="c2"><input type="radio" name="need" id="c2" value="Low pressure"><span>Low pressure</span></label>
+          <label for="c3"><input type="radio" name="need" id="c3" value="Pump cycling"><span>Pump cycling</span></label>
+          <label for="c6"><input type="radio" name="need" id="c6" value="Windmill or solar"><span>Windmill or solar</span></label>
+          <label for="c4"><input type="radio" name="need" id="c4" value="New install"><span>New install</span></label>
+          <label for="c5"><input type="radio" name="need" id="c5" value="Something else"><span>Something else</span></label>
+        </div>
+      </fieldset>
+      <label for="fMsg">Anything else we should know?<textarea id="fMsg" name="msg" rows="3" maxlength="2000" placeholder="e.g. Pump kicks on but no water since last night"></textarea></label>
+      <div class="hp" aria-hidden="true"><label for="fGotcha">Leave this empty<input id="fGotcha" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
+      <button class="btn btn-brand" type="submit" style="justify-self:start">Send request</button>
+      <p class="privacy">Your details go only to True Flow, to call you back about this job.</p>
+      <p class="form-msg" id="formMsg" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Common questions</span>
+      <h2>Before you call</h2>
+    </div>
+    <div class="faq">
+      <details><summary>My water just stopped. What should I check first?</summary><p>Check the breaker for the well pump and look at the pressure gauge near your tank. If the breaker tripped twice or the gauge reads near zero, leave it off and call us. Running a struggling pump can burn it out.</p></details>
+      <details><summary>Why does my pump turn on and off every few seconds?</summary><p>That's short cycling, and it's usually a waterlogged pressure tank or a bad pre-charge. It wears out pumps fast, so it's worth fixing soon. Often it's a tank repair, not a new pump.</p></details>
+      <details><summary>How long do well pumps last?</summary><p>A submersible pump usually runs 8 to 15 years, depending on water quality, sand, and how often it cycles. A properly sized tank is the cheapest way to make a pump last longer.</p></details>
+      <details><summary>Do you give estimates before starting?</summary><p>Yes. We diagnose first, then give you the price and your options. Nothing gets pulled or replaced until you say go.</p></details>
+      <details><summary>Do you do new well pump installs and upgrades?</summary><p>Yes, including constant-pressure systems that keep steady pressure when two faucets run at once. We'll size the pump to your well's depth and yield.</p></details>
+    </div>
+  </div>
+</section>

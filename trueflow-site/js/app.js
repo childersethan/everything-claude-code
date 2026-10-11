@@ -24,10 +24,11 @@
       const k = el.dataset.f;
       el.textContent = BIZ[k];
     });
-    $("#fbLink").href = BIZ.facebook;
-    $("#mailLink").href = "mailto:" + BIZ.email;
+    // these only exist on some pages
+    if ($("#fbLink")) $("#fbLink").href = BIZ.facebook;
+    if ($("#mailLink")) $("#mailLink").href = "mailto:" + BIZ.email;
     if (BIZ.phoneTel) $$("[data-tel]").forEach((a) => { a.href = "tel:" + BIZ.phoneTel; });
-    $("#yr").textContent = new Date().getFullYear();
+    if ($("#yr")) $("#yr").textContent = new Date().getFullYear();
   }
 
   function initCopyPhone() {
@@ -98,12 +99,8 @@
       t.innerHTML = `<span class="urg ${esc(d.urg)}">${esc(URG[d.urg])} · ${esc(d.when)}</span>
         <h3>${esc(d.head)}</h3>
         <dl><dt>Likely</dt><dd>${esc(d.causes)}</dd><dt>We check</dt><dd>${esc(d.check)}</dd><dt>Right now</dt><dd>${esc(d.tip)}</dd></dl>
-        <a class="btn btn-primary" href="#contact" style="justify-self:start" id="bookFix">Book this fix</a>`;
+        <a class="btn btn-primary" href="contact.html?${new URLSearchParams({ need: d.need, issue: d.title })}" style="justify-self:start">Book this fix</a>`;
       restartAnim(t);
-      $("#bookFix").addEventListener("click", () => {
-        $("#" + d.need).checked = true;
-        $("#fMsg").value = S.prefillMessage($("#fMsg").value, d.title);
-      });
     };
     $$(".symptom").forEach((b) => b.addEventListener("click", () => show(Number(b.dataset.i))));
     show(0);
@@ -280,6 +277,11 @@
 
   function initForm() {
     const f = $("#reqForm"), msg = $("#formMsg"), btn = f.querySelector("[type=submit]");
+    // "Book this fix" on the Diagnose page links here with the symptom filled in
+    const q = new URLSearchParams(location.search);
+    if (/^c[1-6]$/.test(q.get("need") || "")) $("#" + q.get("need")).checked = true;
+    const issue = SITE.symptoms.find((d) => d.title === q.get("issue"));
+    if (issue) $("#fMsg").value = S.prefillMessage($("#fMsg").value, issue.title);
     const fields = { name: $("#fName"), phone: $("#fPhone") };
     f.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -376,8 +378,16 @@
     requestAnimationFrame(step);
   }
 
-  [fillFields, initCopyPhone, initHeroGauges, initStrip, initDiagnoser, initServices, initSizingTools,
-    initGallery, initArea, initHours, initForm, initMenu, addStructuredData, initReveal].forEach((fn) => {
+  function initTiles() {
+    $$("[data-icon]").forEach((el) => { el.innerHTML = ICONS[el.dataset.icon] || ""; });
+  }
+
+  // Each page has only some sections; an init runs only when its section is on the page.
+  [[null, fillFields], ["#bigPhone", initCopyPhone], [".rig", initHeroGauges], ["#track", initStrip],
+    ["#symptoms", initDiagnoser], ["#svcGrid", initServices], ["#tabFlow", initSizingTools], ["#gallery", initGallery],
+    ["#towns", initArea], ["#hours", initHours], ["#reqForm", initForm], ["#menuBtn", initMenu], [".tiles", initTiles],
+    [null, addStructuredData], [null, initReveal]].forEach(([sel, fn]) => {
+    if (sel && !$(sel)) return;
     try { fn(); } catch (err) { console.error(`${fn.name} failed:`, err); } // one broken section shouldn't take the rest down
   });
 })();

@@ -1,0 +1,14 @@
+<section id="area">
+  <div class="wrap area-grid">
+    <div class="reveal" style="display:grid;gap:16px;min-width:0">
+      <span class="eyebrow">Service area</span>
+      <h2>Based in <span data-f="city"></span>, serving the farms and ranches around it</h2>
+      <p class="lede">We cover homes, farms and ranches within about <b data-f="radius"></b> miles. Further out? Call anyway; we make the drive for the right job.</p>
+      <div class="towns" id="towns"></div>
+      <label for="zip" style="margin-top:8px">Check your town</label>
+      <div class="check"><input id="zip" placeholder="Type your town" autocomplete="address-level2"><button class="btn btn-primary" type="button" id="zipBtn">Check</button></div>
+      <p class="check-out" id="zipOut" aria-live="polite"></p>
+    </div>
+    <div class="radius reveal"><canvas id="radar" width="880" height="880" aria-label="Service area map showing towns by direction and distance from Hoxie"></canvas></div>
+  </div>
+</section>

@@ -31,7 +31,8 @@ body{margin:0}img{max-width:100%}[hidden]{display:none!important}
   --soil-1:#5B4E3D;--soil-2:#4A3E30;--rock:#3E4446;--aquifer:#1F5C78;--on-water:#04131B;--ph:#F0A04B;color-scheme:dark}
 
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+@media (max-width:860px){html{scroll-padding-bottom:84px}}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
 a{color:var(--water)}
 h1,h2,h3{font-family:var(--f-display);line-height:1.02;letter-spacing:.005em;text-wrap:balance;margin:0}
@@ -289,13 +290,49 @@ footer{border-top:1px solid var(--line);padding-block:32px;font-size:.9rem;color
 .foot-logo{height:44px;width:auto}
 footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
 
-/* mobile call bar */
-.callbar{display:none}
-@media (max-width:640px){
-  .callbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:30;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));background:var(--ink);gap:10px}
-  .callbar a{flex:1;justify-content:center}
-  footer{padding-bottom:96px}
+/* phone tab bar */
+.tabbar{display:none}
+@media (max-width:860px){
+  .tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:30;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(12px);border-top:1px solid var(--line)}
+  .tabbar a{position:relative;display:grid;justify-items:center;gap:2px;padding:6px 2px;color:var(--muted);text-decoration:none;font-size:.7rem;font-weight:600;border-radius:var(--r);transition:color .15s,background .15s}
+  .tabbar svg{width:24px;height:24px;transition:transform .2s}
+  .tabbar a[aria-current="page"]{color:var(--water)}
+  .tabbar a[aria-current="page"]::before{content:"";position:absolute;top:-6px;left:28%;right:28%;height:3px;border-radius:0 0 3px 3px;background:var(--water)}
+  .tabbar a:active svg{transform:scale(.88)}
+  footer{padding-bottom:110px}
 }
+
+/* current page in the nav */
+nav.links a{position:relative}
+nav.links a[aria-current="page"]{color:var(--water)}
+nav.links a[aria-current="page"]::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;background:var(--water);border-radius:2px}
+.drawer a[aria-current="page"]{color:var(--water)}
+
+/* home: "where to?" tiles */
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.tile{position:relative;display:grid;gap:6px;align-content:start;padding:24px 22px 26px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);text-decoration:none;overflow:hidden;transition:transform .2s,border-color .2s,box-shadow .2s}
+.tile::after{content:"";position:absolute;inset:auto 0 0 0;height:3px;background:var(--water);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.tile:hover,.tile:focus-visible{transform:translateY(-4px);border-color:var(--water);box-shadow:0 14px 30px -18px color-mix(in srgb,var(--ink) 60%,transparent)}
+.tile:hover::after,.tile:focus-visible::after{transform:scaleX(1)}
+.tile b{font-family:var(--f-display);font-size:1.6rem;text-transform:uppercase;line-height:1}
+.tile span:not(.tile-ico){color:var(--muted);font-size:.95rem}
+.tile i{position:absolute;top:20px;right:20px;font-style:normal;font-size:1.3rem;color:var(--water);transition:transform .2s}
+.tile:hover i{transform:translateX(4px)}
+.tile-ico svg{width:38px;height:38px;color:var(--water)}
+.tile-urgent{border-color:color-mix(in srgb,var(--brand) 45%,var(--line))}
+.tile-urgent .tile-ico svg,.tile-urgent i{color:var(--brand)}
+.tile-urgent::after{background:var(--brand)}
+.tile-cta{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tile-cta span:not(.tile-ico){color:color-mix(in srgb,var(--bg) 75%,var(--ink))}
+.tile-cta .tile-ico svg,.tile-cta i{color:var(--signal)}
+@media (max-width:860px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.tiles{grid-template-columns:1fr}}
+
+/* smooth page-to-page transitions in browsers that support them */
+@view-transition{navigation:auto}
+header.top{view-transition-name:site-header}
+.tabbar{view-transition-name:tab-bar}
+@media (prefers-reduced-motion:reduce){@view-transition{navigation:none}}
 
 /* reveal: visible at rest, slides in when observed */
 .reveal{transition:transform .7s cubic-bezier(.2,.7,.2,1)}

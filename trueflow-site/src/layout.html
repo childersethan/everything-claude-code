@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{title}}</title>
+<meta name="description" content="{{description}}">
+<meta property="og:title" content="{{title}}">
+<meta property="og:description" content="{{description}}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{url}}">
+<meta property="og:image" content="https://trueflowpumpandwell.com/images/share.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="True Flow crew repairing a windmill">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="{{url}}">
+<meta name="theme-color" content="#0B6E99">
+<!-- If you change form providers, add its origin to connect-src. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; form-action 'self'; base-uri 'none'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect x='16' y='2' width='8' height='36' rx='2' fill='%230E1C24'/%3E%3Cpath d='M20 10c-5 7-8 11-8 15a8 8 0 0 0 16 0c0-4-3-8-8-15Z' fill='%230B6E99'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&amp;family=Figtree:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body data-page="{{page}}">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="True Flow Pump and Well, home">
+      <img class="brand-logo logo-ink" src="images/logo-mark.png" alt="" width="52" height="34">
+      <span class="brand-name">True Flow<small>Pump &amp; Well</small></span>
+    </a>
+    <nav class="links" aria-label="Pages">
+{{nav}}
+    </nav>
+    <a class="btn btn-brand" href="contact.html" data-tel>Call now</a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="drawer" aria-label="Open menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </div>
+  <nav class="drawer" id="drawer" aria-label="Menu" hidden>
+{{drawer}}
+  </nav>
+</header>
+
+<main id="main">
+{{body}}
+</main>
+
+<footer>
+  <div class="wrap">
+    <img class="foot-logo logo-ink" src="images/logo.png" alt="True Flow Pump &amp; Well" width="62" height="44" loading="lazy">
+    <span>© <span id="yr"></span> True Flow Pump &amp; Well Services · <span data-f="city"></span></span>
+    <span>Licensed &amp; insured · Wells · Pumps · Windmills · Solar · Irrigation</span>
+  </div>
+</footer>
+
+<nav class="tabbar" aria-label="Quick links">
+{{tabbar}}
+</nav>
+<script src="js/config.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/sizing.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
