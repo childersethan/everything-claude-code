@@ -14,6 +14,7 @@ window.ICONS = Object.freeze((() => {
     heat: sm('<path d="M10 14V5a2 2 0 0 1 4 0v9a4 4 0 1 1-4 0Z"/><path d="M12 9v7"/>'),
     storm: sm('<path d="M7 15h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.5 1.5A3.3 3.3 0 0 0 7 15Z"/><path d="m12 15-2 4h3l-2 4"/>'),
     cow: lg('<path d="M13 14h14v10a7 7 0 0 1-14 0Z"/><path d="M13 16 6 13l2-5M27 16l7-3-2-5"/><path d="M17 27h.01M23 27h.01"/>'),
+    pivot: lg('<path d="M4 14h32M8 14l4 8M20 14v8M32 14l-4 8"/><path d="M6 14 4 10h32l-2 4"/><circle cx="12" cy="24" r="2"/><circle cx="28" cy="24" r="2"/><path d="M10 28v3M16 28v4M22 28v3M28 28v4M34 28v3"/>'),
     goat: lg('<path d="M14 15h12l-2 12a4 4 0 0 1-8 0Z"/><path d="M15 15q-6-4-3-10M25 15q6-4 3-10"/><path d="M14 18 8 20M26 18l6 2"/><path d="M20 31v5"/>'),
     chicken: lg('<path d="M10 22a10 9 0 0 0 20 2l4-10-6 3a8 8 0 0 0-14-4"/><path d="M14 13q1-5 4-3 2-4 4 1"/><path d="M9 15l-4 1 4 2"/><path d="M17 31v5M23 31v5"/><circle cx="13" cy="15" r=".6" fill="currentColor"/>'),
     bolt: sm('<path d="M13 2 4 14h7l-1 8 9-12h-7Z"/>'),
@@ -28,6 +29,23 @@ window.ICONS = Object.freeze((() => {
     trough: lg('<path d="M5 18h30l-3 12H8Z"/><path d="M9 23h22"/><path d="M12 30v5M28 30v5"/>'),
     lens: lg('<circle cx="18" cy="18" r="9"/><path d="M25 25l8 8"/>'),
     down: lg('<path d="M20 4v26"/><path d="M12 22l8 8 8-8"/><path d="M8 36h24"/>'),
-    camera: '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4Z"/><circle cx="12" cy="13" r="3.5"/></svg>'
+    camera: '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4Z"/><circle cx="12" cy="13" r="3.5"/></svg>',
+    // pivot sim: crops, plus the wind and breakdown days on its board
+    corn: lg('<path d="M20 36V8"/><path d="M20 30q-9-2-12-10M20 24q9-2 12-10"/><path d="M20 8l-2-4M20 8l2-4"/><path d="M23 20q4-1 4 4t-4 5Z"/>'),
+    soybeans: lg('<path d="M20 36V18"/><path d="M20 22q-9 0-11-8 8-1 11 8ZM20 18q9 0 11-8-8-1-11 8Z"/><path d="M14 30q3-5 6-3M26 30q-3-5-6-3"/>'),
+    wheat: lg('<path d="M20 36V6"/><path d="M20 12l-4-4M20 12l4-4M20 18l-4-4M20 18l4-4M20 24l-4-4M20 24l4-4"/><path d="M13 36q2-8 7-10M27 36q-2-8-7-10"/>'),
+    alfalfa: lg('<path d="M20 36V20M20 26l-8-6M20 26l8-6"/><circle cx="20" cy="14" r="4"/><circle cx="11" cy="17" r="3.5"/><circle cx="29" cy="17" r="3.5"/>'),
+    sorghum: lg('<path d="M20 36V14"/><path d="M20 30q-9-1-12-8M20 24q9-1 12-8"/><path d="M20 15q-4-3-3-8 2-3 3-3 1 0 3 3 1 5-3 8Z"/><path d="M18 9h4M17.5 12h5"/>'),
+    wrench: sm('<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a6 6 0 0 1-7.9 7.9l-6.9 6.9a2.1 2.1 0 0 1-3-3l6.9-6.9a6 6 0 0 1 7.9-7.9Z"/>'),
+    wind: sm('<path d="M3 9h11a3 3 0 1 0-3-3M3 15h15a3 3 0 1 1-3 3M3 12h7"/>'),
+    // irrigation sim: rain weeks on its board
+    rain: sm('<path d="M7 14h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.5 1.5A3.3 3.3 0 0 0 7 14Z"/><path d="M8 17l-1 3M12 17l-1 3M16 17l-1 3"/>'),
+    // House well sim (Water Lab)
+    shower: sm('<path d="M4 21V6a3 3 0 0 1 3-3h4v3"/><path d="M7.5 6h7l1.5 3H6Z"/><path d="M8 12v1.5M11 12v2.5M14 12v1.5M9.5 17v1.5M12.5 17v1.5"/>'),
+    washer: sm('<rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="13" r="4.5"/><path d="M7 6.5h3M16 6.5h1"/>'),
+    moon: sm('<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/>'),
+    faucet: sm('<path d="M3 13V9h10a4 4 0 0 1 4 4"/><path d="M8 9V5M5 5h6"/><path d="M17 16.5v1.5M17 20.5v.5"/>'),
+    sprinkler: lg('<path d="M20 35V24M14 35h12"/><circle cx="20" cy="22" r="2.5"/><path d="M6 20c3-7 8-11 14-11s11 4 14 11" stroke-dasharray="2 3.5"/><path d="M11 23c2-4 5-6 9-6s7 2 9 6" stroke-dasharray="2 3.5"/>'),
+    sprout: lg('<path d="M20 35V18"/><path d="M20 20c0-6-4-9-11-9 0 6 4 9 11 9Z"/><path d="M20 24c0-6 4-9 11-9 0 6-4 9-11 9Z"/><path d="M10 35h20"/>')
   };
 })());

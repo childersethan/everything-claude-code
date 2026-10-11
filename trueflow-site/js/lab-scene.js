@@ -51,7 +51,7 @@
     const buzzards = root.LabAnimals.vultures(svg("g", { class: "vultures" }, el.clouds));
     const grass = GRASS_X.map((x, i) => ({ x, ph: i * 0.9, node: svg("path", { d: "M0 0q-1-5-4-7M0 0q0-6 1-9M0 0q1-4 4-6", transform: `translate(${x} ${GROUND})` }, el.grass) }));
 
-    let target = { power: "windmill", depth: 220, wind: 12, windFactor: 0.67, sun: 5.5, gpm: 3, level: 0.9, herd: 2, animal: "cattle", weather: "clear", down: 0, death: "fall" };
+    let target = { power: "windmill", depth: 220, wind: 12, windFactor: 0.67, sun: 5.5, gpm: 3, level: 0.9, herd: 2, animal: "cattle", weather: "clear", down: 0, death: "fall", party: false };
     const cur = { depthY: depthY(220), spin: 0, angle: 0, flow: 0, gpm: 0, level: 0.5, sunY: 40, dip: 0, phase: 0, wind: 12, rod: 0, dark: 0, heat: 0, rain: 0 };
 
     function frame(dt, t, still) {
@@ -166,7 +166,7 @@
       let shake = 0;
       herd.forEach((c, i) => {
         const first = T.herd - T.down, on = i < T.herd; // the last few in line are the ones lost
-        shake = Math.max(shake, c.draw({ t, dt, still, on, dying: on && i >= first, delay: (i - first) * 0.7, death: T.death, level: cur.level }));
+        shake = Math.max(shake, c.draw({ t, dt, still, on, dying: on && i >= first, delay: (i - first) * 0.7, death: T.death, level: cur.level, party: T.party }));
       });
       buzzards.draw(t, dt, T.down > 0 && T.death !== "blown");
       svgEl.style.transform = shake > 0.05 ? `translate(${(Math.sin(t * 90) * shake).toFixed(1)}px, ${(Math.cos(t * 77) * shake * 0.6).toFixed(1)}px)` : "";

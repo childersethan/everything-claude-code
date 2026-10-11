@@ -226,84 +226,51 @@
     scene.set({
       power: s.power, depth: s.depth, wind: s.wind, windFactor: windFactor(s.wind), sun: s.sun, gpm,
       level: need ? Math.min(1, out.galPerDay / need) * 0.9 : 0.9,
-      animal: s.animal, herd: shownAnimals(), weather: "clear", down: 0
+      animal: s.animal, herd: shownAnimals(), weather: "clear", down: 0, party: false
     });
     $("simRun").disabled = s.herd === 0; // the sim is about the animals
   }
 
   // ----- the 30-day sim: play the month back a day at a time on the diagram -----
-  const DAY_MS = 320;
   const ICON_FOR = { clear: "sun", calm: "calm", cloudy: "cloud", storm: "storm", heat: "heat" };
   const RESULT_ICON = { thrived: "trough", tight: "gauge", thirsty: "drop" };
   const ANIMAL_ICON = { cattle: "cow", goats: "goat", chickens: "chicken" };
-  const ICONS = root.ICONS || {};
-  let simTimer = 0;
-
-  function stopSim() {
-    clearTimeout(simTimer);
-    simTimer = 0;
-    $("simBoard").hidden = true;
-    $("simResult").textContent = "";
-    $("simLabel").textContent = "Run a 30-day sim";
-  }
+  const board = root.SimBoard.create("sim", { idle: "Run a 30-day sim", scene: $("labSvg") });
+  const stopSim = () => board.stop();
 
   function showDay(d) {
-    const li = $("simDays").children[d.day - 1];
-    li.classList.add("on");
-    li.classList.toggle("dry", d.dry);
-    li.style.setProperty("--lvl", Math.round(d.level * 100) + "%");
-    $("simDay").textContent = `Day ${d.day} of ${SIM_DAYS}`;
-    $("simNote").textContent = d.note || (d.dry ? "The tank is empty." : "");
     const out = supply(state);
     scene.set({
       wind: d.wind, windFactor: windFactor(d.wind), sun: Math.max(LIMITS.sun[0], d.sun), weather: d.weather,
       gpm: d.pumped > 0 ? out.gpm * Math.min(1, d.pumped / Math.max(1, out.galPerDay)) : 0,
-      level: d.level * 0.9, down: 0
+      level: d.level * 0.9, down: 0, party: false
     });
   }
 
   function showResult(run) {
-    const o = run.outcome, res = $("simResult");
-    res.className = "sim-result " + o.level;
-    const icon = o.level === "lost" ? ANIMAL_ICON[state.animal] : RESULT_ICON[o.level];
-    res.innerHTML = `<span class="ic">${ICONS[icon] || ""}</span><b></b><p></p>`;
-    res.querySelector("b").textContent = o.title;
-    res.querySelector("p").textContent = o.text;
-    $("simNote").textContent = "";
-    $("simDay").textContent = `${SIM_DAYS} days later`;
-    $("simLabel").textContent = "Run it again";
-    const cows = shownAnimals();
-    const lost = o.level === "lost";
+    const o = run.outcome, lost = o.level === "lost";
+    board.result({ ...o, icon: lost ? ANIMAL_ICON[state.animal] : RESULT_ICON[o.level] }, `${SIM_DAYS} days later`);
     scene.set({
       weather: lost && o.cause === "heat" ? "heat" : lost && o.cause === "blown" ? "storm" : "clear",
-      down: lost ? Math.max(1, Math.round(cows * o.lostShare)) : 0, death: o.cause || "fall"
+      down: lost ? Math.max(1, Math.round(shownAnimals() * o.lostShare)) : 0, death: o.cause || "fall",
+      party: o.level === "thrived" || o.level === "tight"
     });
+    if (lost) board.catastrophe(); else if (o.level !== "thirsty") board.celebrate();
   }
 
   function runSim() {
-    stopSim();
     const run = simulate(state, (Math.random() * 2 ** 32) >>> 0);
-    const days = $("simDays");
-    days.innerHTML = run.days.map((d) => `<li class="w-${d.weather}"><span class="ic">${ICONS[ICON_FOR[d.weather]] || ""}</span><span class="bar"><i></i></span></li>`).join("");
-    $("simBoard").hidden = false;
-    $("simLabel").textContent = "Running...";
-    const box = $("labSvg").getBoundingClientRect(); // bring the diagram into view so the herd can be watched
-    if (box.top < 0 || box.bottom > innerHeight) lab.querySelector(".lab-scene").scrollIntoView({ behavior: root.Motion.reduce() ? "auto" : "smooth", block: "start" });
-    if (root.Motion.reduce()) { // reduced motion: show the whole month at once
-      run.days.forEach(showDay);
-      simTimer = setTimeout(() => showResult(run), 50); // after the board is shown, so screen readers announce it
-      return;
-    }
-    let i = 0;
-    const step = () => {
-      showDay(run.days[i]);
-      i += 1;
-      simTimer = i < run.days.length ? setTimeout(step, DAY_MS) : setTimeout(() => showResult(run), DAY_MS);
-    };
-    step();
+    board.play(run.days, {
+      cell: (d) => ({ kind: d.weather, icon: ICON_FOR[d.weather], level: d.level, bad: d.dry }),
+      head: (d) => `Day ${d.day} of ${SIM_DAYS}`,
+      note: (d) => d.note || (d.dry ? "The tank is empty." : ""),
+      onStep: showDay,
+      onDone: () => showResult(run)
+    });
   }
 
   $("simRun").addEventListener("click", runSim);
+  document.addEventListener("labmode", () => { stopSim(); render(); }); // switching sims stops a run and resets the picture
 
   const set = (patch) => { stopSim(); state = { ...state, ...patch }; render(); };
   POWERS.forEach((p) => $("pw-" + p).addEventListener("click", () => set({ power: p })));
@@ -315,6 +282,6 @@
   [["depth", "labDepth"], ["wind", "labWind"], ["sun", "labSun"], ["herd", "labHerd"]].forEach(([k, id]) =>
     $(id).addEventListener("input", (e) => set({ [k]: Number(e.target.value) })));
   $("labSeason").addEventListener("change", (e) => set({ season: e.target.value }));
-  $("labHouse").addEventListener("change", (e) => set({ house: e.target.checked }));
+  $("labHouseToo").addEventListener("change", (e) => set({ house: e.target.checked }));
   render();
 })(typeof window !== "undefined" ? window : globalThis);

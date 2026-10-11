@@ -1,0 +1,93 @@
+/* Water Lab, irrigation well sim (js/lab-irrigation.js, js/lab-irrigation-scene.js). Everything is scoped to #labIrrigation. */
+#labIrrigation .lab-scene{background:var(--iw-bed)}
+#labIrrigation{
+  --iw-bed:color-mix(in srgb,#8c4a36 80%,var(--soil-2));
+  --iw-sand:color-mix(in srgb,var(--soil-2) 70%,var(--soil-1));
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) #labIrrigation{--iw-bed:color-mix(in srgb,#5a2e22 75%,var(--soil-2))}}
+:root[data-theme="dark"] #labIrrigation{--iw-bed:color-mix(in srgb,#5a2e22 75%,var(--soil-2))}
+
+/* ground */
+#labIrrigation .iw-sand{fill:var(--iw-sand)}
+#labIrrigation .iw-gravel{pointer-events:none}
+#labIrrigation .pebble{fill:var(--ink);fill-opacity:.16}
+#labIrrigation .pebble.b{fill:#fff;fill-opacity:.22}
+#labIrrigation .grain{fill:#fff;fill-opacity:.35}
+#labIrrigation .iw-caliche ellipse{fill:#fff;fill-opacity:.16}
+#labIrrigation .iw-wt{fill:none;stroke:#cfeeff;stroke-width:1.4;stroke-opacity:.9}
+#labIrrigation .iw-ghost{fill:none;stroke:#fff;stroke-width:1;stroke-dasharray:4 4;stroke-opacity:.6}
+#labIrrigation .iw-ghost-tag{font:700 6.5px var(--f-mono);fill:#fff;fill-opacity:.85;letter-spacing:.5px}
+#labIrrigation .iw-specks circle{fill:#fff}
+#labIrrigation .iw-bed{fill:var(--iw-bed);stroke:var(--ink);stroke-opacity:.35;stroke-width:1}
+#labIrrigation .iw-bed-line{fill:none;stroke:#000;stroke-opacity:.18;stroke-width:1.2}
+#labIrrigation .iw-field{transition:fill .6s}
+#labIrrigation .iw-rows{fill:none;stroke-linecap:round}
+
+/* the well */
+#labIrrigation .iw-bore{fill:#14232b}
+#labIrrigation .iw-shine{stroke:#fff;stroke-opacity:.8;stroke-width:1}
+#labIrrigation .iw-slots{stroke:var(--ink);stroke-opacity:.55;stroke-width:1}
+#labIrrigation .iw-bubble{fill:#fff;fill-opacity:.85}
+#labIrrigation .iw-intake{fill:#9aa6ad}
+#labIrrigation .iw-tick{stroke:#fff;stroke-width:1.2}
+#labIrrigation .iw-tags text{letter-spacing:.5px}
+/* white labels on the ground keep a dark outline in both themes (the shared .lab-labels one turns light in dark mode) */
+#labIrrigation .iw-labels text{paint-order:stroke;stroke:#0a1820;stroke-width:2.2px;stroke-opacity:.55;stroke-linejoin:round}
+#labIrrigation .iw-labels text.plain{stroke:none}
+#labIrrigation .iw-ruler line{stroke:#fff;stroke-width:1}
+
+/* surface hardware */
+#labIrrigation .iw-sun circle{fill:var(--signal)}
+#labIrrigation .iw-box{fill:var(--surface)}
+#labIrrigation .iw-dial{fill:#fffdf6}
+#labIrrigation .iw-dial-rim{fill:color-mix(in srgb,var(--rock) 40%,var(--surface));stroke:var(--ink);stroke-width:1.2}
+#labIrrigation .iw-zone{fill:none;stroke-width:3}
+#labIrrigation .iw-zone.ok{stroke:#3fae5a}
+#labIrrigation .iw-zone.warn{stroke:#e8a50e}
+#labIrrigation .iw-zone.bad{stroke:#c8102e}
+#labIrrigation .iw-needle{fill:var(--brand)}
+#labIrrigation .iw-read{font:700 8px var(--f-mono);fill:var(--ink)}
+#labIrrigation .iw-dial-label{font:700 5.5px var(--f-mono);fill:var(--muted);letter-spacing:.4px}
+#labIrrigation .iw-lamp{stroke:var(--ink);stroke-width:1;fill:#55606a}
+#labIrrigation .iw-lamp.ok{fill:#3fd16b}
+#labIrrigation .iw-lamp.warn{fill:#f2b630}
+#labIrrigation .iw-lamp.bad{fill:#ff2d2d}
+#labIrrigation .iw-head{fill:var(--water)}
+#labIrrigation .iw-main{stroke:var(--ink);fill:none;stroke-linecap:round}
+#labIrrigation .iw-pulse{stroke:#fff;stroke-width:1.6;stroke-dasharray:3 9;fill:none}
+#labIrrigation .iw-valve{fill:var(--signal)}
+#labIrrigation .iw-span{stroke:var(--ink);stroke-width:3.4;fill:none;stroke-linecap:round}
+#labIrrigation .iw-truss{stroke:var(--ink);stroke-width:1.2;fill:none}
+#labIrrigation .iw-truss.thin{stroke-width:.7;stroke-opacity:.7}
+#labIrrigation .iw-hose path{stroke:var(--ink);stroke-width:.7;stroke-opacity:.75}
+#labIrrigation .iw-nozzle{fill:var(--water)}
+#labIrrigation .iw-gear{fill:var(--brand)}
+#labIrrigation .iw-tire{fill:var(--ink)}
+#labIrrigation .iw-spray circle,#labIrrigation circle.iw-spray{fill:#e6f6ff;stroke:var(--water);stroke-width:.4}
+#labIrrigation .iw-far{transition:opacity .4s}
+#labIrrigation .iw-far-pipe{stroke:var(--ink);stroke-opacity:.6;stroke-width:1.2;fill:none}
+#labIrrigation .iw-mist{fill:#fff;stroke:none}
+#labIrrigation .iw-shimmer path{fill:none;stroke:#fff;stroke-width:1;stroke-opacity:.55;stroke-linecap:round}
+
+/* corn */
+#labIrrigation .iw-stalk,#labIrrigation .iw-leaf{stroke-linecap:round}
+#labIrrigation .iw-tassel{stroke:#d9b44a;stroke-linecap:round}
+#labIrrigation .iw-ear{fill:#f2cf4a;stroke:#6b8a2a;stroke-width:.5}
+
+/* catastrophe and celebration */
+#labIrrigation .iw-smoke{fill:#5c5f63}
+#labIrrigation .iw-sparks line{stroke:#ffe14d;stroke-width:1.6;stroke-linecap:round}
+#labIrrigation .iw-bang-star{fill:#ffd34d;stroke:var(--brand);stroke-width:2.4;stroke-linejoin:round}
+#labIrrigation .iw-bang-text{font:800 italic 21px var(--f-display);fill:var(--brand);stroke:#fff;stroke-width:3px;paint-order:stroke;letter-spacing:.5px}
+#labIrrigation .iw-steam path{fill:none;stroke:#fff;stroke-width:1.2;stroke-linecap:round}
+#labIrrigation .iw-bubble-talk{fill:#fff;stroke:var(--ink);stroke-width:1.4}
+#labIrrigation .iw-thumb-hand{fill:var(--signal);stroke:var(--ink);stroke-width:1.1;stroke-linejoin:round}
+
+/* readouts */
+#labIrrigation .iw-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;margin:0}
+#labIrrigation .iw-stats div{display:flex;flex-direction:column;gap:0;padding:8px 10px;border:1px solid var(--line);border-radius:var(--r);background:var(--bg)}
+#labIrrigation .iw-stats dt{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+#labIrrigation .iw-stats dd{margin:0;font-family:var(--f-display);font-weight:800;font-size:1.35rem;line-height:1.1;color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* the run board sits under the diagram instead of over it, so the well stays in view */
+@media (min-width:861px){#labIrrigation .sim-board{position:static;margin:12px;box-shadow:none}}
