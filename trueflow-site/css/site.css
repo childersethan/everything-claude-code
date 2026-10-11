@@ -293,6 +293,9 @@ input[type=range]{padding:0;accent-color:var(--water);border:0;background:none}
 
 footer{border-top:1px solid var(--line);padding-block:32px;font-size:.9rem;color:var(--muted)}
 .foot-logo{height:44px;width:auto}
+.fb-link{display:inline-flex;align-items:center;gap:8px;font-weight:600}
+.fb-link svg,.fb-btn svg{color:#1877F2;flex:none}
+.fb-btn{justify-self:start;font-size:1rem}
 footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
 
 /* phone tab bar */
