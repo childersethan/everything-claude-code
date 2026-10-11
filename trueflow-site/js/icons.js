@@ -37,6 +37,8 @@ window.ICONS = Object.freeze((() => {
     alfalfa: lg('<path d="M20 36V20M20 26l-8-6M20 26l8-6"/><circle cx="20" cy="14" r="4"/><circle cx="11" cy="17" r="3.5"/><circle cx="29" cy="17" r="3.5"/>'),
     sorghum: lg('<path d="M20 36V14"/><path d="M20 30q-9-1-12-8M20 24q9-1 12-8"/><path d="M20 15q-4-3-3-8 2-3 3-3 1 0 3 3 1 5-3 8Z"/><path d="M18 9h4M17.5 12h5"/>'),
     wrench: sm('<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a6 6 0 0 1-7.9 7.9l-6.9 6.9a2.1 2.1 0 0 1-3-3l6.9-6.9a6 6 0 0 1 7.9-7.9Z"/>'),
-    wind: sm('<path d="M3 9h11a3 3 0 1 0-3-3M3 15h15a3 3 0 1 1-3 3M3 12h7"/>')
+    wind: sm('<path d="M3 9h11a3 3 0 1 0-3-3M3 15h15a3 3 0 1 1-3 3M3 12h7"/>'),
+    // irrigation sim: rain weeks on its board
+    rain: sm('<path d="M7 14h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.5 1.5A3.3 3.3 0 0 0 7 14Z"/><path d="M8 17l-1 3M12 17l-1 3M16 17l-1 3"/>')
   };
 })());
