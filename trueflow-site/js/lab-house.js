@@ -296,7 +296,7 @@
 
   // ----- page wiring (lab.html only) -----
   if (typeof document === "undefined") return;
-  // the livestock panel's "The house too" checkbox is also id="labHouse", so find this panel by its mode
+  // found by its mode, like the picker does
   const panel = document.querySelector('[data-mode-panel="house"]');
   if (!panel || !root.HouseScene) return;
 
@@ -389,7 +389,7 @@
 
   const stopSim = () => { board.stop(); };
   $("hwRun").addEventListener("click", runSim);
-  document.addEventListener("labmode", stopSim); // switching to another sim stops this one
+  document.addEventListener("labmode", () => { stopSim(); render(); }); // switching sims stops a run and resets the picture
 
   const set = (patch) => { stopSim(); state = { ...state, ...patch }; render(); };
   [["people", "hwPeople"], ["well", "hwWell"], ["pump", "hwPump"], ["tank", "hwTank"]].forEach(([k, id]) =>

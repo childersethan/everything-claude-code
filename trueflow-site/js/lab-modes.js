@@ -17,6 +17,7 @@
   }
 
   MODES.forEach((m) => document.getElementById("mode-" + m).addEventListener("click", () => show(m, true)));
-  const start = location.hash.slice(1);
-  if (MODES.includes(start)) show(start, false);
+  const fromHash = () => { const m = location.hash.slice(1) || MODES[0]; if (MODES.includes(m)) show(m, false); };
+  if (location.hash) fromHash();
+  addEventListener("hashchange", fromHash); // a link to lab.html#house on this page switches too
 })();

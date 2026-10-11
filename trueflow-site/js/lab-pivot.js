@@ -176,7 +176,7 @@
         text: `Soil moisture dropped to ${pct}% on day ${low.day}. The ${c.noun} curled up a few afternoons but hung on.` };
     }
     return { level: "thrived", loss: 0, title: "Bumper crop!",
-      text: `Soil moisture never dropped below ${pct}%. Tall, green ${c.noun} all month, on track for ${c.yield[0]} ${c.yield[1]}.` };
+      text: `${pct >= 100 ? "Soil stayed full of water all month" : `Soil moisture never dropped below ${pct}%`}. Tall, green ${c.noun} all month, on track for ${c.yield[0]} ${c.yield[1]}.` };
   }
 
   const api = { LIMITS, CROPS, SOILS, WEATHERS, SIM_DAYS, STRESS, EFFICIENCY, applied, cropUse, gpmPerAcre, verdict, simulate, yieldLoss };
@@ -245,7 +245,7 @@
   }
 
   $("pvRun").addEventListener("click", runSim);
-  document.addEventListener("labmode", () => stopSim()); // switching sims stops this one
+  document.addEventListener("labmode", () => { stopSim(); render(); }); // switching sims stops a run and resets the picture
 
   const set = (patch) => { stopSim(); state = { ...state, ...patch }; render(); };
   Object.keys(CROPS).forEach((k) => $("pv-" + k).addEventListener("click", () => set({ crop: k })));

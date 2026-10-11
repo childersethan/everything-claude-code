@@ -270,7 +270,7 @@
   }
 
   $("simRun").addEventListener("click", runSim);
-  document.addEventListener("labmode", () => stopSim()); // switching to another sim stops this one
+  document.addEventListener("labmode", () => { stopSim(); render(); }); // switching sims stops a run and resets the picture
 
   const set = (patch) => { stopSim(); state = { ...state, ...patch }; render(); };
   POWERS.forEach((p) => $("pw-" + p).addEventListener("click", () => set({ power: p })));

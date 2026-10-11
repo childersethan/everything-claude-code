@@ -306,6 +306,8 @@ test("Water Lab picker switches between the four sims and remembers the choice i
   }
   await page.click("#mode-livestock");
   assert.equal(await page.isVisible("#lab"), true);
+  await page.evaluate(() => { location.hash = "#irrigation"; }); // a same-page link switches too
+  await page.waitForSelector("#labIrrigation", { state: "visible" });
   assert.deepEqual(errors, []);
   await page.close();
 });
