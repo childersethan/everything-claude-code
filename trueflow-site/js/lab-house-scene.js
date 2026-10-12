@@ -174,7 +174,7 @@
 
   function create(svgEl) {
     const $ = (id) => svgEl.querySelector("#" + id);
-    const el = Object.fromEntries(["hwSkyTop", "hwSkyLow", "hwStars", "hwSun", "hwSunRays", "hwMoon", "hwClouds", "hwRainbow", "hwRipples", "hwInflow",
+    const el = Object.fromEntries(["hwSkyTop", "hwSkyLow", "hwStars", "hwSun", "hwSunRays", "hwMoon", "hwClouds", "hwRipples", "hwInflow",
       "hwWet", "hwGrass", "hwGardenG", "hwCow", "hwTroughWater", "hwHoseSpray", "hwSprinklerG", "hwJets", "hwSprinkHead", "hwCasingWater", "hwBubbles",
       "hwPumpG", "hwPumpGlow", "hwSmoke", "hwFeedDots", "hwSleepers", "hwDishLed", "hwDrumWater", "hwDrum", "hwSprayA", "hwSprayB", "hwFaucet",
       "hwFolks", "hwFx", "hwShade", "hwLights", "hwSwitchLed", "hwTankWater", "hwFlame", "hwGaugeRed", "hwGaugeGreen", "hwTicks", "hwNeedle",
@@ -186,7 +186,6 @@
     const stars = Array.from({ length: 28 }, (_, i) => ({ ph: i * 2.1, node: svg("circle", { cx: (i * 97 + 13) % 400, cy: 6 + ((i * 53) % 150), r: i % 4 ? 0.7 : 1.1 }, el.hwStars) }));
     const clouds = [{ x: 30, y: 26, s: 0.9 }, { x: 230, y: 14, s: 0.7 }, { x: 330, y: 40, s: 0.55 }].map((c) =>
       ({ ...c, node: svg("path", { d: "M0 10a7 7 0 0 1 7-7 9 9 0 0 1 16-3 7 7 0 0 1 11 4 6 6 0 0 1 2 12H3a5 5 0 0 1-3-6z" }, el.hwClouds) }));
-    ["#e2442f", "#f2b631", "#3fae5a", "#3f8fd2", "#8e5aa8"].forEach((c, i) => svg("path", { d: `M${24 + i * 3} 199a${42 - i * 3} ${42 - i * 3} 0 0 1 ${84 - i * 6} 0`, stroke: c, "stroke-opacity": 0.8 }, el.hwRainbow));
     const ripples = [[20, 296], [300, 300], [170, 318], [250, 336], [40, 330], [340, 350]].map(([x, y], i) => ({ x, ph: i * 1.7, node: svg("rect", { x, y, width: 40, height: 1.4, rx: 0.7 }, el.hwRipples) }));
     const inflow = Array.from({ length: 14 }, (_, i) => ({ a: (i / 14) * Math.PI * 2, off: (i * 0.37) % 1, node: svg("circle", { r: 1, class: "hw-inflow" }, el.hwInflow) }));
     const grass = [6, 50, 58, 76, 112, 146, 140].map((x, i) => ({ x, ph: i, node: svg("path", { d: "M0 0q-1-5-4-7M0 0q0-6 1-9M0 0q1-4 4-6", transform: `translate(${x} 200)` }, el.hwGrass) }));
@@ -351,7 +350,6 @@
         c.node.setAttribute("transform", `translate(${c.x.toFixed(1)} ${c.y}) scale(${c.s})`);
         c.node.setAttribute("opacity", (1 - dark * 0.75).toFixed(2));
       });
-      el.hwRainbow.setAttribute("opacity", (cur.party * (1 - dark * 0.7) * 0.9).toFixed(2));
 
       // ----- rooms at night: dark when asleep, lamp-lit when someone's up -----
       shades.forEach((s, i) => {

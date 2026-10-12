@@ -153,11 +153,6 @@
     return { body, reel };
   }
 
-  function buildRainbow(g) {
-    ["#e5484d", "#f5a524", "#f5d90a", "#46a758", "#3e9bd6", "#8e4ec6"].forEach((c, i) =>
-      svg("path", { d: `M${-26 + i * 2.4} 0A${26 - i * 2.4} ${26 - i * 2.4} 0 0 1 ${26 - i * 2.4} 0`, stroke: c, "stroke-width": 2.4, fill: "none" }, g));
-  }
-
   /** A tumbleweed: a tangle of loops. */
   function buildTumbleweed(g) {
     const rand = seeded(5);
@@ -207,8 +202,6 @@
     const alert = svg("g", { class: "pv-alert", opacity: 0 }, el.pvRig);
     svg("path", { d: "M0-9 8 5H-8Z" }, alert);
     svg("path", { d: "M0-4v4.5M0 2.6v.2", class: "pv-alert-mark" }, alert);
-    const rainbow = svg("g", { class: "pv-rainbow", opacity: 0 }, el.pvRig);
-    buildRainbow(rainbow);
     let wheels = [], spans = 0;
     const rebuildWheels = (n) => {
       wheelG.replaceChildren();
@@ -315,13 +308,10 @@
         d.node.setAttribute("opacity", f1(cur.flow * (1 - p * 0.6)));
       });
 
-      // a warning sign when the pivot's stuck, and a rainbow in the spray when the crop made it
+      // a warning sign when the pivot's stuck
       const mid = pts[Math.max(1, n - 1)];
       alert.setAttribute("transform", `translate(${f1(mid.x)} ${f1(mid.top - 12 * mid.s)}) scale(${f1(mid.s)})`);
       alert.setAttribute("opacity", f1(cur.broke * (still || Math.sin(t * 8) > -0.3 ? 1 : 0.35)));
-      const bow = pts[Math.ceil(n / 2)];
-      rainbow.setAttribute("transform", `translate(${f1(bow.x)} ${f1(bow.y)}) scale(${f1(bow.s * 1.25)})`);
-      rainbow.setAttribute("opacity", f1(cur.party * 0.75));
 
       // the arm passes in front of the pivot point for half its turn
       const front = Math.sin(a) > 0;
