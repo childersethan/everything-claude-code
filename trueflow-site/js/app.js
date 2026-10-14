@@ -127,6 +127,11 @@
     }
     $("#gallery").innerHTML = photos.map((p, i) =>
       `<figure class="shot"><button type="button" data-photo="${i}" aria-label="View larger: ${esc(p.cap)}"><img src="${esc(p.src)}" alt="${esc(p.cap)}" loading="lazy"></button><figcaption>${esc(p.cap)}</figcaption></figure>`).join("");
+    $$("#gallery img").forEach((img) => {
+      const ready = () => img.closest(".shot").classList.add("ready"); // stops the shimmer
+      if (img.complete) ready();
+      else { img.addEventListener("load", ready, { once: true }); img.addEventListener("error", ready, { once: true }); }
+    });
     initLightbox(photos);
   }
 
