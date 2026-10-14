@@ -12,7 +12,7 @@
   const end = intro.querySelector(".intro-end");
   const count = shots.length;
   // the first scene starts already showing, and the last one gets extra room so the call buttons settle before the page moves on
-  const START = 0.3, END = 0.95;
+  const START = 0.4, END = 0.95;
   const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
   let raf = 0;
 
@@ -33,6 +33,28 @@
   }
   const queue = () => { if (!raf) raf = requestAnimationFrame(draw); };
 
+  // wrap each word (and each small caption) so the CSS can move them one by one
+  lines.forEach((line) => {
+    let i = 0;
+    const walk = (node) => [...node.childNodes].forEach((n) => {
+      if (n.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach((part) => {
+          if (!part) return;
+          if (/^\s+$/.test(part)) { frag.append(part); return; }
+          const w = document.createElement("span");
+          w.className = "w"; w.style.setProperty("--i", i++); w.textContent = part;
+          frag.append(w);
+        });
+        n.replaceWith(frag);
+      } else if (n.nodeType !== 1) {
+        return;
+      } else if (n.matches(".intro-kicker, .intro-sub")) {
+        n.classList.add("w"); n.style.setProperty("--i", i++);
+      } else if (!n.matches(".cta-row, .values")) walk(n);
+    });
+    walk(line);
+  });
   intro.querySelectorAll("img[data-src]").forEach((img) => { img.src = img.dataset.src; });
   intro.classList.add("live");
   draw();
