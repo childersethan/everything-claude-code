@@ -77,6 +77,7 @@ test("home tiles link to each part of the site", async () => {
 test("Water Lab reacts to the power source, depth, wind and herd", async () => {
   const { page } = await open("lab.html");
   const num = async (sel) => Number((await page.textContent(sel)).replace(/,/g, ""));
+  await page.click("#lab .lab-more summary"); // open "Tinker with the numbers"
   assert.equal(await page.isVisible("#labWind"), true);
   assert.equal(await page.isVisible("#labSun"), false);
   const shallow = await num("#supplyOut");
@@ -262,18 +263,27 @@ test("Water Lab sim plays out a month and says how the herd did", async () => {
   await page.route(/fonts\.(googleapis|gstatic)\.com|cloudflareinsights\.com/, (r) => r.abort());
   await page.goto(BASE + "lab.html");
   assert.equal(await page.isVisible("#simBoard"), false);
+  assert.equal(await page.isVisible("#labWind"), false, "the detailed controls start tucked away");
+  await page.click("#hd-lots"); // a big herd shows its size on the button and in the details
+  assert.equal(await page.inputValue("#labHerd"), "200");
+  assert.equal(await page.getAttribute("#hd-lots", "aria-pressed"), "true");
+  await page.click("#hd-some");
+  await page.click("#lab .lab-more summary");
   await page.fill("#labWind", "2"); // no wind: the tank runs dry and cattle are lost
   await page.click("#simRun");
   assert.equal(await page.locator("#simDays li").count(), 30);
   await page.waitForSelector("#simResult b");
   assert.match(await page.textContent("#simResult"), /You lost cattle/);
-  assert.equal(await page.textContent("#simLabel"), "Run it again");
+  assert.equal(await page.getAttribute("#simResult .stars", "aria-label"), "0 of 3 stars");
+  assert.match(await page.textContent("#simResult .fact"), /Did you know\?/);
+  assert.equal(await page.textContent("#simLabel"), "Play again");
   await page.fill("#labWind", "12"); // changing a setting clears the old run
   assert.equal(await page.isVisible("#simBoard"), false);
   await page.click("#an-chickens"); // chickens: own slider range and wording
   assert.equal(await page.textContent("#herdLabel"), "Chickens");
   assert.equal(await page.textContent("#herdVal"), "1,000 birds");
   assert.equal(await page.getAttribute("#labHerd", "max"), "10000");
+  assert.equal(await page.textContent("#hd-lots small"), "5,000 birds");
   await page.fill("#labWind", "2");
   await page.click("#simRun");
   await page.waitForSelector("#simResult b");
@@ -312,12 +322,18 @@ test("Water Lab picker switches between the four sims and remembers the choice i
   await page.close();
 });
 
-test("Pivot sim: more water per acre helps, and a run ends with a verdict", async () => {
+test("Pivot sim: quick picks set the details, more water per acre helps, and a run ends with a verdict", async () => {
   const { page, errors } = await openSim("#pivot");
   const num = async (sel) => Number(await page.textContent(sel));
   const base = await num("#pvPutOut");
-  await page.fill("#pvGpm", "1200");
-  assert.ok(await num("#pvPutOut") > base, "a bigger pivot puts down more");
+  await page.click("#labPivot [data-set='pvGpm=1100']");
+  assert.equal(await page.inputValue("#pvGpm"), "1100");
+  assert.ok(await num("#pvPutOut") > base, "a bigger well puts down more");
+  await page.click("#labPivot [data-set='pvWeather=hot']");
+  assert.equal(await page.inputValue("#pvWeather"), "hot");
+  await page.click("#labPivot .lab-more summary");
+  await page.fill("#pvGpm", "1000"); // tinkering past a quick pick un-presses it
+  assert.equal(await page.getAttribute("#labPivot [data-set='pvGpm=1100']", "aria-pressed"), "false");
   await page.fill("#pvAcres", "160");
   await page.fill("#pvGpm", "200");
   await page.selectOption("#pvWeather", "hot");
@@ -331,11 +347,11 @@ test("Pivot sim: more water per acre helps, and a run ends with a verdict", asyn
 
 test("Irrigation sim: a thin aquifer pumps down and burns up the pump", async () => {
   const { page, errors } = await openSim("#irrigation");
-  await page.fill("#iwSat", "40");
+  await page.click("#labIrrigation [data-set='iwSat=70']"); // a little water and a medium pump: too much pump for the well
   await page.click("#iwRun");
   await page.waitForSelector("#iwResult b");
   assert.match(await page.textContent("#iwResult b"), /toast/i);
-  await page.fill("#iwSat", "200"); // changing a setting clears the old run
+  await page.click("#labIrrigation [data-set='iwSat=220']"); // changing a setting clears the old run
   assert.equal(await page.isVisible("#iwBoard"), false);
   assert.deepEqual(errors, []);
   await page.close();
@@ -343,6 +359,7 @@ test("Irrigation sim: a thin aquifer pumps down and burns up the pump", async ()
 
 test("House well sim: a weak well with a big family and a sprinkler runs dry; a good setup gets strong showers", async () => {
   const { page, errors } = await openSim("#house");
+  await page.click("#labHouse .lab-more summary");
   await page.fill("#hwPeople", "8");
   await page.fill("#hwWell", "1");
   await page.click("#hwSprinkler");

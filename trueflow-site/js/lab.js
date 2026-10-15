@@ -7,9 +7,9 @@
   const LIMITS = Object.freeze({ depth: [40, 600], wind: [0, 30], sun: [2, 7], herd: [0, 400] });
   // gallons each animal drinks per day by weather; `per` is how many animals each one in the drawing stands for
   const ANIMALS = Object.freeze({
-    cattle: { gal: { cool: 10, mild: 15, hot: 20 }, max: 400, step: 10, start: 60, per: 50, unit: "head", noun: "cattle", group: "herd", label: "Cattle" },
-    goats: { gal: { cool: 1, mild: 1.5, hot: 2.5 }, max: 1000, step: 10, start: 120, per: 50, unit: "goats", noun: "goats", group: "herd", label: "Goats" },
-    chickens: { gal: { cool: 0.05, mild: 0.08, hot: 0.12 }, max: 10000, step: 100, start: 1000, per: 250, unit: "birds", noun: "chickens", group: "flock", label: "Chickens" }
+    cattle: { gal: { cool: 10, mild: 15, hot: 20 }, max: 400, step: 10, start: 60, sizes: [25, 60, 200], per: 50, unit: "head", noun: "cattle", group: "herd", label: "Cattle" },
+    goats: { gal: { cool: 1, mild: 1.5, hot: 2.5 }, max: 1000, step: 10, start: 120, sizes: [50, 120, 600], per: 50, unit: "goats", noun: "goats", group: "herd", label: "Goats" },
+    chickens: { gal: { cool: 0.05, mild: 0.08, hot: 0.12 }, max: 10000, step: 100, start: 1000, sizes: [300, 1000, 5000], per: 250, unit: "birds", noun: "chickens", group: "flock", label: "Chickens" }
   });
   const GAL_PER_HEAD = ANIMALS.cattle.gal;
   const animalOf = (kind = "cattle") => {
@@ -190,6 +190,14 @@
     electric: "An electric submersible pumps whenever you need it, as long as there's power at the well."
   };
   const NEED = { windmill: "c6", solar: "c6", electric: "c4" };
+  const FACTS = [
+    "A beef cow drinks about 15 gallons a day, and 20 or more in a heat wave.",
+    "A windmill only pumps while the wind blows, so the stock tank is its battery.",
+    "A goat drinks about 1 to 2 and a half gallons a day.",
+    "A thousand laying hens drink about 80 gallons on a mild day.",
+    "A solar pump does most of its work in 5 or 6 hours of strong sun."
+  ];
+  const HERD_SIZES = ["few", "some", "lots"];
   const scene = root.LabScene.create(document.getElementById("labSvg"));
   let state = { power: "windmill", depth: 220, wind: 12, sun: 5.5, herd: 60, animal: "cattle", season: "mild", house: false };
   const shownAnimals = () => Math.min(8, Math.ceil(state.herd / ANIMALS[state.animal].per));
@@ -212,6 +220,11 @@
     $("herdLabel").textContent = a.label;
     $("needLabel").textContent = a.group === "flock" ? "Flock drinks" : "Herd drinks";
     $("herdVal").textContent = s.herd.toLocaleString("en-US") + " " + a.unit;
+    HERD_SIZES.forEach((k, i) => {
+      const b = $("hd-" + k);
+      b.querySelector("small").textContent = a.sizes[i].toLocaleString("en-US") + " " + a.unit;
+      b.setAttribute("aria-pressed", String(a.sizes[i] === s.herd));
+    });
 
     $("supplyOut").textContent = out.galPerDay.toLocaleString("en-US");
     $("needOut").textContent = need.toLocaleString("en-US");
@@ -235,7 +248,7 @@
   const ICON_FOR = { clear: "sun", calm: "calm", cloudy: "cloud", storm: "storm", heat: "heat" };
   const RESULT_ICON = { thrived: "trough", tight: "gauge", thirsty: "drop" };
   const ANIMAL_ICON = { cattle: "cow", goats: "goat", chickens: "chicken" };
-  const board = root.SimBoard.create("sim", { idle: "Run a 30-day sim", scene: $("labSvg") });
+  const board = root.SimBoard.create("sim", { idle: "Play a month", scene: $("labSvg") });
   const stopSim = () => board.stop();
 
   function showDay(d) {
@@ -249,7 +262,7 @@
 
   function showResult(run) {
     const o = run.outcome, lost = o.level === "lost";
-    board.result({ ...o, icon: lost ? ANIMAL_ICON[state.animal] : RESULT_ICON[o.level] }, `${SIM_DAYS} days later`);
+    board.result({ ...o, icon: lost ? ANIMAL_ICON[state.animal] : RESULT_ICON[o.level], fact: root.SimBoard.pick(FACTS) }, `${SIM_DAYS} days later`);
     scene.set({
       weather: lost && o.cause === "heat" ? "heat" : lost && o.cause === "blown" ? "storm" : "clear",
       down: lost ? Math.max(1, Math.round(shownAnimals() * o.lostShare)) : 0, death: o.cause || "fall",
@@ -278,6 +291,11 @@
     if (k === state.animal) return;
     Object.assign($("labHerd"), { max: a.max, step: a.step, value: a.start }); // each animal gets its own slider range
     set({ animal: k, herd: a.start });
+  }));
+  HERD_SIZES.forEach((k, i) => $("hd-" + k).addEventListener("click", () => {
+    const herd = ANIMALS[state.animal].sizes[i];
+    $("labHerd").value = herd;
+    set({ herd });
   }));
   [["depth", "labDepth"], ["wind", "labWind"], ["sun", "labSun"], ["herd", "labHerd"]].forEach(([k, id]) =>
     $(id).addEventListener("input", (e) => set({ [k]: Number(e.target.value) })));

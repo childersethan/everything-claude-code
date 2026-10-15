@@ -217,7 +217,14 @@
   // ----- the 30-day sim, played back a day at a time on the diagram -----
   const ICON_FOR = { clear: "sun", storm: "storm", heat: "heat", windy: "wind", broke: "wrench" };
   const RESULT_ICON = { thrived: "corn", tight: "gauge", thirsty: "drop", lost: "heat" };
-  const board = root.SimBoard.create("pv", { idle: "Run a 30-day sim", scene: $("pvSvg") });
+  const FACTS = [
+    "One inch of water over one acre is 27,154 gallons.",
+    "On a hot July day, corn can drink about a third of an inch of water.",
+    "A pivot on a quarter section waters about 125 acres. The square corners stay dry.",
+    "About 85% of what a drop-nozzle pivot pumps reaches the roots. The rest blows away or dries up.",
+    "Milo can wait out a dry spell that would hurt corn."
+  ];
+  const board = root.SimBoard.create("pv", { idle: "Play a month", scene: $("pvSvg") });
   const stopSim = () => board.stop();
 
   function showDay(d) {
@@ -226,7 +233,7 @@
 
   function showResult(run) {
     const o = run.outcome;
-    board.result({ ...o, icon: o.level === "thrived" ? state.crop : RESULT_ICON[o.level] }, `${SIM_DAYS} days later`);
+    board.result({ ...o, icon: o.level === "thrived" ? state.crop : RESULT_ICON[o.level], fact: root.SimBoard.pick(FACTS) }, `${SIM_DAYS} days later`);
     const last = run.days[run.days.length - 1];
     scene.set({ ending: o.level, weather: o.level === "lost" ? "heat" : "clear", flow: o.level === "lost" ? 0 : last.water / 0.4 });
     if (o.level === "lost") board.catastrophe();

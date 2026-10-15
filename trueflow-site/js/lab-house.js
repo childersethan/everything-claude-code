@@ -336,7 +336,14 @@
   // ----- the busy-day sim: play the day back an hour at a time on the diagram -----
   const ICON_FOR = { night: "moon", rush: "shower", laundry: "washer", dishes: "faucet", sprinkler: "sprinkler", garden: "sprout", day: "sun", dry: "pump" };
   const RESULT_ICON = { thrived: "shower", tight: "gauge", thirsty: "drop", lost: "pump" };
-  const board = root.SimBoard.create("hw", { idle: "Run a busy-day sim", scene: $("hwSvg") });
+  const FACTS = [
+    "A shower uses about 2 to 2 and a half gallons a minute.",
+    "A family of four uses about 300 gallons of water a day at home.",
+    "A pressure tank holds water under air so the pump doesn't start every time you open a tap.",
+    "Most house wells turn the pump on at 40 psi and off at 60.",
+    "A lawn sprinkler can use as much water as almost three showers at once."
+  ];
+  const board = root.SimBoard.create("hw", { idle: "Play a busy day", scene: $("hwSvg") });
 
   /** What kind of hour it was, for the board's icon. */
   function kindOf(x) {
@@ -363,7 +370,7 @@
     // the ending replays the hour that decided it; a good day replays its busiest morning hour in the sun
     const morning = run.hours.filter((h) => h.clock >= 6 && h.clock <= 9).reduce((a, b) => (b.showers > a.showers ? b : a));
     const x = o.level === "thrived" ? morning : run.hours[o.hour];
-    board.result({ ...o, icon: RESULT_ICON[o.level] }, `${clock(DAY_START)} the next morning`);
+    board.result({ ...o, icon: RESULT_ICON[o.level], fact: root.SimBoard.pick(FACTS) }, `${clock(DAY_START)} the next morning`);
     scene.set({
       mode: "run", clock: x.clock + 0.5, asleep: false, showers: Math.max(1, x.showers), kitchen: x.kitchen, dishes: x.dishes, washer: x.washer,
       sprinkler: x.sprinkler || (o.level === "thrived" && state.sprinkler), garden: x.garden, waterer: x.waterer,

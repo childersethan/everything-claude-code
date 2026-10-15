@@ -409,6 +409,25 @@ header.top{view-transition-name:site-header}
 .lab-sim{display:grid;gap:8px}
 .lab-sim .btn{justify-self:start}
 .lab-sim .btn[disabled]{opacity:.5;cursor:not-allowed}
+/* quick picks: three big questions, then one big Play button; the details hide in "Tinker with the numbers" */
+.quick{display:grid;gap:8px}
+.quick-q{font-family:var(--f-display);font-weight:700;font-size:1.15rem;text-transform:uppercase;letter-spacing:.03em}
+.lab-power button small{display:block;font-family:var(--f-mono);font-size:.68rem;font-weight:500;letter-spacing:0;text-transform:none;color:var(--muted)}
+.lab-power button[aria-pressed="true"] small{color:inherit}
+.lab-power button:active{transform:scale(.94)}
+.lab-sim .btn-play{justify-self:stretch;justify-content:center;font-size:1.3rem;padding:16px 20px;animation:playNudge 2.4s ease-in-out infinite}
+.lab-sim .btn-play svg{width:22px;height:22px}
+@keyframes playNudge{0%,80%,100%{transform:none}86%{transform:scale(1.04)}92%{transform:scale(.98)}}
+.lab-more{border:1.5px dashed var(--line);border-radius:var(--r);padding:0 14px}
+.lab-more summary{cursor:pointer;padding:12px 0;font-weight:700;color:var(--water)}
+.lab-more[open] summary{border-bottom:1px solid var(--line)}
+.lab-more-body{display:grid;gap:14px;padding:14px 0}
+.sim-result .res-head{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px}
+.sim-result .stars{display:inline-flex;gap:2px;font-size:1.35rem;line-height:1}
+.sim-result .stars i{font-style:normal;color:color-mix(in srgb,var(--muted) 45%,transparent)}
+.sim-result .stars i.on{color:#f2b631;animation:starPop .45s cubic-bezier(.2,1.6,.4,1) both;animation-delay:calc(.35s + var(--i) * .18s)}
+@keyframes starPop{from{transform:scale(0) rotate(-40deg)}to{transform:none}}
+.sim-result .fact{grid-column:1/-1;margin-top:6px;padding-top:8px;border-top:1px dashed color-mix(in srgb,var(--ink) 25%,transparent);font-size:.88rem}
 .sim-board{display:grid;gap:10px;margin:12px;padding:12px;border:1px solid var(--line);border-radius:var(--r);background:var(--bg)}
 .sim-board[hidden]{display:none}
 .sim-head{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;min-height:1.6em}
@@ -436,7 +455,7 @@ header.top{view-transition-name:site-header}
 .sim-result.lost{border-color:var(--brand);background:color-mix(in srgb,var(--brand) 12%,var(--surface))}
 .sim-result.lost .ic{color:var(--brand)}
 @keyframes simPop{from{transform:scale(.94);opacity:0}to{transform:none;opacity:1}}
-@media (prefers-reduced-motion:reduce){.sim-result{animation:none}.sim-days li,.sim-days li .bar i{transition:none}}
+@media (prefers-reduced-motion:reduce){.sim-result,.sim-result .stars i.on,.lab-sim .btn-play{animation:none}.sim-days li,.sim-days li .bar i{transition:none}}
 .lab-scene .critter .dark{fill:#1f262c}
 .lab-scene .critter .light{fill:#f6f1e6}
 .lab-scene .critter .patch{fill:#f6f1e6}
