@@ -53,9 +53,9 @@
   const START = Date.UTC(2026, 5, 1); // only used for month and day labels
   const weekLabel = (i) => new Date(START + i * 7 * 864e5).toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
   // how thirsty the corn is by week: small in June, peaks at tassel in mid-July, tapers as it dents
-  const CROP = [0.55, 0.65, 0.75, 0.85, 0.95, 1, 1, 1, 1, 1, 0.95, 0.9, 0.8, 0.7, 0.55, 0.45];
+  const CROP = [0.4, 0.5, 0.6, 0.75, 0.9, 1, 1, 1, 1, 0.95, 0.85, 0.75, 0.6, 0.45, 0.3, 0.2];
   // what a week's weather does to how hard the pivots run (rain weeks they mostly sit)
-  const WEEK_FACTOR = { rain: 0.08, cool: 0.6, normal: 0.85, hot: 1, heat: 1.15 };
+  const WEEK_FACTOR = { rain: 0.08, cool: 0.6, normal: 0.75, hot: 1, heat: 1.15 };
   // chance of each kind of week by the kind of summer
   const ODDS = {
     cool: { rain: 0.26, cool: 0.34, normal: 0.3, hot: 0.1, heat: 0 },
