@@ -59,16 +59,20 @@ test("simulate: the default quarter-section pivot usually brings in a bumper cro
 
 test("simulate: a tiny well under corn in summer heat burns the crop up", () => {
   const c = tally({ ...SETUP, gpm: 200, weather: "hot" });
-  assert.ok(c.lost >= 95, JSON.stringify(c));
+  assert.ok(c.lost >= 80 && c.thrived === 0, JSON.stringify(c));
   const run = P.simulate({ ...SETUP, gpm: 200, weather: "hot" }, 3);
   assert.equal(run.outcome.level, "lost");
   assert.match(run.outcome.title, /burned up/);
   assert.match(run.outcome.text, /bone dry \d+ days in a row/);
 });
 
-test("simulate: summer heat on 800 gpm is a coin toss; more water or a hardier crop fixes it", () => {
+test("simulate: a month of summer heat on 800 gpm leaves some corn thirsty; 600 gpm struggles; more water or a hardier crop fixes it", () => {
+  // K-State: about 0.25 in a day (roughly 600 gpm on 125 acres) carries corn through most summers, not a whole month of heat
   const hot = tally({ ...SETUP, weather: "hot" });
-  assert.ok(hot.thirsty + hot.lost > 40, JSON.stringify(hot));
+  assert.ok(hot.thirsty + hot.lost > 20 && hot.lost < 5, JSON.stringify(hot));
+  const lean = tally({ ...SETUP, weather: "hot", gpm: 600 });
+  assert.ok(lean.thirsty + lean.lost > 50, JSON.stringify(lean));
+  assert.ok(tally({ ...SETUP, gpm: 600 }).thrived >= 85, "600 gpm gets corn through a mild month");
   const more = tally({ ...SETUP, weather: "hot", gpm: 1100 });
   assert.ok(more.thrived > hot.thrived && more.lost < 5, JSON.stringify(more));
   const milo = tally({ ...SETUP, weather: "hot", crop: "sorghum" });
@@ -80,7 +84,7 @@ test("simulate: summer heat on 800 gpm is a coin toss; more water or a hardier c
 test("simulate: every ending shows up, with friendly words and a yield hit when it's thirsty", () => {
   const seen = {};
   for (let seed = 1; seed <= 300; seed++) {
-    const o = P.simulate({ ...SETUP, weather: "hot" }, seed).outcome;
+    const o = P.simulate({ ...SETUP, weather: "hot", gpm: 600 }, seed).outcome;
     seen[o.level] = seen[o.level] || o;
   }
   assert.deepEqual(Object.keys(seen).sort(), ["lost", "thirsty", "thrived", "tight"]);

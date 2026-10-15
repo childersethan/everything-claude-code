@@ -11,7 +11,7 @@
   // Peak water use (ET) in inches a day by weather, a normal irrigated yield, and how many extra dry days it can stand.
   const CROPS = Object.freeze({
     corn: { label: "Corn", noun: "corn", et: { cool: 0.18, mild: 0.25, hot: 0.33 }, yield: [220, "bushels an acre"], hardy: 0,
-      tip: "Corn out here wants about 6 to 7 gallons a minute per acre to ride out July." },
+      tip: "K-State figures corn out here needs about 5 gallons a minute per acre to get through most summers, and 6 or more to ride out a real heat wave." },
     soybeans: { label: "Soybeans", noun: "beans", et: { cool: 0.16, mild: 0.22, hot: 0.30 }, yield: [65, "bushels an acre"], hardy: 0,
       tip: "Beans drink less than corn, but they peak in August while they set pods." },
     wheat: { label: "Wheat", noun: "wheat", et: { cool: 0.14, mild: 0.20, hot: 0.26 }, yield: [80, "bushels an acre"], hardy: 0,
@@ -21,8 +21,8 @@
     sorghum: { label: "Sorghum", noun: "milo", et: { cool: 0.14, mild: 0.20, hot: 0.27 }, yield: [140, "bushels an acre"], hardy: 2,
       tip: "Milo handles a dry spell better than corn. It can sit tight a few days and wait for rain." }
   });
-  // Water the root zone holds that the crop can use, in inches
-  const SOILS = Object.freeze({ sandy: 1.4, loam: 2, silt: 2.6 });
+  // Water the top 3 ft of root zone holds that the crop can use, in inches (about 1.0, 1.8 and 2.2 inches a foot)
+  const SOILS = Object.freeze({ sandy: 3, loam: 5.4, silt: 6.6 });
   const SOIL_NAMES = { sandy: "Sandy ground", loam: "Loam", silt: "Silt loam" };
   const WEATHERS = ["cool", "mild", "hot"];
 
@@ -64,7 +64,7 @@
   // ----- the 30-day sim: a month of real weather, with a soil-moisture bucket between the pivot and the crop -----
   const SIM_DAYS = 30;
   const START_FULL = 0.8; // the soil starts the month most of the way full
-  const STRESS = 0.4; // below 40% of what the soil holds, the crop curls its leaves and yield starts to slip
+  const STRESS = 0.5; // once the crop has used half of what the soil holds, it curls its leaves and yield starts to slip
   const DRY_DAYS_LOST = 4; // this many days in a row bone dry and the crop is done
 
   /** Small seeded random generator (mulberry32), so a run can be replayed and tested. */
