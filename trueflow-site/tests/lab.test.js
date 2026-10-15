@@ -116,3 +116,11 @@ test("goats and chickens drink far less than cattle, and the sim speaks their la
   const hens = L.simulate({ ...SETUP, animal: "chickens", herd: 1000 }, 5).outcome;
   assert.match(hens.title, /flock/);
 });
+
+test("rightSize: says the gpm the animals need and which size covers it", () => {
+  assert.match(L.rightSizeText({ power: "solar", depth: 60, herd: 60 }), /about 3\.4 gpm in full sun\. A medium solar pump covers it/);
+  assert.equal(L.rightSize({ power: "windmill", depth: 60, herd: 200 }).index, 1); // needs the 2½" cylinder
+  assert.match(L.rightSizeText({ power: "windmill", depth: 200, herd: 60 }), /no windmill cylinder can lift it/);
+  assert.match(L.rightSizeText({ power: "windmill", depth: 120, herd: 60, wind: 2 }), /no wind, no water/);
+  assert.equal(L.rightSizeText({ power: "electric", depth: 120, herd: 0 }), "");
+});

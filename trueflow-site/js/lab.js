@@ -90,6 +90,31 @@
   /** Says plainly that a windmill cylinder is set deeper than it can lift. */
   const tooDeepText = (out) => `A ${out.label.replace(" cylinder", "")} cylinder on an 8 ft windmill only lifts about ${out.lift} ft. The mill stalls. Pick a smaller cylinder or a shallower well.`;
 
+  /**
+   * The gpm this setup should have: the day's water (plus a quarter for a cushion) spread over the hours
+   * this power source actually runs, and the smallest size on offer that covers it at this depth (-1 if none).
+   */
+  function rightSize(setup) {
+    const want = demand(setup) * 1.25;
+    const hours = setup.power === "windmill" ? WINDMILL_HOURS * windFactor(setup.wind ?? 12)
+      : setup.power === "solar" ? clamp(setup.sun ?? 5.5, LIMITS.sun) : 24;
+    const index = SIZES[setup.power].findIndex((_, size) => supply({ ...setup, size }).galPerDay >= want);
+    return { gpm: hours > 0 ? want / (hours * 60) : Infinity, index };
+  }
+
+  /** One plain line: the gpm you need, and which size gives it. */
+  function rightSizeText(setup) {
+    if (demand(setup) === 0) return "";
+    const fit = rightSize(setup), runs = RUNS[setup.power];
+    if (fit.gpm === Infinity) return "Right size: no wind, no water. A mill needs at least 6 mph to turn.";
+    const need = `Right size: about ${fit.gpm < 10 ? +fit.gpm.toFixed(1) : Math.round(fit.gpm)} gpm ${runs}.`;
+    const label = SIZES[setup.power][fit.index]?.label;
+    if (label) return `${need} ${setup.power === "solar" ? `A ${label.toLowerCase()} pump` : `The ${label}`} covers it.`;
+    if (setup.power === "windmill" && SIZES.windmill.every((c) => c.lift < clamp(setup.depth, LIMITS.depth))) return `${need} At this depth no windmill cylinder can lift it. Go solar or electric.`;
+    return `${need} None of these sizes gives that much at this depth. Add a second pump or go electric.`;
+  }
+  const RUNS = { windmill: "while the wind blows", solar: "in full sun", electric: "around the clock" };
+
   /** Compares supply with demand and says what that means in plain words. */
   function verdict(galPerDay, need) {
     if (need === 0) return { level: "ok", ratio: 1, text: "Add some animals to see if this well keeps up." };
@@ -195,7 +220,7 @@
       text: `The tank never dropped below ${pct}%. Fat, happy ${a.noun} all month.` };
   }
 
-  const api = { LIMITS, ANIMALS, GAL_PER_HEAD, POWERS, SIZES, DEFAULT_SIZE, SIM_DAYS, windFactor, demand, supply, sizeOf, pumpHp, verdict, tooDeepText, simulate };
+  const api = { LIMITS, ANIMALS, GAL_PER_HEAD, POWERS, SIZES, DEFAULT_SIZE, SIM_DAYS, windFactor, demand, supply, sizeOf, pumpHp, verdict, tooDeepText, rightSize, rightSizeText, simulate };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.WaterLab = api;
 
@@ -224,7 +249,6 @@
   /** The small print under each size button: what that size really does. */
   const sizeNote = (power, pick, depth) => power === "windmill" ? `${(pick.gph / 60).toFixed(1)} gpm, lifts ${pick.lift} ft`
     : power === "solar" ? `${pick.gpm} gpm at 100 ft` : `${pumpHp(depth, pick.gpm)} HP at ${depth} ft`;
-  const RUNS = { windmill: "while the wind blows", solar: "in full sun", electric: "around the clock" };
   const shownAnimals = () => Math.min(8, Math.ceil(state.herd / ANIMALS[state.animal].per));
 
   function render() {
@@ -260,6 +284,7 @@
     $("supplyOut").textContent = out.galPerDay.toLocaleString("en-US");
     $("supplyNote").textContent = out.tooDeep ? "too deep: the mill stalls" : `gal / day · ${+out.gpm.toFixed(1)} gpm ${RUNS[s.power]}`;
     $("needOut").textContent = need.toLocaleString("en-US");
+    $("fitOut").textContent = rightSizeText(s);
     const verdictEl = $("verdict");
     verdictEl.textContent = v.text;
     verdictEl.className = "lab-verdict " + v.level;

@@ -399,6 +399,7 @@ header.top{view-transition-name:site-header}
 .lab-verdict{font-weight:700;padding:10px 14px;border-radius:var(--r);border-left:4px solid var(--water);background:var(--water-soft)}
 .lab-verdict.close{border-color:var(--signal);background:color-mix(in srgb,var(--signal) 16%,var(--surface))}
 .lab-verdict.short{border-color:var(--brand);background:color-mix(in srgb,var(--brand) 12%,var(--surface))}
+.lab-fit{margin:0;font-weight:600;color:var(--ink)}
 .lab-out .btn{justify-self:start}
 @media (max-width:860px){.lab{grid-template-columns:1fr;grid-template-areas:"scene" "controls" "out"}.lab-scene{border-right:0;border-bottom:1px solid var(--line)}}
 /* Water Lab sim: weather overlays and the 30-day board */

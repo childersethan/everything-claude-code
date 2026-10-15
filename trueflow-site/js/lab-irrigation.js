@@ -113,6 +113,18 @@
     return { yield: y, peak, left, throttled, drawdown, regional, level, hp, motor, bill: powerBill(hp, duty), duty, available: available(s.sat) };
   }
 
+  /** The pump size this setup should have: what the pivots want in a hot week, but never more than the well gives. */
+  function rightSize(setup) {
+    const s = normalize(setup), o = outlook(s), fmt = (n) => n.toLocaleString("en-US");
+    // the biggest pump, in 50 gpm steps, that still leaves water over the intake at the peak
+    let gpm = Math.round(Math.min(o.peak, o.yield) / 50) * 50;
+    while (gpm > 100 && outlook({ ...s, gpm }).left < CUT_FT) gpm -= 50;
+    const text = gpm >= o.peak * 0.95
+      ? `Right size: a pump around ${fmt(gpm)} gpm. That covers the pivots, and the well can give ${fmt(o.yield)}.`
+      : `Right size: about ${fmt(gpm)} gpm, about what this well can safely give. The pivots want ${fmt(o.peak)}, so put fewer acres or a lower-water crop under it.`;
+    return { gpm, text };
+  }
+
   /** What the outlook means in plain words: ok, close or short. */
   function verdict(setup) {
     const s = normalize(setup), o = outlook(s), ft = Math.round(o.left);
@@ -207,7 +219,7 @@
       text: `The well never got closer than ${ft} ft to the pump and the corn got ${pct}% of the water it wanted.` };
   }
 
-  const api = { LIMITS, WEATHERS, WEEKS, PIVOT_GPM, INTAKE_FT, wellYield, specificCapacity, available, horsepower, powerBill, margin, outlook, verdict, simulate };
+  const api = { LIMITS, WEATHERS, WEEKS, PIVOT_GPM, INTAKE_FT, wellYield, specificCapacity, available, horsepower, powerBill, margin, outlook, verdict, rightSize, simulate };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.IrrigationLab = api;
 })(typeof window !== "undefined" ? window : globalThis);
@@ -243,6 +255,7 @@
     $("iwYieldOut").textContent = fmt(o.yield);
     $("iwPumpOut").textContent = fmt(s.gpm);
     $("iwPeakOut").textContent = fmt(o.peak);
+    $("iwFitOut").textContent = L.rightSize(s).text;
     $("iwLeftOut").textContent = o.left > 0 ? Math.round(o.left) + " ft" : "0 ft, sucks air";
     $("iwHpOut").textContent = o.motor + " HP";
     $("iwBillOut").textContent = "$" + fmt(Math.round(o.bill / 100) * 100);
