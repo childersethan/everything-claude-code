@@ -55,12 +55,13 @@ const current = (p, page) => (p.key === page.key ? ' aria-current="page"' : "");
 function render(page, layout, body) {
   const inNav = PAGES.filter((p) => p.nav !== false);
   const nav = inNav.map((p) => `      <a href="${p.file}"${current(p, page)}>${p.label}</a>`).join("\n");
+  const footnav = PAGES.filter((p) => p.nav !== false && p.key !== "home").map((p) => `      <a href="${p.file}">${p.label}</a>`).join("\n");
   const drawer = inNav.map((p) => `    <a href="${p.file}"${current(p, page)}>${p.label}</a>`).join("\n");
   const tabbar = PAGES.filter((p) => p.tab).map((p) =>
     `  <a href="${p.file}"${current(p, page)}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${TAB_ICONS[p.tab]}</svg><span>${p.label}</span></a>`).join("\n");
   const vars = {
     title: esc(page.title), description: esc(page.description), url: SITE_URL + (page.file === "index.html" ? "" : page.file),
-    page: page.key, nav, drawer, tabbar, body: body.trimEnd()
+    page: page.key, nav, drawer, footnav, tabbar, body: body.trimEnd()
   };
   return layout.replace(/\{\{(\w+)\}\}/g, (m, k) => {
     if (!(k in vars)) throw new Error(`Unknown placeholder ${m}`);

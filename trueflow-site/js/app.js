@@ -27,6 +27,7 @@
     // these only exist on some pages
     if ($("#fbLink")) $("#fbLink").href = BIZ.facebook;
     if ($("#mailLink")) $("#mailLink").href = "mailto:" + BIZ.email;
+    $$("[data-mail]").forEach((a) => { a.href = "mailto:" + BIZ.email; });
     if (BIZ.phoneTel) $$("[data-tel]").forEach((a) => { a.href = "tel:" + BIZ.phoneTel; });
     if ($("#yr")) $("#yr").textContent = new Date().getFullYear();
   }

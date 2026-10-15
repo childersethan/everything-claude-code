@@ -43,7 +43,7 @@ body{background:
 body{background-color:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:clamp(1rem,.95rem + .25vw,1.0625rem);line-height:1.6;-webkit-font-smoothing:antialiased}
 a{color:var(--water)}
 h1,h2,h3{font-family:var(--f-display);line-height:1.02;letter-spacing:.005em;text-wrap:balance;margin:0}
-h2{font-size:clamp(2.2rem,5vw,3.4rem);font-weight:700;text-transform:uppercase}
+h2{font-size:clamp(2rem,4.6vw,3.1rem);font-weight:700;text-transform:uppercase}
 h3{font-size:clamp(1.3rem,1.15rem + .6vw,1.5rem);font-weight:700}
 p{margin:0}
 .wrap{max-width:var(--max);margin-inline:auto;padding-inline:var(--gutter)}
@@ -80,7 +80,7 @@ header .btn{padding:9px 16px;font-size:1rem}
 .hero{padding-block:clamp(36px,6vw,72px) clamp(48px,7vw,88px)}
 .hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(28px,5vw,64px);align-items:center}
 .hero-copy{display:grid;gap:22px;min-width:0}
-.hero h1{font-size:clamp(3rem,8.4vw,6.2rem);font-weight:800;text-transform:uppercase;letter-spacing:-.005em}
+.hero h1{font-size:clamp(2.7rem,7.4vw,5.4rem);font-weight:800;text-transform:uppercase;letter-spacing:-.005em}
 .hero h1 .flow{color:var(--water);display:inline-block}
 .hero .lede{font-size:1.18rem}
 .cta-row{display:flex;flex-wrap:wrap;gap:12px}
@@ -217,7 +217,7 @@ input:focus:not(:focus-visible),select:focus:not(:focus-visible),textarea:focus:
 .band::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,12,16,0) 30%,rgba(5,12,16,.82))}
 .band .wrap{position:relative;z-index:1;padding-block:clamp(28px,5vw,56px);color:#fff;display:grid;gap:18px;width:100%}
 .band h2,.band-title{color:#fff;max-width:18ch}
-.band-title{margin:0;font-family:var(--f-display);font-weight:700;text-transform:uppercase;line-height:1.02;font-size:clamp(2.4rem,6vw,4.2rem)}
+.band-title{margin:0;font-family:var(--f-display);font-weight:700;text-transform:uppercase;line-height:1.02;font-size:clamp(2.2rem,5.5vw,3.8rem)}
 .band-top{min-height:clamp(420px,78vh,760px)}
 .values{display:flex;flex-wrap:wrap;gap:10px 28px;margin:0;padding:0;list-style:none}
 .values li{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:700;font-size:1.3rem;text-transform:uppercase;letter-spacing:.04em}
@@ -355,7 +355,7 @@ header.top{view-transition-name:site-header}
 .hero+.tiles-sec{padding-top:8px}
 
 /* Water Lab */
-.lab-title{font-size:clamp(2.6rem,7vw,4.6rem);font-weight:800;text-transform:uppercase}
+.lab-title{font-size:clamp(2.4rem,6.3vw,4.2rem);font-weight:800;text-transform:uppercase}
 .lab{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);grid-template-areas:"scene controls" "scene out";gap:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;box-shadow:0 30px 60px -40px rgba(10,40,60,.45)}
 .lab-scene{grid-area:scene;margin:0;background:color-mix(in srgb,var(--aquifer) 70%,#06202e);border-right:1px solid var(--line);display:grid;align-items:start}
 .lab-scene svg{display:block;width:100%;height:auto}
