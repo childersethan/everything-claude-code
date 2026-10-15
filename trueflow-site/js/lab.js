@@ -4,7 +4,7 @@
 (function (root) {
   "use strict";
 
-  const LIMITS = Object.freeze({ depth: [40, 600], wind: [0, 30], sun: [2, 7], herd: [0, 400] });
+  const LIMITS = Object.freeze({ depth: [40, 600], wind: [0, 30], sun: [2, 7], herd: [0, 400], size: [0, 2] });
   // gallons each animal drinks per day by weather; `per` is how many animals each one in the drawing stands for
   const ANIMALS = Object.freeze({
     cattle: { gal: { cool: 10, mild: 15, hot: 20 }, max: 400, step: 10, start: 60, sizes: [25, 60, 200], per: 50, unit: "head", noun: "cattle", group: "herd", label: "Cattle" },
@@ -18,12 +18,21 @@
     return a;
   };
   const HOUSE_GAL_PER_DAY = 300; // a family of four
-  const WINDMILL_GPH_SHALLOW = 300; // 8 ft wheel, 1-7/8" cylinder, to about 180 ft of lift
-  const WINDMILL_RATED_DEPTH = 180;
-  const WIND_START_MPH = 6, WIND_FULL_MPH = 15, WIND_FURL_MPH = 25;
+  // Pump sizes people can pick. Windmill: an 8 ft Aermotor on the long stroke in a 15 to 20 mph wind.
+  // A bigger cylinder moves more water per stroke but can't lift it as high (Aermotor pumping capacity chart).
+  const SIZES = Object.freeze({
+    windmill: [
+      { label: '2" cylinder', gph: 190, lift: 164 },
+      { label: '2½" cylinder', gph: 325, lift: 111 },
+      { label: '3" cylinder', gph: 470, lift: 80 }
+    ],
+    solar: [{ label: "Small solar", gpm: 3 }, { label: "Medium solar", gpm: 6 }, { label: "Big solar", gpm: 10 }], // at 100 ft of lift
+    electric: [{ label: "5 gpm pump", gpm: 5 }, { label: "10 gpm pump", gpm: 10 }, { label: "20 gpm pump", gpm: 20 }]
+  });
+  const DEFAULT_SIZE = Object.freeze({ windmill: 0, solar: 1, electric: 1 });
+  // Wind: nothing below 6 mph; about 62% of rated output at 10 mph and 80% at 12; full from 15 until the mill furls
+  const WIND_START_MPH = 6, WIND_LOW_MPH = 10, WIND_LOW_SHARE = 0.62, WIND_FULL_MPH = 15, WIND_FURL_MPH = 25;
   const WINDMILL_HOURS = 16; // hours a day the wheel is turning on an average day
-  const SOLAR_GPM_SHALLOW = 8; // typical solar submersible at 100 ft
-  const ELECTRIC_GPM = 10;
   const PRESSURE_HEAD_FT = 92; // 40 psi at the house is about 92 ft of lift
   const PUMP_EFFICIENCY = 0.55;
   const HP_SIZES = [0.5, 0.75, 1, 1.5, 2, 3, 5, 7.5, 10];
@@ -31,11 +40,12 @@
 
   const clamp = (n, [lo, hi]) => Math.max(lo, Math.min(hi, Number(n) || 0));
 
-  /** 0 below starting wind, ramps to 1 at full wind, eases back once the mill furls in a gale. */
+  /** 0 below starting wind, ramps up to 1 at full wind, eases back once the mill furls in a gale. */
   function windFactor(mph) {
     const w = clamp(mph, LIMITS.wind);
     if (w < WIND_START_MPH) return 0;
-    if (w <= WIND_FULL_MPH) return (w - WIND_START_MPH) / (WIND_FULL_MPH - WIND_START_MPH);
+    if (w <= WIND_LOW_MPH) return (WIND_LOW_SHARE * (w - WIND_START_MPH)) / (WIND_LOW_MPH - WIND_START_MPH);
+    if (w <= WIND_FULL_MPH) return WIND_LOW_SHARE + ((1 - WIND_LOW_SHARE) * (w - WIND_LOW_MPH)) / (WIND_FULL_MPH - WIND_LOW_MPH);
     if (w <= WIND_FURL_MPH) return 1;
     return 0.7;
   }
@@ -53,22 +63,57 @@
     return HP_SIZES.find((s) => s >= hp) ?? HP_SIZES.at(-1);
   }
 
-  /** Gallons per day the chosen power source can lift from `depth`. */
-  function supply({ power, depth, wind = 12, sun = 5.5 }) {
-    const d = clamp(depth, LIMITS.depth);
+  /** The pump size picked for this power source (0 smallest to 2 biggest). */
+  function sizeOf(power, size) {
+    const list = SIZES[power];
+    if (!list) throw new Error(`Unknown power source: ${power}`);
+    return list[Math.round(clamp(size ?? DEFAULT_SIZE[power], LIMITS.size))];
+  }
+
+  /**
+   * Gallons per day the chosen pump can lift from `depth`, and its gallons a minute while running.
+   * A windmill cylinder set deeper than it can lift stalls the mill: `tooDeep` and nothing pumped.
+   */
+  function supply({ power, depth, wind = 12, sun = 5.5, size }) {
+    const d = clamp(depth, LIMITS.depth), pick = sizeOf(power, size);
     if (power === "windmill") {
-      const gph = WINDMILL_GPH_SHALLOW * Math.min(1, WINDMILL_RATED_DEPTH / d);
-      return { galPerDay: Math.round(gph * windFactor(wind) * WINDMILL_HOURS), gpm: gph / 60 };
+      if (d > pick.lift) return { galPerDay: 0, gpm: 0, tooDeep: true, lift: pick.lift, label: pick.label };
+      return { galPerDay: Math.round(pick.gph * windFactor(wind) * WINDMILL_HOURS), gpm: pick.gph / 60, lift: pick.lift, label: pick.label };
     }
     if (power === "solar") {
-      const gpm = SOLAR_GPM_SHALLOW * Math.min(1, Math.pow(100 / d, 0.9));
-      return { galPerDay: Math.round(gpm * 60 * clamp(sun, LIMITS.sun)), gpm };
+      const gpm = pick.gpm * Math.min(1, Math.pow(100 / d, 0.9));
+      return { galPerDay: Math.round(gpm * 60 * clamp(sun, LIMITS.sun)), gpm, label: pick.label };
     }
-    if (power === "electric") {
-      return { galPerDay: ELECTRIC_GPM * 60 * 24, gpm: ELECTRIC_GPM, hp: pumpHp(d, ELECTRIC_GPM) };
-    }
-    throw new Error(`Unknown power source: ${power}`);
+    return { galPerDay: pick.gpm * 60 * 24, gpm: pick.gpm, hp: pumpHp(d, pick.gpm), label: pick.label };
   }
+
+  /** Says plainly that a windmill cylinder is set deeper than it can lift. */
+  const tooDeepText = (out) => `A ${out.label.replace(" cylinder", "")} cylinder on an 8 ft windmill only lifts about ${out.lift} ft. The mill stalls. Pick a smaller cylinder or a shallower well.`;
+
+  /**
+   * The gpm this setup should have: the day's water (plus a quarter for a cushion) spread over the hours
+   * this power source actually runs, and the smallest size on offer that covers it at this depth (-1 if none).
+   */
+  function rightSize(setup) {
+    const want = demand(setup) * 1.25;
+    const hours = setup.power === "windmill" ? WINDMILL_HOURS * windFactor(setup.wind ?? 12)
+      : setup.power === "solar" ? clamp(setup.sun ?? 5.5, LIMITS.sun) : 24;
+    const index = SIZES[setup.power].findIndex((_, size) => supply({ ...setup, size }).galPerDay >= want);
+    return { gpm: hours > 0 ? want / (hours * 60) : Infinity, index };
+  }
+
+  /** One plain line: the gpm you need, and which size gives it. */
+  function rightSizeText(setup) {
+    if (demand(setup) === 0) return "";
+    const fit = rightSize(setup), runs = RUNS[setup.power];
+    if (fit.gpm === Infinity) return "Right size: no wind, no water. A mill needs at least 6 mph to turn.";
+    const need = `Right size: about ${fit.gpm < 10 ? +fit.gpm.toFixed(1) : Math.round(fit.gpm)} gpm ${runs}.`;
+    const label = SIZES[setup.power][fit.index]?.label;
+    if (label) return `${need} ${setup.power === "solar" ? `A ${label.toLowerCase()} pump` : `The ${label}`} covers it.`;
+    if (setup.power === "windmill" && SIZES.windmill.every((c) => c.lift < clamp(setup.depth, LIMITS.depth))) return `${need} At this depth no windmill cylinder can lift it. Go solar or electric.`;
+    return `${need} None of these sizes gives that much at this depth. Add a second pump or go electric.`;
+  }
+  const RUNS = { windmill: "while the wind blows", solar: "in full sun", electric: "around the clock" };
 
   /** Compares supply with demand and says what that means in plain words. */
   function verdict(galPerDay, need) {
@@ -103,6 +148,7 @@
   };
   const HEAT = { cool: 0, mild: 0.04, hot: 0.12 }; // chance per day a heat wave starts
   const HEAT_NOTE = "Heat wave. Everything drinks a third more.";
+  const STALL_NOTE = "Too deep for this cylinder. The windmill can't lift the water.";
 
   /** Gallons pumped on one simulated day. */
   function dayPumped(setup, { wind, sun, bad }) {
@@ -117,14 +163,14 @@
     const between = ([lo, hi]) => lo + Math.floor(rand() * (hi - lo + 1));
     const baseNeed = demand(setup);
     const storage = Math.max(500, baseNeed * STORAGE_DAYS);
-    const spell = SPELLS[setup.power];
+    const spell = SPELLS[setup.power], stalled = !!supply(setup).tooDeep;
     if (!spell) throw new Error(`Unknown power source: ${setup.power}`);
     let tank = storage, spellLeft = 0, heatLeft = 0, streak = 0, worstStreak = 0, dryDays = 0;
     let low = { pct: 1, day: 0 }, streakWeather = [], worstWeather = [];
     const days = [];
 
     for (let day = 1; day <= SIM_DAYS; day++) {
-      let note = "";
+      let note = day === 1 && stalled ? STALL_NOTE : "";
       if (spellLeft === 0 && rand() < spell.chance) { spellLeft = between(spell.len); note = spell.note; }
       if (heatLeft === 0 && rand() < (HEAT[setup.season] ?? 0)) { heatLeft = between([2, 4]); note = note || HEAT_NOTE; }
       const bad = spellLeft > 0, hot = heatLeft > 0;
@@ -174,7 +220,7 @@
       text: `The tank never dropped below ${pct}%. Fat, happy ${a.noun} all month.` };
   }
 
-  const api = { LIMITS, ANIMALS, GAL_PER_HEAD, POWERS, SIM_DAYS, windFactor, demand, supply, pumpHp, verdict, simulate };
+  const api = { LIMITS, ANIMALS, GAL_PER_HEAD, POWERS, SIZES, DEFAULT_SIZE, SIM_DAYS, windFactor, demand, supply, sizeOf, pumpHp, verdict, tooDeepText, rightSize, rightSizeText, simulate };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.WaterLab = api;
 
@@ -199,17 +245,26 @@
   ];
   const HERD_SIZES = ["few", "some", "lots"];
   const scene = root.LabScene.create(document.getElementById("labSvg"));
-  let state = { power: "windmill", depth: 220, wind: 12, sun: 5.5, herd: 60, animal: "cattle", season: "mild", house: false };
+  let state = { power: "windmill", size: DEFAULT_SIZE.windmill, depth: 120, wind: 12, sun: 5.5, herd: 60, animal: "cattle", season: "mild", house: false };
+  /** The small print under each size button: what that size really does. */
+  const sizeNote = (power, pick, depth) => power === "windmill" ? `${(pick.gph / 60).toFixed(1)} gpm, lifts ${pick.lift} ft`
+    : power === "solar" ? `${pick.gpm} gpm at 100 ft` : `${pumpHp(depth, pick.gpm)} HP at ${depth} ft`;
   const shownAnimals = () => Math.min(8, Math.ceil(state.herd / ANIMALS[state.animal].per));
 
   function render() {
     const s = state;
     const need = demand(s);
     const out = supply(s);
-    const v = verdict(out.galPerDay, need);
+    const v = out.tooDeep ? { level: "short", text: tooDeepText(out) } : verdict(out.galPerDay, need);
 
     lab.dataset.power = s.power;
     POWERS.forEach((p) => $("pw-" + p).setAttribute("aria-pressed", String(p === s.power)));
+    SIZES[s.power].forEach((pick, i) => {
+      const b = $("sz-" + i);
+      b.querySelector("span").textContent = pick.label;
+      b.querySelector("small").textContent = sizeNote(s.power, pick, s.depth);
+      b.setAttribute("aria-pressed", String(i === s.size));
+    });
     $("windRow").hidden = s.power !== "windmill";
     $("sunRow").hidden = s.power !== "solar";
     $("depthVal").textContent = s.depth + " ft";
@@ -227,11 +282,14 @@
     });
 
     $("supplyOut").textContent = out.galPerDay.toLocaleString("en-US");
+    $("supplyNote").textContent = out.tooDeep ? "too deep: the mill stalls" : `gal / day · ${+out.gpm.toFixed(1)} gpm ${RUNS[s.power]}`;
     $("needOut").textContent = need.toLocaleString("en-US");
+    $("fitOut").textContent = rightSizeText(s);
     const verdictEl = $("verdict");
     verdictEl.textContent = v.text;
     verdictEl.className = "lab-verdict " + v.level;
-    $("labTip").textContent = TIPS[s.power] + (out.hp ? ` At ${s.depth} ft that's about a ${out.hp} HP pump.` : "");
+    $("labTip").textContent = TIPS[s.power] + (out.hp ? ` At ${s.depth} ft that's about a ${out.hp} HP pump.` : "") +
+      (s.power === "windmill" ? " A bigger cylinder pumps more each stroke, but the mill can't lift it as deep." : "");
     $("labBook").href = "contact.html?" + new URLSearchParams({ need: NEED[s.power] });
 
     // the diagram: the windmill only moves water while the wind turns it
@@ -286,7 +344,8 @@
   document.addEventListener("labmode", () => { stopSim(); render(); }); // switching sims stops a run and resets the picture
 
   const set = (patch) => { stopSim(); state = { ...state, ...patch }; render(); };
-  POWERS.forEach((p) => $("pw-" + p).addEventListener("click", () => set({ power: p })));
+  POWERS.forEach((p) => $("pw-" + p).addEventListener("click", () => { if (p !== state.power) set({ power: p, size: DEFAULT_SIZE[p] }); }));
+  [0, 1, 2].forEach((i) => $("sz-" + i).addEventListener("click", () => set({ size: i })));
   Object.entries(ANIMALS).forEach(([k, a]) => $("an-" + k).addEventListener("click", () => {
     if (k === state.animal) return;
     Object.assign($("labHerd"), { max: a.max, step: a.step, value: a.start }); // each animal gets its own slider range

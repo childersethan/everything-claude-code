@@ -83,6 +83,11 @@ test("Water Lab reacts to the power source, depth, wind and herd", async () => {
   const shallow = await num("#supplyOut");
   await page.fill("#labDepth", "600");
   assert.ok(await num("#supplyOut") < shallow, "a deeper well pumps less");
+  assert.match(await page.textContent("#verdict"), /only lifts about 164 ft/, "too deep for the cylinder: the mill stalls");
+  await page.fill("#labDepth", "60");
+  await page.click("#sz-2"); // a 3" cylinder at 60 ft pumps more than the 2"
+  assert.ok(await num("#supplyOut") > shallow, "a bigger cylinder pumps more");
+  assert.match(await page.textContent("#sz-2 small"), /7\.8 gpm, lifts 80 ft/);
   await page.fill("#labWind", "2");
   assert.equal(await num("#supplyOut"), 0);
   assert.match(await page.textContent("#verdict"), /Falls short/);
@@ -90,6 +95,8 @@ test("Water Lab reacts to the power source, depth, wind and herd", async () => {
   assert.equal(await page.getAttribute("#pw-solar", "aria-pressed"), "true");
   assert.equal(await page.isVisible("#labSun"), true);
   await page.click("#pw-electric");
+  assert.equal(await page.textContent("#sz-0 span"), "5 gpm pump");
+  assert.equal(await page.getAttribute("#sz-1", "aria-pressed"), "true", "switching pumps picks a medium size");
   await page.fill("#labHerd", "100");
   assert.equal(await num("#needOut"), 1500);
   assert.match(await page.textContent("#verdict"), /room to spare/);
@@ -307,7 +314,7 @@ async function openSim(hash) {
 test("Water Lab picker switches between the four sims and remembers the choice in the URL", async () => {
   const { page, errors } = await openSim("");
   assert.equal(await page.isVisible("#lab"), true);
-  for (const [mode, panel] of [["pivot", "#labPivot"], ["irrigation", "#labIrrigation"], ["house", "#labHouse"]]) {
+  for (const [mode, panel] of [["irrigation", "#labIrrigation"], ["house", "#labHouse"]]) {
     await page.click("#mode-" + mode);
     assert.equal(await page.isVisible(panel), true, mode);
     assert.equal(await page.isVisible("#lab"), false, mode);
@@ -318,29 +325,10 @@ test("Water Lab picker switches between the four sims and remembers the choice i
   assert.equal(await page.isVisible("#lab"), true);
   await page.evaluate(() => { location.hash = "#irrigation"; }); // a same-page link switches too
   await page.waitForSelector("#labIrrigation", { state: "visible" });
-  assert.deepEqual(errors, []);
-  await page.close();
-});
-
-test("Pivot sim: quick picks set the details, more water per acre helps, and a run ends with a verdict", async () => {
-  const { page, errors } = await openSim("#pivot");
-  const num = async (sel) => Number(await page.textContent(sel));
-  const base = await num("#pvPutOut");
-  await page.click("#labPivot [data-set='pvGpm=1100']");
-  assert.equal(await page.inputValue("#pvGpm"), "1100");
-  assert.ok(await num("#pvPutOut") > base, "a bigger well puts down more");
-  await page.click("#labPivot [data-set='pvWeather=hot']");
-  assert.equal(await page.inputValue("#pvWeather"), "hot");
-  await page.click("#labPivot .lab-more summary");
-  await page.fill("#pvGpm", "1000"); // tinkering past a quick pick un-presses it
-  assert.equal(await page.getAttribute("#labPivot [data-set='pvGpm=1100']", "aria-pressed"), "false");
-  await page.fill("#pvAcres", "160");
-  await page.fill("#pvGpm", "200");
-  await page.selectOption("#pvWeather", "hot");
-  await page.selectOption("#pvSoil", "sandy");
-  await page.click("#pvRun");
-  await page.waitForSelector("#pvResult b");
-  assert.ok((await page.textContent("#pvResult b")).length > 0);
+  await page.click("#mode-livestock");
+  await page.evaluate(() => { location.hash = "#pivot"; }); // the old pivot sim's links land on the irrigation well
+  await page.waitForSelector("#labIrrigation", { state: "visible" });
+  assert.equal(await page.locator("#mode-pivot").count(), 0);
   assert.deepEqual(errors, []);
   await page.close();
 });

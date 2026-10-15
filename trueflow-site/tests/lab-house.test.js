@@ -102,3 +102,10 @@ test("assess: plain-words verdicts and tips that fit the setup", () => {
   assert.match(H.assess({ ...H.DEFAULTS, tank: 20, pump: 14 }).tip, /short-cycle/);
   assert.match(H.assess({ ...H.DEFAULTS, well: 2 }).tip, /casing/);
 });
+
+test("rightSize: a pump big enough for the rush, but not bigger than the well", () => {
+  assert.equal(H.rightSize({ people: 4, well: 15 }).gpm, 10);
+  const weak = H.rightSize({ people: 4, well: 8 });
+  assert.equal(weak.gpm, 7);
+  assert.match(weak.text, /pressure tank covers the rest/);
+});

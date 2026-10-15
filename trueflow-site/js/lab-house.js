@@ -240,6 +240,16 @@
       text: `Pressure never dropped below ${worst.psi} psi. Hot, strong showers for ${folks}, and the well barely noticed.` };
   }
 
+  const PUMP_SIZES = [5, 7, 10, 12, 15, 20]; // common house submersibles, gpm
+  /** The pump size this house should have: enough for the rush, but not more than the well gives. */
+  function rightSize(setup) {
+    const s = normalize(setup), r = rush(s);
+    const forRush = PUMP_SIZES.find((p) => p >= r.gpm) ?? PUMP_SIZES.at(-1);
+    const forWell = [...PUMP_SIZES].reverse().find((p) => p <= s.well) ?? PUMP_SIZES[0];
+    if (forRush <= forWell && forRush <= s.well) return { gpm: forRush, text: `Right size: a ${forRush} gpm pump covers the ${fmt(r.gpm)} gpm ${r.when} rush, and the well keeps up.` };
+    return { gpm: forWell, text: `Right size: a ${forWell} gpm pump, about what this well gives. The rush wants ${fmt(r.gpm)}, so the pressure tank covers the rest.` };
+  }
+
   /**
    * The live read-out for the controls: the rush, the tank, and how a dozen busy days turn out.
    * Returns the numbers plus a plain-words verdict with a level (ok, close or short) and a tip.
@@ -290,7 +300,7 @@
     return `This ${Math.round(s.tank)} gal tank gives about ${Math.round(D)} gal between pump starts. A bigger tank means fewer starts and a longer-lived pump.`;
   }
 
-  const api = { LIMITS, DEFAULTS, GPM, CASING_GAL, DAY_START, HOURS, TRICKLE_PSI, SAG_PSI, normalize, clock, bathrooms, drawdown, rush, simulate, assess };
+  const api = { LIMITS, DEFAULTS, GPM, CASING_GAL, DAY_START, HOURS, TRICKLE_PSI, SAG_PSI, normalize, clock, bathrooms, drawdown, rush, simulate, assess, rightSize };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.HouseLab = api;
 
@@ -315,6 +325,7 @@
     $("hwGarden").setAttribute("aria-pressed", String(s.garden));
     $("hwPumpOut").textContent = fmt(s.pump);
     $("hwRushOut").textContent = fmt(a.rush.gpm);
+    $("hwFitOut").textContent = rightSize(s).text;
     $("hwRushLabel").textContent = a.rush.when === "evening" ? "Evening rush needs" : "Morning rush needs";
     const v = $("hwVerdict");
     v.textContent = a.text;

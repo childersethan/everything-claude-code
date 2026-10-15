@@ -399,6 +399,7 @@ header.top{view-transition-name:site-header}
 .lab-verdict{font-weight:700;padding:10px 14px;border-radius:var(--r);border-left:4px solid var(--water);background:var(--water-soft)}
 .lab-verdict.close{border-color:var(--signal);background:color-mix(in srgb,var(--signal) 16%,var(--surface))}
 .lab-verdict.short{border-color:var(--brand);background:color-mix(in srgb,var(--brand) 12%,var(--surface))}
+.lab-fit{margin:0;font-weight:600;color:var(--ink)}
 .lab-out .btn{justify-self:start}
 @media (max-width:860px){.lab{grid-template-columns:1fr;grid-template-areas:"scene" "controls" "out"}.lab-scene{border-right:0;border-bottom:1px solid var(--line)}}
 /* Water Lab sim: weather overlays and the 30-day board */
@@ -419,6 +420,11 @@ header.top{view-transition-name:site-header}
 .lab-sim .btn-play svg{width:22px;height:22px}
 @keyframes playNudge{0%,80%,100%{transform:none}86%{transform:scale(1.04)}92%{transform:scale(.98)}}
 .lab-more{border:1.5px dashed var(--line);border-radius:var(--r);padding:0 14px}
+.lab-gauge{padding:12px 14px;border-radius:var(--r);background:var(--water-soft)}
+.lab-gauge b{font-size:clamp(1.9rem,4.4vw,2.6rem)}
+.lab-gauge.iw-gauge{grid-template-columns:repeat(3,minmax(0,1fr))}
+.lab-gauge.iw-gauge b{font-size:clamp(1.5rem,4vw,2.2rem)}
+.lab-sizes button span{font-size:.92rem}
 .lab-more summary{cursor:pointer;padding:12px 0;font-weight:700;color:var(--water)}
 .lab-more[open] summary{border-bottom:1px solid var(--line)}
 .lab-more-body{display:grid;gap:14px;padding:14px 0}

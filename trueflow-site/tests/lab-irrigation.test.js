@@ -111,3 +111,12 @@ test("simulate: a drought summer is harder on the well than a cool one", () => {
   const sat80 = tally({ ...SETUP, sat: 80, weather: "drought" });
   assert.ok(sat80.lost > tally({ ...SETUP, sat: 80, weather: "cool" }).lost, JSON.stringify(sat80));
 });
+
+test("rightSize: sizes the pump to the pivots, but never past what the well can safely give", () => {
+  const roomy = L.rightSize({ sat: 220, pivots: 1, gpm: 500 });
+  assert.equal(roomy.gpm, 850);
+  assert.match(roomy.text, /covers the pivots/);
+  const thin = L.rightSize({ sat: 70, pivots: 1, gpm: 800 });
+  assert.equal(thin.gpm, 400); // KGS: 400 gpm needs roughly 35 to 85 ft of saturated thickness
+  assert.match(thin.text, /safely give\. The pivots want 850/);
+});
