@@ -13,8 +13,10 @@
 <main class="wrap" style="min-height:80vh;display:grid;place-content:center;gap:16px;text-align:center">
   <img class="logo-ink" src="/images/logo.png" alt="True Flow Pump &amp; Well" width="220" style="margin-inline:auto;height:auto">
   <h1>That page ran dry.</h1>
-  <p class="lede">It may have moved. Head back to the home page, or call or text <a href="tel:+15057935386">(505) 793-5386</a>, 24 hours a day.</p>
+  <p class="lede">It may have moved. Head back to the home page, or call or text <a id="tel404" href="/contact.html">us</a>, 24 hours a day.</p>
   <p><a class="btn btn-primary" href="/">Back to home</a></p>
 </main>
+<script src="/js/config.js"></script>
+<script>(function(){var b=window.SITE&&SITE.biz,a=document.getElementById("tel404");if(b&&a){a.href="tel:"+b.phoneTel;a.textContent=b.phone;}})();</script>
 </body>
 </html>
