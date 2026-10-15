@@ -10,6 +10,9 @@
   const shots = [...intro.querySelectorAll(".intro-shot")];
   const lines = [...intro.querySelectorAll(".intro-line")];
   const end = intro.querySelector(".intro-end");
+  const stage = intro.querySelector(".intro-stage");
+  // the header's bar only: the phone menu drawer lives in the header too and must not count
+  const bar = document.querySelector("header.top > .wrap");
   const count = shots.length;
   // the first scene starts already showing, and the last one gets extra room so the call buttons settle before the page moves on
   const START = 0.4, END = 0.95;
@@ -19,8 +22,8 @@
   function draw() {
     raf = 0;
     const box = intro.getBoundingClientRect();
-    const run = box.height - innerHeight;
-    const p = run > 0 ? clamp(-box.top / run, 0, 1) : 1;
+    const run = box.height - stage.offsetHeight;
+    const p = run > 0 ? clamp((stage.getBoundingClientRect().top - box.top) / run, 0, 1) : 1;
     const pos = START + p * (count - 1 - START + END);
     intro.style.setProperty("--p", p.toFixed(4));
     for (let i = 0; i < count; i++) {
@@ -32,6 +35,7 @@
     end.inert = pos - (count - 1) < 0.25;
   }
   const queue = () => { if (!raf) raf = requestAnimationFrame(draw); };
+  const fitHeader = () => { intro.style.setProperty("--hdr", (bar ? bar.offsetHeight + 1 : 0) + "px"); queue(); }; // +1 for its bottom border
 
   // wrap each word (and each small caption) so the CSS can move them one by one
   lines.forEach((line) => {
@@ -57,7 +61,10 @@
   });
   intro.querySelectorAll("img[data-src]").forEach((img) => { img.src = img.dataset.src; });
   intro.classList.add("live");
+  fitHeader();
   draw();
   addEventListener("scroll", queue, { passive: true });
   addEventListener("resize", queue);
+  // re-measure when the bar changes height, e.g. once the web fonts arrive
+  if (bar && "ResizeObserver" in window) new ResizeObserver(fitHeader).observe(bar);
 })();
