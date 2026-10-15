@@ -242,7 +242,7 @@
     [1, 2, 3].forEach((n) => $("iwP" + n).setAttribute("aria-pressed", String(n === s.pivots)));
     $("iwYieldOut").textContent = fmt(o.yield);
     $("iwPumpOut").textContent = fmt(s.gpm);
-    $("iwPeakOut").textContent = fmt(o.peak) + " gpm";
+    $("iwPeakOut").textContent = fmt(o.peak);
     $("iwLeftOut").textContent = o.left > 0 ? Math.round(o.left) + " ft" : "0 ft, sucks air";
     $("iwHpOut").textContent = o.motor + " HP";
     $("iwBillOut").textContent = "$" + fmt(Math.round(o.bill / 100) * 100);

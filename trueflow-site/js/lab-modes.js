@@ -1,5 +1,5 @@
-/* Water Lab sim picker: Livestock, Pivot sprinklers, Irrigation well or House well.
-   Shows one panel at a time, keeps the choice in the URL (lab.html#pivot) and tells the sims with a "labmode" event. */
+/* Water Lab sim picker: Livestock, Irrigation well or House well.
+   Shows one panel at a time, keeps the choice in the URL (lab.html#house) and tells the sims with a "labmode" event. */
 (function () {
   "use strict";
   const picker = document.querySelector(".lab-modes");
@@ -17,7 +17,8 @@
   }
 
   MODES.forEach((m) => document.getElementById("mode-" + m).addEventListener("click", () => show(m, true)));
-  const fromHash = () => { const m = location.hash.slice(1) || MODES[0]; if (MODES.includes(m)) show(m, false); };
+  const ALIASES = { pivot: "irrigation" }; // the old pivot sim's links land on the irrigation well
+  const fromHash = () => { const h = location.hash.slice(1), m = ALIASES[h] || h || MODES[0]; if (MODES.includes(m)) show(m, false); };
   if (location.hash) fromHash();
   addEventListener("hashchange", fromHash); // a link to lab.html#house on this page switches too
 })();

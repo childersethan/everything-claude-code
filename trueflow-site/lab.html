@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Water Lab: Well, Pivot and Livestock Sims | True Flow Pump &amp; Well</title>
-<meta name="description" content="Run a month or a season on your setup: a livestock well, a center pivot, an irrigation well or a house well. See if it keeps up, with rule-of-thumb numbers from True Flow Pump &amp; Well.">
-<meta property="og:title" content="Water Lab: Well, Pivot and Livestock Sims | True Flow Pump &amp; Well">
-<meta property="og:description" content="Run a month or a season on your setup: a livestock well, a center pivot, an irrigation well or a house well. See if it keeps up, with rule-of-thumb numbers from True Flow Pump &amp; Well.">
+<title>Water Lab: Livestock, Irrigation and House Well Sims | True Flow Pump &amp; Well</title>
+<meta name="description" content="Pick a pump size and see if it keeps up: a livestock well, an irrigation well or a house well, with rule-of-thumb numbers from True Flow Pump &amp; Well.">
+<meta property="og:title" content="Water Lab: Livestock, Irrigation and House Well Sims | True Flow Pump &amp; Well">
+<meta property="og:description" content="Pick a pump size and see if it keeps up: a livestock well, an irrigation well or a house well, with rule-of-thumb numbers from True Flow Pump &amp; Well.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://trueflowpumpandwell.com/lab.html">
 <meta property="og:image" content="https://trueflowpumpandwell.com/images/share.jpg">
@@ -28,7 +28,6 @@
 <link rel="stylesheet" href="css/site.css">
 <link rel="stylesheet" href="css/intro.css">
 <link rel="stylesheet" href="css/home.css">
-<link rel="stylesheet" href="css/lab-pivot.css">
 <link rel="stylesheet" href="css/lab-irrigation.css">
 <link rel="stylesheet" href="css/lab-house.css">
 </head>
@@ -71,17 +70,16 @@
     <div class="sec-head reveal">
       <span class="eyebrow">Water Lab</span>
       <h1 class="lab-title">Build a well. See if it keeps up.</h1>
-      <p class="lede" id="labLede">Pick a pump and some thirsty animals, then hit play. Does the stock tank make it through the month?</p>
+      <p class="lede" id="labLede">Pick the animals, the well and a pump size, then hit play. Does the stock tank make it through the month?</p>
     </div>
 
     <div class="lab-modes" role="group" aria-label="Pick a sim">
       <button type="button" id="mode-livestock" aria-pressed="true"><span data-icon="cow"></span>Livestock</button>
-      <button type="button" id="mode-pivot" aria-pressed="false"><span data-icon="pivot"></span>Pivot sprinklers</button>
       <button type="button" id="mode-irrigation" aria-pressed="false"><span data-icon="pump"></span>Irrigation well</button>
       <button type="button" id="mode-house" aria-pressed="false"><span data-icon="house"></span>House well</button>
     </div>
 
-    <div class="lab" id="lab" data-power="windmill" data-mode-panel="livestock" data-lede="Pick a pump and some thirsty animals, then hit play. Does the stock tank make it through the month?">
+    <div class="lab" id="lab" data-power="windmill" data-mode-panel="livestock" data-lede="Pick the animals, the well and a pump size, then hit play. Does the stock tank make it through the month?">
       <figure class="lab-scene">
         <svg viewBox="0 0 400 360" role="img" aria-labelledby="labSceneTitle" id="labSvg">
           <title id="labSceneTitle">A well running down to the aquifer, with the chosen pump at the top filling a stock tank for the livestock.</title>
@@ -148,7 +146,7 @@
           <path id="pipe" d="M200 200V92H248V66H280V71" stroke="var(--ink)" stroke-width="3" fill="none" stroke-linejoin="round"/>
           <g id="drops"></g>
           <g id="pumpG"><rect id="pump" x="194" y="200" width="12" height="20" rx="3" fill="var(--brand)" stroke="var(--ink)" stroke-width="1"/><path id="pumpBands" d="M195 206h10M195 210h10M195 214h10" stroke="var(--ink)" stroke-opacity=".5" stroke-width="1"/></g>
-          <text id="depthTag" class="lab-labels" x="214" y="224" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#fff">220 FT</text>
+          <text id="depthTag" class="lab-labels" x="214" y="224" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#fff">120 FT</text>
 
           <!-- stock tank -->
           <line id="stream" x1="280" y1="71" x2="280" y2="95" stroke="var(--water)" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="5 3"/>
@@ -167,27 +165,46 @@
       </figure>
 
       <div class="lab-controls">
-        <div class="quick" role="group" aria-labelledby="qLsPump"><span class="quick-q" id="qLsPump">1. How do you pump it?</span>
-          <div class="lab-power">
-            <button type="button" id="pw-windmill" aria-pressed="true"><span data-icon="windmill"></span>Windmill</button>
-            <button type="button" id="pw-solar" aria-pressed="false"><span data-icon="sun"></span>Solar</button>
-            <button type="button" id="pw-electric" aria-pressed="false"><span data-icon="bolt"></span>Electric</button>
-          </div>
-        </div>
-        <div class="quick" role="group" aria-labelledby="qLsAnimal"><span class="quick-q" id="qLsAnimal">2. Who's thirsty?</span>
+        <div class="quick" role="group" aria-labelledby="qLsAnimal"><span class="quick-q" id="qLsAnimal">1. Who's thirsty?</span>
           <div class="lab-power">
             <button type="button" id="an-cattle" aria-pressed="true"><span data-icon="cow"></span>Cattle</button>
             <button type="button" id="an-goats" aria-pressed="false"><span data-icon="goat"></span>Goats</button>
             <button type="button" id="an-chickens" aria-pressed="false"><span data-icon="chicken"></span>Chickens</button>
           </div>
         </div>
-        <div class="quick" role="group" aria-labelledby="qLsHerd"><span class="quick-q" id="qLsHerd">3. How many?</span>
+        <div class="quick" role="group" aria-labelledby="qLsHerd"><span class="quick-q" id="qLsHerd">2. How many?</span>
           <div class="lab-power">
             <button type="button" id="hd-few" aria-pressed="false">A few<small>25 head</small></button>
             <button type="button" id="hd-some" aria-pressed="true">A bunch<small>60 head</small></button>
             <button type="button" id="hd-lots" aria-pressed="false">A lot<small>200 head</small></button>
           </div>
         </div>
+        <div class="quick" role="group" aria-labelledby="qLsDepth"><span class="quick-q" id="qLsDepth">3. How deep is the water?</span>
+          <div class="lab-power">
+            <button type="button" data-set="labDepth=60" aria-pressed="false">Shallow<small>60 ft</small></button>
+            <button type="button" data-set="labDepth=120" aria-pressed="true">Medium<small>120 ft</small></button>
+            <button type="button" data-set="labDepth=200" aria-pressed="false">Deep<small>200 ft</small></button>
+          </div>
+        </div>
+        <div class="quick" role="group" aria-labelledby="qLsPump"><span class="quick-q" id="qLsPump">4. How do you pump it?</span>
+          <div class="lab-power">
+            <button type="button" id="pw-windmill" aria-pressed="true"><span data-icon="windmill"></span>Windmill</button>
+            <button type="button" id="pw-solar" aria-pressed="false"><span data-icon="sun"></span>Solar</button>
+            <button type="button" id="pw-electric" aria-pressed="false"><span data-icon="bolt"></span>Electric</button>
+          </div>
+        </div>
+        <div class="quick" role="group" aria-labelledby="qLsSize"><span class="quick-q" id="qLsSize">5. What size?</span>
+          <div class="lab-power lab-sizes">
+            <button type="button" id="sz-0" aria-pressed="true"><span>2" cylinder</span><small>3.2 gpm, lifts 164 ft</small></button>
+            <button type="button" id="sz-1" aria-pressed="false"><span>2½" cylinder</span><small>5.4 gpm, lifts 111 ft</small></button>
+            <button type="button" id="sz-2" aria-pressed="false"><span>3" cylinder</span><small>7.8 gpm, lifts 80 ft</small></button>
+          </div>
+        </div>
+        <div class="lab-nums lab-gauge">
+          <div><span class="eyebrow">Well pumps</span><b id="supplyOut">0</b><small id="supplyNote">gal / day</small></div>
+          <div><span class="eyebrow" id="needLabel">Herd drinks</span><b id="needOut">0</b><small>gal / day</small></div>
+        </div>
+        <p id="verdict" class="lab-verdict" aria-live="polite" aria-atomic="true"></p>
         <div class="lab-sim">
           <button type="button" class="btn btn-primary btn-play" id="simRun"><span data-icon="play"></span><span id="simLabel">Play a month</span></button>
         </div>
@@ -197,8 +214,8 @@
         <details class="lab-more">
           <summary>Tinker with the numbers</summary>
           <div class="lab-more-body">
-            <label for="labDepth"><span class="lab-row">Well depth <output id="depthVal">220 ft</output></span>
-              <input type="range" id="labDepth" min="40" max="600" step="10" value="220"></label>
+            <label for="labDepth"><span class="lab-row">Well depth <output id="depthVal">120 ft</output></span>
+              <input type="range" id="labDepth" min="40" max="600" step="10" value="120"></label>
             <label for="labWind" id="windRow"><span class="lab-row">Average wind <output id="windVal">12 mph</output></span>
               <input type="range" id="labWind" min="0" max="30" value="12"></label>
             <label for="labSun" id="sunRow" hidden><span class="lab-row">Full sun per day <output id="sunVal">5.5 hrs</output></span>
@@ -215,153 +232,16 @@
               </label>
               <label for="labHouseToo" class="lab-check"><input type="checkbox" id="labHouseToo"> The house too</label>
             </div>
-            <div class="lab-nums">
-              <div><span class="eyebrow">Well pumps</span><b id="supplyOut">0</b><small>gal / day</small></div>
-              <div><span class="eyebrow" id="needLabel">Herd drinks</span><b id="needOut">0</b><small>gal / day</small></div>
-            </div>
-            <p id="verdict" class="lab-verdict" aria-live="polite" aria-atomic="true"></p>
             <p id="labTip" class="fineprint"></p>
-            <p class="fineprint">The sim plays out a month of real-world weather: calm spells, cloudy days, storms and heat waves. Rough rules of thumb for a typical setup. Every well is different, so we test yours before sizing anything.</p>
+            <p class="fineprint">Windmill sizes are for an 8 ft Aermotor on the long stroke in a 15 to 20 mph wind. The sim plays out a month of real-world weather: calm spells, cloudy days, storms and heat waves. Rough rules of thumb for a typical setup. Every well is different, so we test yours before sizing anything.</p>
           </div>
         </details>
         <a class="btn btn-ghost" id="labBook" href="contact.html">Talk through my setup</a>
       </div>
     </div>
 
-    <!-- Pivot sprinklers sim: js/lab-pivot.js, js/lab-pivot-scene.js, css/lab-pivot.css -->
-    <div class="lab" id="labPivot" data-mode-panel="pivot" data-lede="Pick a crop, a well and a summer, then hit play. Green field or dust bowl?" hidden>
-      <figure class="lab-scene">
-        <svg viewBox="0 0 400 360" role="img" aria-labelledby="pvSceneTitle" id="pvSvg">
-          <title id="pvSceneTitle">A center pivot sprinkler sweeping around a circle of crops, with a cut-away of the root zone showing how much water is in the soil and the well below.</title>
-          <defs>
-            <linearGradient id="pvSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="sky-top"/><stop offset="1" class="sky-low"/></linearGradient>
-            <linearGradient id="pvAq" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="aq-top"/><stop offset="1" class="aq-low"/></linearGradient>
-            <linearGradient id="pvDust" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="pv-dust-a"/><stop offset="1" class="pv-dust-b"/></linearGradient>
-            <linearGradient id="pvSteel" x1="0" y1="0" x2="1" y2="0"><stop offset="0" class="steel-a"/><stop offset=".45" class="steel-b"/><stop offset="1" class="steel-a"/></linearGradient>
-            <clipPath id="pvFieldClip"><ellipse cx="200" cy="149" rx="190" ry="47"/></clipPath>
-            <clipPath id="pvRootClip"><rect x="0" y="200" width="400" height="88"/></clipPath>
-            <g id="pvPlant"></g>
-          </defs>
-
-          <!-- sky, sun, clouds, the farmstead on the horizon -->
-          <rect x="0" y="0" width="400" height="108" fill="url(#pvSky)"/>
-          <rect id="pvHeat" class="sky-heat" x="0" y="0" width="400" height="108" opacity="0"/>
-          <g id="pvSun" class="pv-sun"></g>
-          <g id="pvClouds" class="cloud"></g>
-          <rect id="pvShade" class="sky-shade" x="0" y="0" width="400" height="200" opacity="0"/>
-          <path id="pvBolt" class="bolt" d="M300 8 290 38h9l-6 26 18-34h-10l7-22Z" opacity="0"/>
-          <path class="hill" d="M0 92Q60 82 120 90T240 86T340 84T400 90V102H0Z"/>
-          <g id="pvFarm" class="pv-farm" transform="translate(0 -5)"></g>
-
-          <!-- the field: dry corners, the watered circle, wheel tracks and the crop -->
-          <rect class="pv-corner" x="0" y="98" width="400" height="102"/>
-          <ellipse id="pvGround" cx="200" cy="149" rx="190" ry="47"/>
-          <g clip-path="url(#pvFieldClip)"><path id="pvWetPass" class="pv-wet" d="M200 150Z"/><path id="pvCracks" class="pv-cracks" d="M0 0" opacity="0"/><g id="pvRuts" class="pv-ruts"></g></g>
-          <g id="pvBack"></g>
-          <g id="pvRig"></g>
-          <g id="pvFront"></g>
-          <g id="pvParty"></g>
-
-          <!-- cut-away: the root zone, caliche and the aquifer, with the well that feeds the pivot -->
-          <rect class="pv-root" x="0" y="200" width="400" height="88"/>
-          <g clip-path="url(#pvRootClip)"><path id="pvWet" class="pv-soak" d="M0 288H400Z"/><g id="pvPores" class="pv-pores"></g></g>
-          <path id="pvRoots" class="pv-roots" d="M0 0"/>
-          <path class="pv-lip" d="M0 200H400"/>
-          <rect x="0" y="288" width="400" height="26" fill="var(--rock)"/>
-          <rect x="0" y="314" width="400" height="46" fill="url(#pvAq)"/>
-          <rect x="194" y="200" width="12" height="148" fill="url(#pvSteel)" stroke="var(--ink)" stroke-width="1.6"/>
-          <rect x="195.5" y="314" width="9" height="34" fill="var(--water)" fill-opacity=".55"/>
-          <rect x="196" y="326" width="8" height="16" rx="2.5" fill="var(--brand)" stroke="var(--ink)" stroke-width=".8"/>
-          <path id="pvLift" class="pv-lift" d="M200 326V202"/>
-          <g font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="1" class="lab-labels">
-            <text x="10" y="214" fill="var(--ink)" fill-opacity=".75">ROOT ZONE</text>
-            <text id="pvMoist" x="10" y="226" fill="#fff" font-weight="700">SOIL WATER 80%</text>
-            <text x="10" y="304" fill="#fff" fill-opacity=".85">CALICHE / ROCK</text>
-            <text x="10" y="330" fill="#fff" fill-opacity=".9">OGALLALA AQUIFER</text>
-            <text id="pvGpmTag" x="212" y="340" fill="#fff" font-weight="700" font-size="10">800 GPM</text>
-          </g>
-
-          <!-- weather and endings over everything -->
-          <g id="pvWind" class="pv-windlines" opacity="0"></g>
-          <g id="pvRain" class="rain" opacity="0"></g>
-          <rect id="pvDustSky" x="0" y="0" width="400" height="200" fill="url(#pvDust)" opacity="0"/>
-          <g id="pvDoom"></g>
-        </svg>
-        <div class="sim-board" id="pvBoard" hidden>
-          <div class="sim-head"><b id="pvDay">Day 1</b><span id="pvNote"></span></div>
-          <ol class="sim-days" id="pvDays" aria-hidden="true"></ol>
-          <div class="sim-result" id="pvResult" aria-live="polite" aria-atomic="true"></div>
-        </div>
-      </figure>
-
-      <div class="lab-controls">
-        <div class="quick" role="group" aria-labelledby="qPvCrop"><span class="quick-q" id="qPvCrop">1. What's growing?</span>
-          <div class="lab-power pv-crops">
-            <button type="button" id="pv-corn" aria-pressed="true"><span data-icon="corn"></span>Corn</button>
-            <button type="button" id="pv-soybeans" aria-pressed="false"><span data-icon="soybeans"></span>Soybeans</button>
-            <button type="button" id="pv-wheat" aria-pressed="false"><span data-icon="wheat"></span>Wheat</button>
-            <button type="button" id="pv-alfalfa" aria-pressed="false"><span data-icon="alfalfa"></span>Alfalfa</button>
-            <button type="button" id="pv-sorghum" aria-pressed="false"><span data-icon="sorghum"></span>Sorghum</button>
-          </div>
-        </div>
-        <div class="quick" role="group" aria-labelledby="qPvWell"><span class="quick-q" id="qPvWell">2. How big a well?</span>
-          <div class="lab-power">
-            <button type="button" data-set="pvGpm=450" aria-pressed="false"><span data-icon="drop"></span>Small<small>450 gpm</small></button>
-            <button type="button" data-set="pvGpm=800" aria-pressed="true"><span data-icon="drop"></span>Medium<small>800 gpm</small></button>
-            <button type="button" data-set="pvGpm=1100" aria-pressed="false"><span data-icon="drop"></span>Big<small>1,100 gpm</small></button>
-          </div>
-        </div>
-        <div class="quick" role="group" aria-labelledby="qPvSky"><span class="quick-q" id="qPvSky">3. What kind of summer?</span>
-          <div class="lab-power">
-            <button type="button" data-set="pvWeather=cool" aria-pressed="false"><span data-icon="cloud"></span>Cool</button>
-            <button type="button" data-set="pvWeather=mild" aria-pressed="true"><span data-icon="sun"></span>Mild</button>
-            <button type="button" data-set="pvWeather=hot" aria-pressed="false"><span data-icon="heat"></span>Scorcher</button>
-          </div>
-        </div>
-        <div class="lab-sim">
-          <button type="button" class="btn btn-primary btn-play" id="pvRun"><span data-icon="play"></span><span id="pvLabel">Play a month</span></button>
-        </div>
-      </div>
-
-      <div class="lab-out">
-        <details class="lab-more">
-          <summary>Tinker with the numbers</summary>
-          <div class="lab-more-body">
-            <label for="pvAcres"><span class="lab-row">Pivot size <output id="pvAcresVal" for="pvAcres">125 acres</output></span>
-              <input type="range" id="pvAcres" min="60" max="160" step="5" value="125"></label>
-            <label for="pvGpm"><span class="lab-row">Pivot capacity <output id="pvGpmVal" for="pvGpm">800 gpm</output></span>
-              <input type="range" id="pvGpm" min="200" max="1200" step="25" value="800"></label>
-            <div class="lab-pair">
-              <label for="pvWeather">Weather
-                <select id="pvWeather">
-                  <option value="cool">Cool</option>
-                  <option value="mild" selected>Mild</option>
-                  <option value="hot">Summer heat</option>
-                </select>
-              </label>
-              <label for="pvSoil">Soil
-                <select id="pvSoil">
-                  <option value="sandy">Sandy</option>
-                  <option value="loam" selected>Loam</option>
-                  <option value="silt">Silt loam</option>
-                </select>
-              </label>
-            </div>
-            <div class="lab-nums">
-              <div><span class="eyebrow">Pivot puts down</span><b id="pvPutOut">0</b><small>inches / day</small></div>
-              <div><span class="eyebrow">Crop uses</span><b id="pvUseOut">0</b><small>inches / day</small></div>
-            </div>
-            <p id="pvVerdict" class="lab-verdict" aria-live="polite" aria-atomic="true"></p>
-            <p id="pvTip" class="fineprint"></p>
-            <p class="fineprint">The sim plays out a month in the field: heat waves, hot windy days, thunderstorms and the odd day the pivot gets stuck. Rough rules of thumb: about 85% of what the pivot pumps reaches the roots. Every field and well is different, so we test yours before sizing anything.</p>
-          </div>
-        </details>
-        <a class="btn btn-ghost" id="pvBook" href="contact.html?need=c4">Talk through my setup</a>
-      </div>
-    </div>
-
     <!-- Irrigation well sim: js/lab-irrigation.js, js/lab-irrigation-scene.js, css/lab-irrigation.css -->
-    <div class="lab" id="labIrrigation" data-mode-panel="irrigation" data-lede="Pick how much water is underground, a pump and some pivots, then hit play. Does the well last the summer?" hidden>
+    <div class="lab" id="labIrrigation" data-mode-panel="irrigation" data-lede="Pick how much water is underground, how many pivots and a pump size, then hit play. Does the well last the summer?" hidden>
       <figure class="lab-scene">
         <svg viewBox="0 0 400 620" role="img" aria-labelledby="iwSceneTitle" id="iwSvg">
           <title id="iwSceneTitle">A cross-section of an irrigation well: a center pivot over a corn field on top, the well casing running down through topsoil and caliche into the Ogallala aquifer, with the pump at the bottom and the water level drawn down in a cone around the well.</title>
@@ -394,20 +274,26 @@
             <button type="button" data-set="iwSat=220" aria-pressed="false"><span data-icon="drop"></span>Lots<small>220 ft</small></button>
           </div>
         </div>
-        <div class="quick" role="group" aria-labelledby="qIwPump"><span class="quick-q" id="qIwPump">2. How big a pump?</span>
-          <div class="lab-power">
-            <button type="button" data-set="iwGpm=500" aria-pressed="false"><span data-icon="pump"></span>Small<small>500 gpm</small></button>
-            <button type="button" data-set="iwGpm=800" aria-pressed="true"><span data-icon="pump"></span>Medium<small>800 gpm</small></button>
-            <button type="button" data-set="iwGpm=1200" aria-pressed="false"><span data-icon="pump"></span>Big<small>1,200 gpm</small></button>
-          </div>
-        </div>
-        <div class="quick" role="group" aria-labelledby="qIwPivots"><span class="quick-q" id="qIwPivots">3. How many pivots does it run?</span>
+        <div class="quick" role="group" aria-labelledby="qIwPivots"><span class="quick-q" id="qIwPivots">2. How many pivots does it run?</span>
           <div class="lab-power">
             <button type="button" id="iwP1" aria-pressed="true"><span data-icon="pivot"></span>1 pivot</button>
             <button type="button" id="iwP2" aria-pressed="false"><span data-icon="pivot"></span>2 pivots</button>
             <button type="button" id="iwP3" aria-pressed="false"><span data-icon="pivot"></span>3 pivots</button>
           </div>
         </div>
+        <div class="quick" role="group" aria-labelledby="qIwPump"><span class="quick-q" id="qIwPump">3. How big a pump?</span>
+          <div class="lab-power">
+            <button type="button" data-set="iwGpm=500" aria-pressed="false"><span data-icon="pump"></span>500 gpm<small>small</small></button>
+            <button type="button" data-set="iwGpm=800" aria-pressed="true"><span data-icon="pump"></span>800 gpm<small>medium</small></button>
+            <button type="button" data-set="iwGpm=1200" aria-pressed="false"><span data-icon="pump"></span>1,200 gpm<small>big</small></button>
+          </div>
+        </div>
+        <div class="lab-nums lab-gauge iw-gauge">
+          <div><span class="eyebrow">Well can give</span><b id="iwYieldOut">0</b><small>gpm</small></div>
+          <div><span class="eyebrow">Pivots need</span><b id="iwPeakOut">0</b><small>gpm, hot week</small></div>
+          <div><span class="eyebrow">Pump pulls</span><b id="iwPumpOut">0</b><small>gpm</small></div>
+        </div>
+        <p id="iwVerdict" class="lab-verdict" aria-live="polite" aria-atomic="true"></p>
         <div class="lab-sim">
           <button type="button" class="btn btn-primary btn-play" id="iwRun"><span data-icon="play"></span><span id="iwLabel">Play a summer</span></button>
         </div>
@@ -431,17 +317,11 @@
               </select>
             </label>
             <p class="fineprint">Water left in the aquifer is the saturated thickness: how many feet of wet sand and gravel sit between the water table and the bedrock at your well.</p>
-            <div class="lab-nums">
-              <div><span class="eyebrow">Well can give</span><b id="iwYieldOut">0</b><small>gal / min</small></div>
-              <div><span class="eyebrow">Pump pulls</span><b id="iwPumpOut">0</b><small>gal / min</small></div>
-            </div>
             <dl class="iw-stats">
-              <div><dt>Pivots want, hot week</dt><dd id="iwPeakOut">0 gpm</dd></div>
               <div><dt>Water over the pump, August</dt><dd id="iwLeftOut">0 ft</dd></div>
               <div><dt>Motor</dt><dd id="iwHpOut">0 HP</dd></div>
               <div><dt>Power bill, peak month</dt><dd id="iwBillOut">$0</dd></div>
             </dl>
-            <p id="iwVerdict" class="lab-verdict" aria-live="polite" aria-atomic="true"></p>
             <p id="iwTip" class="fineprint"></p>
             <p class="fineprint">The sim plays out 16 weeks, June through mid-September: rain weeks, heat waves, and the neighbors' wells pulling the water table down. Rough Ogallala rules of thumb, not a well test. Every well is different, so we test yours before sizing a pump.</p>
           </div>
@@ -451,7 +331,7 @@
     </div>
 
     <!-- House well sim: js/lab-house.js, js/lab-house-scene.js, css/lab-house.css -->
-    <div class="lab" id="labHouse" data-mode-panel="house" data-lede="Pick who lives there, the well and any extras, then hit play. Do the showers stay strong all day?" hidden>
+    <div class="lab" id="labHouse" data-mode-panel="house" data-lede="Pick who lives there, the well, a pump size and any extras, then hit play. Do the showers stay strong all day?" hidden>
       <figure class="lab-scene">
         <svg viewBox="0 0 400 360" role="img" aria-labelledby="hwSceneTitle" id="hwSvg">
           <title id="hwSceneTitle">A cutaway farmhouse with two showers, a kitchen sink and a washing machine, a pressure tank and gauge in the basement, and the well and pump below the yard.</title>
@@ -643,12 +523,24 @@
             <button type="button" data-set="hwWell=15" aria-pressed="false"><span data-icon="drop"></span>Strong<small>15 gpm</small></button>
           </div>
         </div>
-        <div class="quick" role="group" aria-labelledby="qHwExtras"><span class="quick-q" id="qHwExtras">3. Any extras?</span>
+        <div class="quick" role="group" aria-labelledby="qHwPump"><span class="quick-q" id="qHwPump">3. How big a pump?</span>
+          <div class="lab-power">
+            <button type="button" data-set="hwPump=5" aria-pressed="false"><span data-icon="pump"></span>5 gpm<small>small</small></button>
+            <button type="button" data-set="hwPump=10" aria-pressed="true"><span data-icon="pump"></span>10 gpm<small>medium</small></button>
+            <button type="button" data-set="hwPump=20" aria-pressed="false"><span data-icon="pump"></span>20 gpm<small>big</small></button>
+          </div>
+        </div>
+        <div class="quick" role="group" aria-labelledby="qHwExtras"><span class="quick-q" id="qHwExtras">4. Any extras?</span>
           <div class="lab-power hw-extras">
             <button type="button" id="hwSprinkler" aria-pressed="false"><span data-icon="sprinkler"></span>Lawn sprinkler</button>
             <button type="button" id="hwGarden" aria-pressed="false"><span data-icon="sprout"></span>Garden &amp; stock tank</button>
           </div>
         </div>
+        <div class="lab-nums lab-gauge">
+          <div><span class="eyebrow" id="hwRushLabel">Morning rush needs</span><b id="hwRushOut">0</b><small>gpm</small></div>
+          <div><span class="eyebrow">Pump gives</span><b id="hwPumpOut">10</b><small>gpm</small></div>
+        </div>
+        <p id="hwVerdict" class="lab-verdict" aria-live="polite" aria-atomic="true"></p>
         <div class="lab-sim">
           <button type="button" class="btn btn-primary btn-play" id="hwRun"><span data-icon="play"></span><span id="hwLabel">Play a busy day</span></button>
         </div>
@@ -666,11 +558,6 @@
               <input type="range" id="hwPump" min="5" max="20" step="1" value="10"></label>
             <label for="hwTank"><span class="lab-row">Pressure tank <output id="hwTankVal" for="hwTank">44 gal</output></span>
               <input type="range" id="hwTank" min="20" max="120" step="2" value="44"></label>
-            <div class="lab-nums">
-              <div><span class="eyebrow">Pump gives</span><b id="hwPumpOut">10</b><small>gal / min</small></div>
-              <div><span class="eyebrow" id="hwRushLabel">Morning rush needs</span><b id="hwRushOut">0</b><small>gal / min</small></div>
-            </div>
-            <p id="hwVerdict" class="lab-verdict" aria-live="polite" aria-atomic="true"></p>
             <p id="hwTip" class="fineprint"></p>
             <p class="fineprint">The sim plays out one busy day, hour by hour: the morning shower rush, laundry, supper dishes and bedtime showers. Rough rules of thumb for a typical farmhouse. Every well is different, so we test yours before sizing anything.</p>
           </div>
@@ -734,8 +621,6 @@
 <script src="js/lab-animals.js"></script>
 <script src="js/lab-scene.js"></script>
 <script src="js/lab.js"></script>
-<script src="js/lab-pivot-scene.js"></script>
-<script src="js/lab-pivot.js"></script>
 <script src="js/lab-irrigation-scene.js"></script>
 <script src="js/lab-irrigation.js"></script>
 <script src="js/lab-house-scene.js"></script>

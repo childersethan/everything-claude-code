@@ -1,4 +1,4 @@
-/* The step-by-step board under a Water Lab diagram, shared by every sim (livestock, pivot, irrigation well, house).
+/* The step-by-step board under a Water Lab diagram, shared by every sim (livestock, irrigation well, house).
    Markup, with <p> the panel's id prefix (see src/pages/lab.html):
      button #<p>Run > #<p>Label, and inside the figure #<p>Board > #<p>Day, #<p>Note, ol#<p>Days, #<p>Result.
    Result levels share the four colors in site.css: "thrived" (good), "tight", "thirsty" (bad), "lost" (worst). */

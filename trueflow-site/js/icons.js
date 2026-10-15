@@ -30,7 +30,7 @@ window.ICONS = Object.freeze((() => {
     lens: lg('<circle cx="18" cy="18" r="9"/><path d="M25 25l8 8"/>'),
     down: lg('<path d="M20 4v26"/><path d="M12 22l8 8 8-8"/><path d="M8 36h24"/>'),
     camera: '<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4Z"/><circle cx="12" cy="13" r="3.5"/></svg>',
-    // pivot sim: crops, plus the wind and breakdown days on its board
+    // crops, plus wind and breakdown icons for sim boards
     corn: lg('<path d="M20 36V8"/><path d="M20 30q-9-2-12-10M20 24q9-2 12-10"/><path d="M20 8l-2-4M20 8l2-4"/><path d="M23 20q4-1 4 4t-4 5Z"/>'),
     soybeans: lg('<path d="M20 36V18"/><path d="M20 22q-9 0-11-8 8-1 11 8ZM20 18q9 0 11-8-8-1-11 8Z"/><path d="M14 30q3-5 6-3M26 30q-3-5-6-3"/>'),
     wheat: lg('<path d="M20 36V6"/><path d="M20 12l-4-4M20 12l4-4M20 18l-4-4M20 18l4-4M20 24l-4-4M20 24l4-4"/><path d="M13 36q2-8 7-10M27 36q-2-8-7-10"/>'),
