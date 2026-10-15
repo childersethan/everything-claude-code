@@ -116,8 +116,8 @@ header .btn{padding:9px 16px;font-size:1rem}
 .ticket-body{padding:22px 20px;display:grid;gap:16px}
 .ticket-body h3{font-size:1.9rem}
 .urg{display:inline-flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;border-radius:99px;width:max-content}
-.urg.high{background:color-mix(in srgb,#D9452B 18%,transparent);color:#C23A22}
-.urg.med{background:color-mix(in srgb,var(--signal) 25%,transparent);color:color-mix(in srgb,var(--signal) 55%,var(--ink))}
+.urg.high{background:color-mix(in srgb,#D9452B 18%,transparent);color:color-mix(in srgb,#C23A22 55%,var(--ink))}
+.urg.med{background:color-mix(in srgb,var(--signal) 25%,transparent);color:color-mix(in srgb,var(--signal) 48%,var(--ink))}
 .urg.low{background:var(--water-soft);color:var(--water)}
 .ticket dl{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;margin:0}
 .ticket dt{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:4px}
