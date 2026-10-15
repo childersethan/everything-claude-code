@@ -263,7 +263,14 @@
   const ICON = { rain: "rain", cool: "cloud", normal: "sun", hot: "heat", heat: "heat" };
   const WEATHER = { rain: "rain", cool: "cool", normal: "clear", hot: "hot", heat: "heat" };
   const RESULT_ICON = { thrived: "corn", tight: "gauge", thirsty: "drop", lost: "pump" };
-  const board = root.SimBoard.create("iw", { idle: "Run a season sim", scene: $("iwSvg") });
+  const FACTS = [
+    "The Ogallala aquifer lies under parts of eight states, from South Dakota to Texas.",
+    "Corn in northwest Kansas needs about 15 inches of irrigation in an average year, on top of the rain.",
+    "The Kansas Geological Survey figures a 400 gallon-a-minute well needs about 35 to 85 feet of wet sand and gravel.",
+    "A low-water shutoff turns the pump off before it sucks air and burns up.",
+    "A big irrigation pump can take a 100 horsepower motor to lift the water from a deep well."
+  ];
+  const board = root.SimBoard.create("iw", { idle: "Play a summer", scene: $("iwSvg") });
 
   function showWeek(w) {
     scene.set({
@@ -275,7 +282,7 @@
 
   function showResult(run) {
     const o = run.outcome, last = run.weeks[run.weeks.length - 1];
-    board.result({ ...o, icon: RESULT_ICON[o.level] }, "Season's over");
+    board.result({ ...o, icon: RESULT_ICON[o.level], fact: root.SimBoard.pick(FACTS) }, "Season's over");
     const survived = o.level === "thrived" || o.level === "tight", lost = o.level === "lost";
     // survived: water's on and the crop's green; thirsty: still pumping flat out over wilted corn; lost: the wreck
     scene.set({
@@ -289,7 +296,7 @@
   function runSim() {
     const run = L.simulate(state, (Math.random() * 2 ** 32) >>> 0);
     board.play(run.weeks, {
-      stepMs: 650,
+      stepMs: 520,
       cell: (w) => ({ kind: KIND[w.weather], icon: ICON[w.weather], level: w.level, bad: w.dead || w.cut || w.short }),
       head: (w) => `Week ${w.week} of ${L.WEEKS} · ${w.date}`,
       note: (w) => w.note,

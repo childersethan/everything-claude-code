@@ -5,6 +5,9 @@
 (function (root) {
   "use strict";
   const ICONS = root.ICONS || {};
+  const STARS = { thrived: 3, tight: 2, thirsty: 1, lost: 0 };
+  /** One item at random, for a fresh fun fact each run. */
+  const pick = (list) => list[Math.floor(Math.random() * list.length)];
 
   /**
    * create("sim", { idle: "Run a 30-day sim", scene: svgElement }) returns { play, stop, result, celebrate, catastrophe }.
@@ -90,25 +93,30 @@
       const next = () => {
         showStep(steps[i], i, opts);
         i += 1;
-        timer = setTimeout(i < steps.length ? next : opts.onDone, opts.stepMs || 320);
+        timer = setTimeout(i < steps.length ? next : opts.onDone, opts.stepMs || 260);
       };
       next();
     }
 
-    /** Shows the ending. `icon` is a key of window.ICONS; text is set as text, never as HTML. */
-    function result({ level, title, text, icon }, head) {
-      const res = els.result;
+    /** Shows the ending with a star score and a fun fact. `icon` is a key of window.ICONS; text is set as text, never as HTML. */
+    function result({ level, title, text, icon, fact }, head) {
+      const res = els.result, stars = STARS[level] ?? 0;
       res.className = "sim-result " + level;
-      res.innerHTML = `<span class="ic">${ICONS[icon] || ""}</span><b></b><p></p>`;
+      res.innerHTML = `<span class="ic">${ICONS[icon] || ""}</span><div class="res-head"><b></b><span class="stars" role="img"></span></div><p></p>` +
+        (fact ? `<p class="fact"><strong>Did you know?</strong> <span></span></p>` : "");
       res.querySelector("b").textContent = title;
+      const st = res.querySelector(".stars");
+      st.setAttribute("aria-label", `${stars} of 3 stars`);
+      st.innerHTML = [0, 1, 2].map((i) => `<i class="${i < stars ? "on" : ""}" style="--i:${i}">★</i>`).join("");
       res.querySelector("p").textContent = text;
+      if (fact) res.querySelector(".fact span").textContent = fact;
       els.note.textContent = "";
       els.day.textContent = head;
-      els.label.textContent = "Run it again";
+      els.label.textContent = "Play again";
     }
 
     return { play, stop, result, celebrate, catastrophe };
   }
 
-  root.SimBoard = { create };
+  root.SimBoard = { create, pick };
 })(window);
