@@ -1,19 +1,17 @@
 /* Home page opening. Static by default: one photo with the tagline and call buttons.
    When js/intro.js adds .live (motion allowed), the section grows tall and its stage pins to the screen
-   while the visitor scrolls through five scenes: drawn ones (a water drop, a well cutaway) and job photos.
+   while the visitor scrolls through two scenes: a drawn water drop at dusk, then the crew photo with the tagline and call buttons.
    The script only sets --t on each scene and line (where it is in its run: 0 = arriving, 1 = leaving)
    and --p on the section; everything below turns those numbers into opacity and transforms. */
 .intro{position:relative;padding:0;background:#05090c;color:#fff}
 .intro-stage{position:relative;height:clamp(480px,86vh,820px);height:clamp(480px,86svh,820px);overflow:hidden;isolation:isolate}
 .intro-shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0}
 .intro-poster{opacity:1;object-position:42% 50%}
-.intro-shot[data-src*="cattle"]{object-position:62% 50%}
 .intro-art svg{display:block;width:100%;height:100%}
 .intro-shots::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,9,12,.72),rgba(5,9,12,.18) 70%),linear-gradient(180deg,rgba(5,9,12,.35),rgba(5,9,12,0) 30%,rgba(5,9,12,.7))}
 /* type sits low and to the left, lined up with the page content below */
-.intro-copy{position:absolute;inset:0;z-index:1;display:grid;align-items:end;justify-items:start;padding:clamp(72px,10vh,110px) max(var(--gutter),calc((100% - var(--max)) / 2 + var(--gutter))) clamp(110px,16vh,170px);text-align:left}
+.intro-copy{position:absolute;inset:0;z-index:1;display:grid;align-items:end;justify-items:start;padding:clamp(32px,6vh,72px) max(var(--gutter),calc((100% - var(--max)) / 2 + var(--gutter))) clamp(56px,10vh,110px);text-align:left}
 .intro-line{grid-area:1/1;margin:0;max-width:16ch;font-family:var(--f-display);font-weight:800;text-transform:uppercase;line-height:.92;letter-spacing:-.005em;font-size:clamp(2.6rem,9vw,6.8rem);text-shadow:0 2px 30px rgba(0,0,0,.45);display:none}
-.intro-line-top{align-self:start;max-width:none;margin-top:4vh;font-size:clamp(2.2rem,6vw,4.6rem)}
 .intro-kicker,.intro-sub{display:block;font-family:var(--f-mono);font-weight:700;font-size:clamp(.72rem,1.6vw,.9rem);letter-spacing:.16em;line-height:1.4;opacity:.85}
 .intro-kicker{margin-bottom:18px}
 .intro-sub{max-width:34ch;margin:18px 0 0;font-size:clamp(.85rem,2vw,1.1rem)}
@@ -28,11 +26,11 @@
 .intro-cue{display:none}
 
 /* the scroll sequence */
-.intro.live{height:440vh;height:440svh}
-.intro.live .intro-stage{position:sticky;top:0;height:100vh;height:100svh;max-height:none}
+.intro.live{height:200vh;height:200svh}
+/* pinned just under the sticky header (js/intro.js measures it into --hdr) so nothing hides behind it */
+.intro.live .intro-stage{--top:calc(var(--hdr,0px) + env(safe-area-inset-top,0px));position:sticky;top:var(--top);height:calc(100vh - var(--top));height:calc(100svh - var(--top));max-height:none}
 .intro.live .intro-shot{opacity:clamp(0,(var(--t,0) + .25) * 4,1);transform:scale(calc(1.14 - .1 * clamp(0,var(--t,0),1.2)))}
 .intro.live .intro-shot:first-child{opacity:1;transform:scale(calc(1 + .35 * clamp(0,var(--t,0) - .3,1)))}
-.intro.live .intro-well{transform:none}
 /* each line drifts sideways the whole time it's on screen, and its words (.w, split out by js/intro.js)
    rise in one after another, then lift away; --u is a word's own progress, a little behind the word before it */
 .intro.live .intro-line{display:block;transform:translateX(calc((.45 - var(--t,0)) * 6vw))}
@@ -59,24 +57,13 @@
 @keyframes dropRing{0%{transform:scale(.2);opacity:.9}100%{transform:scale(5);opacity:0}}
 @keyframes dropSpin{to{transform:rotate(360deg)}}
 
-/* scene 4: a well cutaway; scrolling pumps water up the drop pipe until the house lights up */
-.well-rise{transform-box:fill-box;transform-origin:bottom;transform:scaleY(clamp(0,(var(--t,0) - .1) * 2,1))}
-.well-glow{opacity:clamp(.08,(var(--t,0) - .55) * 5,1)}
-.well-flowline{opacity:clamp(0,(var(--t,0) - .55) * 5,1);animation:wellFlow .8s linear infinite}
-.well-bubbles circle{animation:wellBubble 3s ease-in infinite}
-.well-bubbles circle:nth-child(2n){animation-duration:4.2s;animation-delay:-1.4s}
-.well-bubbles circle:nth-child(3n){animation-duration:3.6s;animation-delay:-2.2s}
-@keyframes wellFlow{to{stroke-dashoffset:-22}}
-@keyframes wellBubble{from{transform:translateY(0);opacity:0}30%{opacity:1}to{transform:translateY(-200px);opacity:0}}
 
 @keyframes introFade{from{opacity:0}}
 @keyframes introRise{from{opacity:0;transform:translateY(28px);filter:blur(8px)}}
 @keyframes introCue{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
-@media (max-width:860px){.intro-copy{padding-bottom:calc(150px + env(safe-area-inset-bottom,0px))}.intro.live .intro-cue{bottom:calc(84px + env(safe-area-inset-bottom,0px))}}
+@media (max-width:860px){.intro-copy{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}.intro.live .intro-cue{bottom:calc(84px + env(safe-area-inset-bottom,0px))}}
 /* phones held sideways: keep the call buttons on screen */
 @media (max-height:520px){.intro-copy{padding-block:64px 16px}.intro-big,.intro-line{font-size:clamp(2rem,11vh,3.4rem)}.intro .values{display:none}}
-/* wide screens: the well sits in the middle, so its line moves to the left of it */
-@media (min-aspect-ratio:1/1){.intro-line-top{align-self:center;max-width:8ch;margin:0}.intro-line-top .intro-sub{max-width:24ch}}
 /* hold the static version back for a moment so it doesn't flash before js/intro.js takes over; it still shows if the script never runs */
 @media (prefers-reduced-motion:no-preference){.intro:not(.live) .intro-stage > *{animation:introFade .6s ease-out 1.5s backwards}}
 .intro.live .intro-kicker.w,.intro.live .intro-sub.w{display:block}
