@@ -1,9 +1,12 @@
 /* Business details and page content. Edit this file to update the site.
    Anything marked PLACEHOLDER shows in dashed orange on the page until replaced. */
+// The phone number is put together here, never written whole in the HTML,
+// so simple scrapers that harvest numbers from page source don't pick it up.
+const PHONE = ["505", "793", "5386"];
 window.SITE = Object.freeze({
   biz: Object.freeze({
-    phone: "(505) 793-5386",
-    phoneTel: "+15057935386",
+    phone: `(${PHONE[0]}) ${PHONE[1]}-${PHONE[2]}`,
+    phoneTel: "+1" + PHONE.join(""),
     email: "trueflow2026@gmail.com",
     city: "Hoxie, Kansas",
     areaShort: "Hoxie & surrounding farms",

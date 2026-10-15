@@ -12,7 +12,7 @@ const SITE_URL = "https://trueflowpumpandwell.com/";
 const PAGES = [
   { key: "home", file: "index.html", label: "Home", tab: "house",
     title: "True Flow Pump & Well | Water Wells, Pumps & Windmills · Hoxie, KS",
-    description: "True Flow Pump & Well serves farmers and ranchers around Hoxie, Kansas with water well installation, pump repair, windmill and solar systems, irrigation wells, trenching and plumbing. 24-hour service: (505) 793-5386." },
+    description: "True Flow Pump & Well serves farmers and ranchers around Hoxie, Kansas with water well installation, pump repair, windmill and solar systems, irrigation wells, trenching and plumbing. 24-hour service, call or text any hour." },
   { key: "services", file: "services.html", label: "Services", tab: "pump",
     title: "Services | True Flow Pump & Well",
     description: "Well installation, pump installation and repair, windmill service, solar wells, irrigation wells, house wells, cattle tanks, pressure tanks, trenching and leak repair around Hoxie, Kansas." },
@@ -33,7 +33,7 @@ const PAGES = [
     description: "True Flow Pump & Well covers homes, farms and ranches within about 100 miles of Hoxie, Kansas, including Colby, Oakley, Hill City, Norton, Oberlin, Goodland, WaKeeney and Hays." },
   { key: "contact", file: "contact.html", label: "Contact", tab: "phone",
     title: "Contact & Request Service | True Flow Pump & Well",
-    description: "Call or text (505) 793-5386 any hour, email trueflow2026@gmail.com, or send a service request online." },
+    description: "Call or text any hour, email trueflow2026@gmail.com, or send a service request online." },
   { key: "privacy", file: "privacy.html", label: "Privacy", nav: false,
     title: "Privacy Policy | True Flow Pump & Well",
     description: "What information the True Flow Pump & Well website collects, why, who handles it, and how to ask us to see, correct or delete it." }
